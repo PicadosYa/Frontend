@@ -1,0 +1,46 @@
+/* RegisterForm.css */
+
+.bienvenido {
+  font-size: 24px;
+  color: #a67c00;
+}
+
+.form-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.password-group {
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+}
+
+.crear-cuenta-btn:hover {
+  background: linear-gradient(to right, #d4af37, #a67c00);
+}
+
+.iniciar-sesion {
+  margin-top: 20px;
+  color: #333;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
