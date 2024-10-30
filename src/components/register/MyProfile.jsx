@@ -10,10 +10,10 @@ export function MyProfile() {
         </div>
   
         {/* Bloque de imagen de perfil */}
-        <div className="flex items-center mb-6 -mt-8"> {/* Se desplaza hacia arriba con -mt-8 */}
+        <div className="flex items-center mb-6 -mt-8">
           <div className="flex flex-col items-center mr-6">
             <div className="w-20 h-20 bg-gray-300 rounded-full flex justify-center items-center mb-2">
-              <img src="profile-pic.png" alt="Profile" className="w-full h-full rounded-full" /> {/* Ruta de imagen de perfil */}
+              <img src="profile-pic.png" alt="Profile" className="w-full h-full rounded-full" /> 
             </div>
             <button
               className="bg-[rgba(25,32,71,1)] text-white rounded-[10px] px-4 py-2 min-w-[148px] shadow-sm shadow-black">

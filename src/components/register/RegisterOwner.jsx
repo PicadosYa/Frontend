@@ -44,7 +44,6 @@ export function RegisterOwner() {
               className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
             />
           </div>
-
           {/* Columna Derecha */}
           <div className="flex flex-col w-1/2 space-y-6">
             <input
@@ -70,7 +69,6 @@ export function RegisterOwner() {
           </div>
         </div>
         
-        {/* Contenedor inferior con el texto y el botón */}
         <div className="flex justify-between w-full mt-4 items-center">
           <div className="w-1/2 flex justify-center">
             <span className="text-white text-sm underline cursor-pointer">
