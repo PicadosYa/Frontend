@@ -161,10 +161,10 @@ const Home = () => {
     <MyProfile />
     <div>Espacio</div>
 
-    <div className="w-full h-screen bg-cover bg-center" style={{ backgroundImage: "url('../../../public/DSC_0196.JPG')" }}>
+    <div className="w-full h-screen bg-cover pt-4 pb-6 bg-center" style={{ backgroundImage: "url('../../../public/imagen 2.png')" }}>
       {/* Header */}
-      <header className="w-[calc(100%-20px)] mx-5 mt-5 bg-blue-700 bg-opacity-90 rounded-[25px] p-4 flex justify-between items-center">
-        <img src="../../../public/Logo_SB-pro.png" alt="Logo" className="w-219 h-16 mb-[-20px] mt-[-20px]" /> {/* Ruta del logo */}
+      <header className="w-[calc(100%-40px)] mx-5 mt-5 bg-blue-700 bg-opacity-90 rounded-[25px] p-4 flex justify-between items-center">
+        <img src="../../../public/imagen 2.png" alt="Logo" className="w-219 h-16 mb-[-20px] mt-[-20px]" /> 
         <div className="flex space-x-4">
           <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Registrarme</button>
           <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Iniciar sesión</button>
@@ -172,8 +172,7 @@ const Home = () => {
       </header>
 
       {/* Contenedor principal */}
-      <main className="w-[calc(100%-40px)] mx-5 mt-10 bg-blue-900 bg-opacity-70 rounded-[25px] p-6">
-        {/* Fila de dropdowns */}
+      <main className="w-[calc(100%-40px)] mx-5 mt-10 bg-gray-900 bg-opacity-70 rounded-[25px] p-6">
         <div className="flex justify-between mb-6 space-x-4">
           <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
             <option>Ubicación</option>

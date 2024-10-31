@@ -11,7 +11,6 @@ const Footer = () => {
             PicadosYA
           </span>
         </div>
-        {/* kakajjjjjjjjjjja */}
         {/* <p className="text-gray-400 text-sm mb-4 text-center">
           Brindando soluciones tecnológicas de excelencia
         </p> */}

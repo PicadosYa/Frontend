@@ -15,10 +15,14 @@ export function MyProfile() {
             <div className="w-20 h-20 bg-gray-300 rounded-full flex justify-center items-center mb-2">
               <img src="profile-pic.png" alt="Profile" className="w-full h-full rounded-full" /> 
             </div>
-            <button
-              className="bg-[rgba(25,32,71,1)] text-white rounded-[10px] px-4 py-2 min-w-[148px] shadow-sm shadow-black">
-              Cargar imagen
-            </button>
+            <div className="flex flex-row w-full mt-[20px]">
+              <label className="text-white">Edad</label>
+              <input type="text" placeholder="Edad" className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black" />
+              <button
+                className="bg-[rgba(25,32,71,1)] text-white rounded-[10px] px-4 py-2 min-w-[148px] shadow-sm shadow-black">
+                Cargar imagen
+              </button>
+            </div>
           </div>
           <div className="flex flex-col space-y-4 w-full">
             <div className="flex flex-col w-full">
