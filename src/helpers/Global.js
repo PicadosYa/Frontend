@@ -1,7 +1,8 @@
 export const Global = {
   endpoints: {
     backend: "http://34.207.93.131:8080/",
-    // backend: "http://localhost:8080/api/",
+    backendBaseUrl: "http://localhost:8080/",
+    prefix: "api/"
   },
   actionType: {
     SET_CLIENTS: "SET_CLIENTS",
