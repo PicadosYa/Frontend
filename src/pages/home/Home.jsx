@@ -2,8 +2,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useFields } from "../../services/FieldsService";
-import ReactPaginate from "react-paginate";
-import { motion } from "framer-motion";
 import { Register } from "../../components/register/Register";
 import { Login } from "../../components/register/Login";
 import { RecoveryCode } from "../../components/register/RecoveryCode";
@@ -20,13 +18,9 @@ const Home = () => {
   
   const {data, isLoading, error} = useFields({
     limit: itemsPerPage,
-    offset: offset // Este offset cambiará automáticamente cuando cambie la página
+    offset: offset 
   });
-  // Calculamos el total de páginas
-  const pageCount = Math.ceil(83 / itemsPerPage); // 86/12 ≈ 8 páginas
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+  
 
   const [filters, setFilters] = useState({
     location: "",
@@ -41,32 +35,22 @@ const Home = () => {
 
   useEffect(() => {
     // Obtener localizacion del usuario con el navegador
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      (error) => {
-        console.error("Error obtaining location:", error);
-      }
-    );
+    console.log("Data:", data)
   }, []);
 
   useEffect(() => {
     // Fetch inicial con el back
-    const fetchFields = async () => {
-      try {
-        const response = await fetch("/api/fields");
-        const data = await response.json();
-        setFields(data);
-      } catch (error) {
-        console.error("Error fetching fields:", error);
-      }
-    };
-    fetchFields();
-  }, []);
+  //   const fetchFields = async () => {
+  //     try {
+  //       const response = await fetch("/api/fields");
+  //       const data = await response.json();
+  //       setFields(data);
+  //     } catch (error) {
+  //       console.error("Error fetching fields:", error);
+  //     }
+  //   };
+  //   fetchFields();
+   }, []);
 
   // const handleFilterChange = (key, value) => {
   //   setFilters({ ...filters, [key]: value });
@@ -183,15 +167,39 @@ const Home = () => {
 
     <div className="w-full min-h-screen bg-cover pt-4 pb-6 bg-center" style={{ backgroundImage: "url('../../../public/imagen 2.png')" }}>
       {/* Header */}
-      <header className="w-[calc(100%-40px)] mx-5 mt-5 bg-blue-700 bg-opacity-90 rounded-[25px] p-4 flex justify-between items-center">
+       <header className="w-[calc(100%-40px)] mx-5 mt-5 bg-blue-700 bg-opacity-90 rounded-[25px] p-4 flex justify-between items-center">
         <img src="../../../public/imagen 2.png" alt="Logo" className="w-219 h-16 mb-[-20px] mt-[-20px]" /> 
         <div className="flex space-x-4">
           <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Registrarme</button>
           <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Iniciar sesión</button>
         </div>
       </header>
-
+      
       {/* Contenedor principal */}
+       <main className="w-[calc(100%-40px)] mx-5 mt-10 bg-gray-900 bg-opacity-70 rounded-[25px] p-6">
+        <div className="flex justify-between mb-6 space-x-4">
+          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
+            <option>Ubicación</option>
+          </select>
+          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
+            <option>Fecha</option>
+          </select>
+          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
+            <option>Hora</option>
+          </select>
+          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
+            <option>Tipo</option>
+          </select>
+        </div>
+        
+        {/* Botón central */}
+        <div className="flex justify-center mb-8">
+          <button className="bg-orange-500 text-white rounded-[25px] px-8 py-3 text-lg font-semibold border border-white">
+            Picarla Ya!
+          </button>
+        </div>
+      </main>
+
        <section className="w-[calc(100%-40px)]  pb-14 mx-5 mt-8 grid grid-cols-3 gap-10">
         {isLoading && <p>Cargando...</p>}
         {error && <p>Error al cargar los lugares:</p>}
@@ -199,17 +207,7 @@ const Home = () => {
           <FieldCard key={index} field={field} />
         ))}
       </section>
-       <ReactPaginate
-          previousLabel="Anterior"
-        nextLabel="Siguiente"
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        containerClassName="flex items-center  justify-center space-x-2 p-3 rounded-lg"
-        pageLinkClassName=" text-[#eb2a00] text-xl font-semibold rounded-full px-2 hover:bg-orange-500 hover:text-white transition-colors"
-        previousLinkClassName=" text-white text-md font-semibold rounded-lg p-2 hover:text-[#eb2a00] transition-colors"
-        nextLinkClassName=" text-white text-md font-semibold rounded-lg p-2  hover:text-[#eb2a00] transition-colors"
-        activeClassName="bg-gray-300 rounded-full"
-    />
+
     </div>
   </>
   )
@@ -237,23 +235,15 @@ function FieldCard({ field }) {
   };
   return (
     <div
-      className="w-[363px] h-[100%] bg-gray-300 p-1  rounded-md shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between"
+      className="w-[363px] h-[100%] bg-white opacity-90  rounded-md shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between"
       
     >
-      <div className="w-full h-40 overflow-hidden rounded-xl  shadow-xl"
+      <div className="w-full h-40 overflow-hidden "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       >
-        <motion.img
-          src={photos[imageIndex]}
-          alt="Imagen"
-          className="w-full h-full object-cover"
-          key={imageIndex} 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          exit={{ opacity: 0 }} 
-          transition={{ duration: 0.5 }} 
-        />
+        <img src={photos[imageIndex]} alt="" className="w-full h-full object-cover" />
+
       </div>
       <div className="p-4 flex flex-col gap-3">
         <div className="first-info">
@@ -264,7 +254,7 @@ function FieldCard({ field }) {
         </div>
         <div className="description h-14 overflow-hidden">
           <p className="text-sm text-gray-500">
-            <span className="font-semibold">Descripción:</span> {field.description}
+            <span className="font-semibold">Horarios:</span> 8:00 AM - 10:00 PM
           </p>
         </div>
         {/* <div className="price">

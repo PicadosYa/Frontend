@@ -10,7 +10,12 @@ const Routing = () => {
       <Routes>
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
+          {/* <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} /> */}
+        </Route>
+
+        <Route path="/login" element={<PublicLayout />}>
+          <Route index element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
 

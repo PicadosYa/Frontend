@@ -61,14 +61,14 @@ const Login = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#22358b] to-[#2c45b4] p-4">
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-700 to-black p-4">
       <ToastContainer />
 
       <motion.section
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-fit space-y-8 bg-gradient-to-r from-[#2c45b4] to-[#22358b] p-10 rounded-xl shadow-2xl"
+        className="w-full max-w-fit space-y-8 bg-gradient-to-r from-gray-700 to-black  p-10 rounded-xl shadow-2xl"
       >
         <header className="flex justify-between items-center">
           <div>
