@@ -90,6 +90,7 @@ const Login = () => {
             Bienvenido!
           </motion.h1>
         </header>
+        
         <form onSubmit={loginUser} className="mt-8 space-y-6">
           <fieldset className="space-y-4">
             <motion.div
@@ -161,6 +162,7 @@ const Login = () => {
                   )}
                 </button>
               </div>
+
             </motion.div>
           </fieldset>
 
