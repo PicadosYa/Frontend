@@ -21,7 +21,7 @@ const Home = () => {
     offset: offset 
   });
   
-
+// hola
   const [filters, setFilters] = useState({
     location: "",
     date: "",
