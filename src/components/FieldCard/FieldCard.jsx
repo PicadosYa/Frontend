@@ -1,9 +1,9 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Rating, Star } from "@smastrom/react-rating";
 import SVGRayo from "../../../public/rayo-picados-ya";
-import CardSkeleton from "./CardSkeleton";
+
 
 import "@smastrom/react-rating/style.css";
 const FieldCard = ({field}) => {
