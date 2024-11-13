@@ -3,7 +3,7 @@ import { FaMousePointer, FaHeart } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-gray-700 to-black py-8 px-4">
+    <footer className="bg-gradient-to-r from-blue-900 to-blue-800 py-8 px-4">
       <div className="max-w-7xl mx-auto flex flex-col items-center justify-center">
         <div className="flex items-center mb-4">
           <FaMousePointer className="text-[#eb2a00] h-6 w-6 mr-2" />

@@ -19,6 +19,10 @@ const Routing = () => {
           <Route path="register" element={<Register />} />
         </Route>
 
+        <Route path="/register" element={<PublicLayout />}>
+          <Route index element={<Register />} />
+        </Route>
+
         <Route path="/user" element={<PrivateLayout />}>
           <Route index element={<Home />} />
           <Route path="logout" element={<Logout />} />

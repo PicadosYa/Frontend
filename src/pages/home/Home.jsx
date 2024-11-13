@@ -1,222 +1,127 @@
 // import React from "react";
-import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { useFields } from "../../services/FieldsService";
-import { Register } from "../../components/register/Register";
-import { Login } from "../../components/register/Login";
-import { RecoveryCode } from "../../components/register/RecoveryCode";
-import { ConfirmCode } from "../../components/register/ConfirmCode";
-import { RegisterOwner } from "../../components/register/RegisterOwner";
-import { MyProfile  } from "../../components/register/MyProfile";
+import { Rating, Star } from "@smastrom/react-rating";
+
+import "@smastrom/react-rating/style.css";
+import SearchBanner from "../../components/SearchBanner";
+import SVGRayo from "../../../public/rayo-picados-ya";
+import CardSkeleton from "../../components/CardSkeleton";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0); // React Paginate usa 0 como primera página
-  
+  const [items, setItems] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+  const [favorites, setFavorites] = useState({});
+
+  const toggleFavorite = (fieldId) => {
+    console.log("HOLA");
+    console.log(favorites);
+
+    setFavorites((prevFavorites) => ({
+      ...prevFavorites,
+      [fieldId]: !prevFavorites[fieldId],
+    }));
+  };
+
   // Calculamos el offset basado en la página actual
   const itemsPerPage = 12;
-  const offset = (currentPage * itemsPerPage)+3;
-  
-  const {data, isLoading, error} = useFields({
+  const offset = currentPage * itemsPerPage + 3;
+
+  const { data, isLoading, error } = useFields({
     limit: itemsPerPage,
-    offset: offset 
-  });
-  
-
-  const [filters, setFilters] = useState({
-    location: "",
-    date: "",
-    time: "",
-    type: "",
-    radius: 5, // Default radius in km
+    offset: offset,
   });
 
-  const [fields, setFields] = useState([]);
-  const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
-
   useEffect(() => {
-    // Obtener localizacion del usuario con el navegador
-    console.log("Data:", data)
-  }, []);
+    if (data && !isLoading) {
+      setItems((prevItems) => [...prevItems, ...data]);
+    }
+  }, [data, isLoading]);
 
+  // Referencia para el trigger de scroll infinito
+  const infiniteScrollTrigger = useRef(null);
+
+  // useEffect para observar el trigger y cargar más datos al hacer scroll
   useEffect(() => {
-    // Fetch inicial con el back
-  //   const fetchFields = async () => {
-  //     try {
-  //       const response = await fetch("/api/fields");
-  //       const data = await response.json();
-  //       setFields(data);
-  //     } catch (error) {
-  //       console.error("Error fetching fields:", error);
-  //     }
-  //   };
-  //   fetchFields();
-   }, []);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoading) {
+          setCurrentPage((prevPage) => prevPage + 1); // Cambia la página actual
+        }
+      },
+      { threshold: 1 }
+    );
 
-  // const handleFilterChange = (key, value) => {
-  //   setFilters({ ...filters, [key]: value });
-  // };
+    // Observar el trigger cuando esté presente
+    if (infiniteScrollTrigger.current) {
+      observer.observe(infiniteScrollTrigger.current);
+    }
 
-  // const applyFilters = async () => {
-  //   if (userLocation.lat && userLocation.lng) {
-  //     filters.location = {
-  //       latitude: userLocation.lat,
-  //       longitude: userLocation.lng,
-  //       radius: filters.radius,
-  //     };
-  //   }
-
-    // conexión con el backend para aplicar los filtros
-    // y obtener los campos filtrados
-    // try {
-    //   const response = await fetch("/api/fields/filter", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(filters),
-    //   });
-    //   const data = await response.json();
-    //   setFields(data);
-    // } catch (error) {
-    //   console.error("Error fetching fields:", error);
-    // }
-
+    // Limpiar el observer al desmontar
+    return () => {
+      if (infiniteScrollTrigger.current) {
+        observer.unobserve(infiniteScrollTrigger.current);
+      }
+    };
+  }, [isLoading]);
 
   return (
-    <>
-    {/* <div>Pagina Inicio</div>
-    <div className="home-container">
-      <header className="home-header">
-        <img src="/logo.png" alt="PicadosYA Logo" className="logo" />
-        <div className="auth-buttons">
-          <button className="register-button">Registrarme</button>
-          <button className="login-button">Iniciar sesión</button>
-        </div>
-      </header>
-      <div className="search-container">
-        <select
-          className="search-button"
-          value={filters.radius}
-          onChange={(e) => handleFilterChange("radius", e.target.value)}
-        >
-          <option value="">Radio (km)</option>
-          <option value="3">3 km</option>
-          <option value="10">10 km</option>
-          <option value="25">25 km</option>
-          <option value="50">50 km</option>
-        </select>
-        <input
-          type="date"
-          className="search-button"
-          value={filters.date}
-          onChange={(e) => handleFilterChange("date", e.target.value)}
-        />
-        <input
-          type="time"
-          className="search-button"
-          value={filters.time}
-          step="300" // Step set to 5 minutes
-          min="00:00"
-          max="23:55"
-          onChange={(e) => handleFilterChange("time", e.target.value)}
-        />
-        <select
-          className="search-button"
-          value={filters.type}
-          onChange={(e) => handleFilterChange("type", e.target.value)}
-        >
-          <option value="">Tipo</option>
-          <option value="5">Fútbol 5</option>
-          <option value="7">Fútbol 7</option>
-          <option value="11">Fútbol 11</option>
-        </select>
-        <button className="action-button" onClick={applyFilters}>
-          Picarla Ya!
-        </button>
-      </div>
-      <div className="fields-container">
-        {fields.map((field) => (
-          <div key={field.id} className="field-card">
-            <img
-              src={field.imageUrl}
-              alt={field.name}
-              className="field-image"
-            />
-            <div className="field-info">
-              <h3 className="field-name">{field.name}</h3>
-              <p className="field-location">Ubicación: {field.location}</p>
-              <p className="field-hours">Horarios: {field.hours}</p>
-            </div>
+    <div className="w-full font-exo min-h-screen bg-cover pt-[150px] pb-6 bg-center ">
+      <div
+        className=" z-[-1] w-full min-h-[100vh] fixed mt-[-157px]"
+        style={{
+          backgroundImage: "url('/imagen%202.png')",
+          backgroundSize: "cover",
+        }}
+      ></div>
+
+      <SearchBanner />
+
+      <section className="w-full pb-14  mt-8 grid grid-cols-3 gap-10 justify-items-center">
+        {error && (
+          <div className="col-span-3">
+
+          <p className="text-red-500 font-bold text-2xl p-2 bg-red-200 rounded-md shadow-md">
+            Ups! Error al cargar los lugares :({" "}
+          </p>
           </div>
+        )}
+        {items.map((field) => (
+          <FieldCard
+            key={field.id}
+            field={field}
+            isFavorite={favorites[field.id] || false}
+            onToggleFavorite={() => toggleFavorite(field.id)}
+          />
         ))}
-      </div>
-    </div>
-    <div>Espacio</div>
-    <Register />
-    <div>Espacio</div>
-    <Login />
-    <div>Espacio</div>
-    <RecoveryCode />
-    <div>Espacio</div>
-    <ConfirmCode />
-    <div>Espacio</div>
-    <RegisterOwner />
-    <div>Espacio</div>
-    <MyProfile />
-    <div>Espacio</div> */}
+        {isLoading &&
+          Array.from({ length: 9 }).map((_, i) => <CardSkeleton key={i} />)}
 
-    <div className="w-full min-h-screen bg-cover pt-4 pb-6 bg-center" style={{ backgroundImage: "url('../../../public/imagen 2.png')" }}>
-      {/* Header */}
-       <header className="w-[calc(100%-40px)] mx-5 mt-5 bg-blue-700 bg-opacity-90 rounded-[25px] p-4 flex justify-between items-center">
-        <img src="../../../public/imagen 2.png" alt="Logo" className="w-219 h-16 mb-[-20px] mt-[-20px]" /> 
-        <div className="flex space-x-4">
-          <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Registrarme</button>
-          <button className="bg-orange-500 text-white rounded-[25px] px-6 py-2">Iniciar sesión</button>
-        </div>
-      </header>
-      
-      {/* Contenedor principal */}
-       <main className="w-[calc(100%-40px)] mx-5 mt-10 bg-gray-900 bg-opacity-70 rounded-[25px] p-6">
-        <div className="flex justify-between mb-6 space-x-4">
-          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
-            <option>Ubicación</option>
-          </select>
-          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
-            <option>Fecha</option>
-          </select>
-          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
-            <option>Hora</option>
-          </select>
-          <select className="w-1/4 h-12 bg-blue-700 text-white rounded-lg p-2">
-            <option>Tipo</option>
-          </select>
-        </div>
-        
-        {/* Botón central */}
-        <div className="flex justify-center mb-8">
-          <button className="bg-orange-500 text-white rounded-[25px] px-8 py-3 text-lg font-semibold border border-white">
-            Picarla Ya!
-          </button>
-        </div>
-      </main>
-
-       <section className="w-[calc(100%-40px)]  pb-14 mx-5 mt-8 grid grid-cols-3 gap-10">
-        {isLoading && <p>Cargando...</p>}
-        {error && <p>Error al cargar los lugares:</p>}
-        {data?.map((field, index) => (
-          <FieldCard key={index} field={field} />
-        ))}
       </section>
+      {!error && (
 
+        <div ref={infiniteScrollTrigger}></div>
+      )}
     </div>
-  </>
-  )
+  );
 };
 
 function FieldCard({ field }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
-  const photos = field.photos && field.photos.length > 0 ? field.photos : ['https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FuY2hhJTIwZGUlMjBmJUMzJUJBdGJvbHxlbnwwfHwwfHx8MA%3D%3D'];
+  const [isFavorite, setIsFavorite] = useState(false);
+  console.log(field.id + ": " + isFavorite);
+
+  const photos =
+    field.photos && field.photos.length > 0
+      ? field.photos
+      : [
+          "https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FuY2hhJTIwZGUlMjBmJUMzJUJBdGJvbHxlbnwwfHwwfHx8MA%3D%3D",
+        ];
+  const uniqueGradientId = `gradient-${field.id}`;
+
   useEffect(() => {
     return () => {
       if (intervalId) clearInterval(intervalId); // Limpia el intervalo al desmontar
@@ -231,51 +136,69 @@ function FieldCard({ field }) {
   const handleMouseLeave = () => {
     clearInterval(intervalId);
     setIntervalId(null);
-    setImageIndex(0); 
+    setImageIndex(0);
   };
   return (
-    <div
-      className="w-[363px] h-[100%] bg-white opacity-90  rounded-md shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between"
-      
-    >
-      <div className="w-full h-40 overflow-hidden "
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <div className="w-[363px] bg-gradient-to-b from-main-blue to-dark-blue  rounded-xl shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between">
+      <div
+        className="w-full h-40 overflow-hidden relative "
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <img src={photos[imageIndex]} alt="" className="w-full h-full object-cover" />
-
+        <img
+          src={photos[imageIndex]}
+          alt=""
+          className="w-full h-full object-cover rounded-t-xl"
+        />
+        <div
+          className="absolute top-5 right-0 px-6"
+          onClick={() => setIsFavorite(!isFavorite)}
+        >
+          <SVGRayo
+            className={`h-[40px!important] hover:translate-y-[-3px] transition-transform`}
+            uniqueGradientId={uniqueGradientId}
+            fromColor={isFavorite ? "#ED3C16" : null}
+            toColor={isFavorite ? "#FF6341" : null}
+          />
+        </div>
+        <div className="rating absolute bottom-0 right-0 flex gap-1 items-center px-3">
+          <Rating
+            readOnly
+            value={3.5}
+            className="h-10  max-w-16"
+            itemStyles={{
+              itemShapes: Star,
+              activeFillColor: "#ffb700",
+              inactiveFillColor: "#fbf1a9",
+            }}
+          />
+          <p className="text-white text-xs">(1987 reviews)</p>
+        </div>
       </div>
       <div className="p-4 flex flex-col gap-3">
         <div className="first-info">
-          <h3 className="text-2xl font-bold mb-2 text-gray-800">{field.name}</h3>
-          <p className="text-sm text-gray-800 overflow-hidden flex items-center gap-1" alt="description">
-            <span className="font-semibold"></span> {field.address}
+          <h3 className="text-2xl font-bold mb-2 text-white">{field.name}</h3>
+          <p
+            className="text-sm text-white overflow-hidden flex items-center gap-1"
+            alt="description"
+          >
+            <span className="font-semibold text-gray-400">Ubicación:</span>{" "}
+            {field.address}
           </p>
         </div>
         <div className="description h-14 overflow-hidden">
-          <p className="text-sm text-gray-500">
-            <span className="font-semibold">Horarios:</span> 8:00 AM - 10:00 PM
+          <p className="text-sm text-white">
+            <span className="font-semibold text-gray-400">Horarios:</span> 8:00
+            AM - 10:00 PM
           </p>
         </div>
-        {/* <div className="price">
-          <i><p className="text-3xl font-bold  text-orange-500">
-            ${field.price}
-          </p></i>
-        </div>
-        <div className="flex justify-between gap-1">
-          <button className="bg-gradient-to-r from-gray-700 to-black text-white rounded-[25px] px-4 py-2 font-semibold transition">
-            <p className="flex items-center w-full gap-4 justify-between text-md font-bold  bg-clip-text bg-gradient-to-r from-[#eb2a00] to-[#ff471f] transition-colors text-[#eb2a00] hover:text-white ">
-              Reservar Ahora!
-            </p>
-          </button>
-          
-        </div> */}
       </div>
     </div>
   );
 }
 FieldCard.propTypes = {
   field: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
