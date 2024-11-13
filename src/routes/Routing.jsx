@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Logout } from "../services/Logout";
 import { PrivateLayout, PublicLayout } from "../components/layout";
 import { Error404, Home, Login, Profile, Register } from "../pages";
+import UserLayout from "../components/layout/user/UserLayout";
 
 const Routing = () => {
   return (
@@ -10,16 +11,17 @@ const Routing = () => {
       <Routes>
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />
-          {/* <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} /> */}
-        </Route>
-
-        <Route path="/login" element={<PublicLayout />}>
-          <Route index element={<Login />} />
+          <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
 
-        <Route path="/user" element={<PrivateLayout />}>
+        <Route path="/canchero" element={<UserLayout />}>
+          <Route index element={<Home />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+
+        <Route path="/admin" element={<PrivateLayout />}>
           <Route index element={<Home />} />
           <Route path="logout" element={<Logout />} />
           <Route path="profile" element={<Profile />} />

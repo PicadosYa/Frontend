@@ -20,4 +20,9 @@ export const Global = {
     template_id: "template_7wekzda",
     user_id: "tdWvdgHNY8bMtLG1K",
   },
+  rolesTypes: {
+    admin: "admin",
+    client: "client",
+    field: "field",
+  },
 };
