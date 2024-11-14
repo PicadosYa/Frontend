@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Global } from '../helpers/Global';
 
-const API_URL = `${Global.endpoints.backendbaseurl}${Global.endpoints.prefix}`|| 'http://localhost:3000';
+const API_URL = `${Global.endpoints.backend}`|| 'http://localhost:3000';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

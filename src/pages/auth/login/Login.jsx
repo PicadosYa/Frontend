@@ -22,7 +22,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${Global.endpoints.backend}auth/login`, {
+      const res = await fetch(`${Global.endpoints.backend}users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
-      if (res.status !== 201) throw new Error(res.statusText);
+      if (res.status !== 200) throw new Error(res.statusText);
 
       const data = await res.json();
 
@@ -38,11 +38,9 @@ const Login = () => {
       localStorage.setItem(
         "user",
         JSON.stringify({
-          id: data.user.id,
-          firstname: data.user.firstname,
-          lastname: data.user.lastname,
+          firstname: data.user.first_name,
+          lastname: data.user.last_name,
           email: data.user.email,
-          dni: data.user.dni,
           phone: data.user.phone,
           role: data.user.role,
         })

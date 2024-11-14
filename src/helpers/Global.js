@@ -1,9 +1,9 @@
 export const Global = {
   endpoints: {
-    backend: "http://34.207.93.131:8080/",
-    backendbaseurl: "http://localhost:8080/", 
-    prefix: "api/"
-    // backend: "http://localhost:8080/api/",
+    // backend: "http://34.207.93.131:8080/",
+    // backendbaseurl: "http://localhost:8080/",
+    // prefix: "api/"
+    backend: "http://localhost:8080/api/",
   },
   actionType: {
     SET_CLIENTS: "SET_CLIENTS",
@@ -19,5 +19,10 @@ export const Global = {
     service_id: "service_yacjl8k",
     template_id: "template_7wekzda",
     user_id: "tdWvdgHNY8bMtLG1K",
+  },
+  rolesTypes: {
+    admin: "admin",
+    client: "client",
+    field: "field",
   },
 };

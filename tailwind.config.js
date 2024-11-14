@@ -18,6 +18,9 @@ export default {
                 "main-blue-opacity": "#1A39D285",
                 "dark-blue-opacity": "#111F6585",
             },
+            backgroundImage: {
+                'custom-gradient': 'linear-gradient(90deg, #ff0000, #ff7f00, #00ff00, #0000ff)',
+              },
         },
     },
     plugins: [],

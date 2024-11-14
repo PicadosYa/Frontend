@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../../hooks";
-import PuffLoaderComponent from "../../loader/PuffLoader";
-import Header from "../../header/Header";
+import Header from "../../header/Headerv2";
 import Footer from "../../footer/Footer";
+import { Global } from "../../../helpers/Global";
 
 const PublicLayout = () => {
-  const { auth, loading } = useAuth();
+  const { auth } = useAuth();
+  const { role } = auth;
+  const [route, setRoute] = useState("");
 
-  if (loading) {
-    return (
-      <div className="">
-        <PuffLoaderComponent isLoading={loading} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (role === Global.rolesTypes.admin) {
+      setRoute("/admin");
+      console.log("admin");
+    } else if (role === Global.rolesTypes.field) {
+      setRoute("/canchero");
+      console.log("canchero");
+    } else {
+      setRoute("");
+      console.log("public");
+    }
+  }, [role]);
+
   return (
     <>
       <Header />
-      {true ? <Outlet /> : <Navigate to="/user" />}
+      {role === Global.rolesTypes.admin || role === Global.rolesTypes.field ? (
+        <Navigate to={route} />
+      ) : (
+        <Outlet />
+      )}
       <Footer />
     </>
   );
