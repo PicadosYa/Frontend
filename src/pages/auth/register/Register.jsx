@@ -84,7 +84,7 @@ const Register = () => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src={Global.images.logoSB} 
+            src="../../../public/logo-picados-ya.png"
             alt="Logo" 
             className="w-1/3 h-20" 
           />
