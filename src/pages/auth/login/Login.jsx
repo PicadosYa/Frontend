@@ -64,7 +64,7 @@ const Login = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-[396px] h-[431.84px] bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
+        className="w-full max-w-md bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
         style={{
           background:
             "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
@@ -91,12 +91,13 @@ const Login = () => {
         </motion.h2>
         <form
           onSubmit={loginUser}
-          className="flex flex-col w-full max-w-md mb-5 space-y-8 items-center"
+          className="flex flex-col w-full mb-5 space-y-8 items-center"
         >
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
+            className="w-full"
           >
             <label htmlFor="email" className="sr-only">
               Correo electrónico
@@ -108,7 +109,7 @@ const Login = () => {
               autoComplete="email"
               required
               placeholder="Correo electrónico"
-              className="w-[306px] h-[47px] px-4 text-lg rounded-lg  shadow-sm shadow-black mx-auto"  
+              className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
               onChange={changed}
             />
           </motion.div>
@@ -116,11 +117,12 @@ const Login = () => {
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
+            className="w-full"
           >
             <label htmlFor="password" className="sr-only">
               Contraseña
             </label>
-            <div className="relative">
+            <div className="relative w-full">
               <input
                 id="password"
                 name="password"
@@ -128,8 +130,7 @@ const Login = () => {
                 autoComplete="current-password"
                 required
                 placeholder="Contraseña"
-                className=""
-                className="w-[306px] h-[47px] px-5 text-lg rounded-lg shadow-sm shadow-black mx-auto"
+                className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
                 onChange={changed}
               />
               <button
@@ -158,13 +159,14 @@ const Login = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
+            className="w-full"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isLoading}
-              className="w-[306px] h-[47px] bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
+              className="w-full h-[47px] bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
               style={{
                 background:
                   "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
@@ -205,7 +207,7 @@ const Login = () => {
               className="text-white cursor-pointer underline"
               style={{
                 fontFamily: "Ubuntu, sans-serif",
-                fontSize: "11px",
+                fontSize: "13px",
                 fontWeight: 400,
                 lineHeight: "normal",
                 textDecorationLine: "underline",
@@ -222,7 +224,7 @@ const Login = () => {
               className="text-white cursor-pointer"
               style={{
                 fontFamily: "Ubuntu, sans-serif",
-                fontSize: "11px",
+                fontSize: "13px",
                 fontWeight: 400,
                 lineHeight: "normal",
                 textDecorationStyle: "solid",
@@ -236,7 +238,7 @@ const Login = () => {
             </span>
           </p>
         </div>
-        <p className="text-gray-300 text-xs inline-flex items-center pt-4">
+        <p className="text-gray-300 text-xs inline-flex items-center pt-7">
           <span>Copyright ©</span>
           <img
             src="../../../public/image 39.png"
