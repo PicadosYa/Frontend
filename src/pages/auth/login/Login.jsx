@@ -75,7 +75,7 @@ const Login = () => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src={Global.images.logoSB}
+            src="src=../../../public/logo-picados-ya.png"
             alt="Logo de la Empresa, Picados Ya."
             className="w-1/2 h-[62px] mt-[-10px] mb-[-20px]"
           />
@@ -238,7 +238,7 @@ const Login = () => {
             </span>
           </p>
         </div>
-        <p className="text-gray-300 text-xs inline-flex items-center pt-7">
+        <p className="text-gray-300 text-xs inline-flex items-center pt-9">
           <span>Copyright ©</span>
           <img
             src="../../../public/image 39.png"
