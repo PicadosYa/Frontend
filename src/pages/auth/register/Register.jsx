@@ -346,7 +346,7 @@ const Register = () => {
                   className="text-white text-sm underline cursor-pointer"
                   style={{
                     fontFamily: "Ubuntu, sans-serif",
-                    fontSize: "12px",
+                    fontSize: "13px",
                     fontWeight: 400,
                     lineHeight: "normal",
                     textDecorationLine: "underline",
