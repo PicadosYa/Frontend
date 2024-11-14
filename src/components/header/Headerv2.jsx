@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Global } from "../../helpers/Global";
+import { useScroll } from "../../hooks/useScroll";
 import { Link } from "react-router-dom";
 
 const Header = () => {
