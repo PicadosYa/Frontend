@@ -84,7 +84,7 @@ const Register = () => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src={Global.images.logoSB} 
+            src="../../../public/logo-picados-ya.png"
             alt="Logo" 
             className="w-1/3 h-20" 
           />
@@ -145,7 +145,7 @@ const Register = () => {
                 <input
                   type={showPassword.password ? "text" : "password"}
                   name="password"
-                  placeholder="Escribe una contraseña min, 8 caracteres"
+                  placeholder="Contraseña de 8 caracteres"
                   className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                   onChange={changed}
                   required
@@ -162,6 +162,33 @@ const Register = () => {
                     <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   )}
                 </button>
+              </div>
+              <div className="relative">
+                <input
+                  type={showPassword.confirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirmar contraseña"
+                  className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
+                  onChange={changed}
+                  required
+                />
+                <button
+                  type="button"
+                  className="toggle-password absolute right-4 top-1/2 transform -translate-y-1/2"
+                  onClick={() => togglePasswordVisibility("confirmPassword")}
+                  aria-label={showPassword.confirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword.confirmPassword ? (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+              <div className="flex justify-center">
+                <span className="text-white text-sm cursor-pointer">
+                  ¿Ya tienes una cuenta? <strong>Iniciar sesión</strong>
+                </span>
               </div>
             </motion.div>
             {/* Columna Derecha */}
@@ -198,28 +225,6 @@ const Register = () => {
                 placeholder="Precio por hora"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <div className="relative">
-                <input
-                  type={showPassword.confirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  placeholder="Confirmar contraseña"
-                  className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
-                  onChange={changed}
-                  required
-                />
-                <button
-                  type="button"
-                  className="toggle-password absolute right-4 top-1/2 transform -translate-y-1/2"
-                  onClick={() => togglePasswordVisibility("confirmPassword")}
-                  aria-label={showPassword.confirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                >
-                  {showPassword.confirmPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                  )}
-                </button>
-              </div>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -263,43 +268,31 @@ const Register = () => {
                   "Crear Cuenta"
                 )}
               </motion.button>
+              <div className="flex justify-center items-center space-x-3 mt-6">
+                <input type="checkbox" className="form-checkbox" />
+                <span
+                  className="text-white text-sm underline cursor-pointer"
+                  style={{
+                    fontFamily: "Ubuntu, sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                    textDecorationLine: "underline",
+                    textDecorationStyle: "solid",
+                    textDecorationSkipInk: "none",
+                    textDecorationThickness: "auto",
+                    textUnderlineOffset: "auto",
+                    textUnderlinePosition: "from-font",
+                  }}
+                >
+                  Acepto los Términos y condiciones de privacidad
+                </span>
+              </div>
             </motion.div>
           </div>
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="flex justify-around w-full mt-4 items-center"
-          >
-            <div className="flex justify-center">
-              <span className="text-white text-sm cursor-pointer">
-                ¿Ya tienes una cuenta? <strong>Iniciar sesión</strong>
-              </span>
-            </div>
-            <div className="flex justify-center items-center space-x-2 mr-[-28px]">
-              <input type="checkbox" className="form-checkbox" />
-              <span
-                className="text-white text-sm underline cursor-pointer"
-                style={{
-                  fontFamily: "Ubuntu, sans-serif",
-                  fontSize: "10px",
-                  fontWeight: 400,
-                  lineHeight: "normal",
-                  textDecorationLine: "underline",
-                  textDecorationStyle: "solid",
-                  textDecorationSkipInk: "none",
-                  textDecorationThickness: "auto",
-                  textUnderlineOffset: "auto",
-                  textUnderlinePosition: "from-font",
-                }}
-              >
-                Acepto los Términos y condiciones de privacidad
-              </span>
-            </div>
-          </motion.div>
         </form>
         <div className="flex justify-end">
-          <p className="text-gray-300 text-xs inline-flex items-center pt-10 space-x-1 ml-auto">
+          <p className="text-gray-300 text-xs inline-flex items-center pt-12 space-x-1 ml-auto">
             <span>Copyright ©</span>
             <img src="../../../public/image 39.png" alt="Logo PicadosYA" className="w-62 h-17 pt-1" />
             <span>2024. All rights reserved.</span>
@@ -311,4 +304,5 @@ const Register = () => {
 };
 
 export default Register;
+
 
