@@ -91,7 +91,7 @@ const Login = () => {
         </motion.h2>
         <form
           onSubmit={loginUser}
-          className="flex flex-col w-full max-w-md mb-5 space-y-8"
+          className="flex flex-col w-full max-w-md mb-5 space-y-8 items-center"
         >
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -108,7 +108,7 @@ const Login = () => {
               autoComplete="email"
               required
               placeholder="Correo electrónico"
-              className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
+              className="w-[306px] h-[47px] px-4 text-lg rounded-lg  shadow-sm shadow-black mx-auto"  
               onChange={changed}
             />
           </motion.div>
@@ -128,7 +128,8 @@ const Login = () => {
                 autoComplete="current-password"
                 required
                 placeholder="Contraseña"
-                className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
+                className=""
+                className="w-[306px] h-[47px] px-5 text-lg rounded-lg shadow-sm shadow-black mx-auto"
                 onChange={changed}
               />
               <button
@@ -163,7 +164,7 @@ const Login = () => {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isLoading}
-              className="h-12 bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
+              className="w-[306px] h-[47px] bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
               style={{
                 background:
                   "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
@@ -198,13 +199,13 @@ const Login = () => {
             </motion.button>
           </motion.div>
         </form>
-        <div className="flex flex-col items-center mt-3 text-white text-base">
+        <div className="flex flex-col items-center mt-2 text-white text-base">
           <p className="flex gap-5 text-white text-base">
             <span
               className="text-white cursor-pointer underline"
               style={{
                 fontFamily: "Ubuntu, sans-serif",
-                fontSize: "10px",
+                fontSize: "11px",
                 fontWeight: 400,
                 lineHeight: "normal",
                 textDecorationLine: "underline",
@@ -221,7 +222,7 @@ const Login = () => {
               className="text-white cursor-pointer"
               style={{
                 fontFamily: "Ubuntu, sans-serif",
-                fontSize: "10px",
+                fontSize: "11px",
                 fontWeight: 400,
                 lineHeight: "normal",
                 textDecorationStyle: "solid",
@@ -235,7 +236,7 @@ const Login = () => {
             </span>
           </p>
         </div>
-        <p className="text-gray-300 text-xs inline-flex items-center pt-9">
+        <p className="text-gray-300 text-xs inline-flex items-center pt-4">
           <span>Copyright ©</span>
           <img
             src="../../../public/image 39.png"
