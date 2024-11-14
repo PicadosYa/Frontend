@@ -12,6 +12,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { form, changed } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -32,6 +33,10 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isChecked) {
+      MsgError("Debes aceptar los términos y condiciones para registrarte.");
+      return;
+    }
     setIsLoading(true);
     setFormData(form);
     try {
@@ -69,7 +74,7 @@ const Register = () => {
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#22358b] to-[#2c45b4] p-4">
       <ToastContainer />
       <form
-        className=" space-y-8 bg-gradient-to-r from-[#2c45b4] to-[#22358b] p-10 rounded-xl shadow-2xl"
+        className=" space-y-8 bg-gradient-to-r from-[#2c45b4] to-[#22358b] p-10 mt-28 rounded-xl shadow-2xl"
         onSubmit={handleSubmit}
       >
         <header className="flex justify-between items-center">
@@ -197,7 +202,29 @@ const Register = () => {
           </motion.button>
         </motion.div>
 
-        <p className="iniciar-sesion text-white">
+        <div className="flex justify-center items-center space-x-2">
+          <input type="checkbox" 
+            className="form-checkbox" 
+            checked={isChecked}
+            onChange={(e) => setIsChecked(e.target.checked)}/>
+          <span className="text-white text-sm underline cursor-pointer" style={{
+              fontFamily: "Ubuntu, sans-serif",
+              fontSize: "10px",
+              fontWeight: 400,
+              lineHeight: "normal",
+              textDecorationLine: "underline",
+              textDecorationStyle: "solid",
+              textDecorationSkipInk: "none",
+              textDecorationThickness: "auto",
+              textUnderlineOffset: "auto",
+              textUnderlinePosition: "from-font"
+            }}>
+            Acepto los Términos y condiciones de privacidad
+          </span>
+        </div>
+
+
+        <p className="flex justify-center iniciar-sesion text-white">
           ¿Ya tienes una cuenta?
           <Link to="/login" className="font-semibold ml-2">
             Iniciar Sesión
