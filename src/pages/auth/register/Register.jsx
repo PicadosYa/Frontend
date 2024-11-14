@@ -107,7 +107,10 @@ const Register = () => {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="flex flex-col w-1/2 space-y-6"
             >
-              <input
+              <motion.input
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
                 type="text"
                 name="name"
                 placeholder="Nombre"
@@ -115,7 +118,10 @@ const Register = () => {
                 onChange={changed}
                 required
               />
-              <input
+              <motion.input
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
                 type="text"
                 name="lastname"
                 placeholder="Apellido"
@@ -123,29 +129,43 @@ const Register = () => {
                 onChange={changed}
                 required
               />
-              <input
+              <motion.input
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
                 type="text"
                 name="complexName"
                 placeholder="Nombre del complejo"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <input
+              <motion.input
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
                 type="text"
                 name="address"
                 placeholder="Dirección"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <input
+              <motion.input
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
                 type="text"
                 name="type"
                 placeholder="Tipo"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <div className="relative">
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                className="relative"
+              >
                 <input
                   type={showPassword.password ? "text" : "password"}
                   name="password"
-                  placeholder="Contraseña de 8 caracteres"
+                  placeholder="Escribe una contraseña min, 8 caracteres"
                   className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                   onChange={changed}
                   required
@@ -162,8 +182,13 @@ const Register = () => {
                     <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   )}
                 </button>
-              </div>
-              <div className="relative">
+              </motion.div>
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.1, duration: 0.5 }}
+                className="relative"
+              >
                 <input
                   type={showPassword.confirmPassword ? "text" : "password"}
                   name="confirmPassword"
@@ -184,12 +209,17 @@ const Register = () => {
                     <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   )}
                 </button>
-              </div>
-              <div className="flex justify-center">
+              </motion.div>
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+                className="flex justify-center"
+              >
                 <span className="text-white text-sm cursor-pointer">
                   ¿Ya tienes una cuenta? <strong>Iniciar sesión</strong>
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
             {/* Columna Derecha */}
             <motion.div
@@ -198,7 +228,10 @@ const Register = () => {
               transition={{ delay: 0.5, duration: 0.5 }}
               className="flex flex-col w-1/2 space-y-6"
             >
-              <input
+              <motion.input
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
                 type="email"
                 name="email"
                 placeholder="Correo Electrónico"
@@ -207,19 +240,28 @@ const Register = () => {
                 required
                 autoComplete="on"
               />
-              <input
+              <motion.input
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
                 type="text"
                 name="country"
                 placeholder="País"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <input
+              <motion.input
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
                 type="text"
                 name="locality"
                 placeholder="Barrio / Localidad"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
-              <input
+              <motion.input
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
                 type="number"
                 name="pricePerHour"
                 placeholder="Precio por hora"
@@ -228,6 +270,9 @@ const Register = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
                 className="bg-[rgba(25,32,71,1)] text-white rounded-[10px] rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center"
               >
                 <img src='./../../../public/Action.png' alt="" className="pr-4" />Cargar imagenes
@@ -235,6 +280,9 @@ const Register = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.1, duration: 0.5 }}
                 type="submit"
                 className="h-10 bg-orange-500 text-white text-lg rounded-[25px] shadow-sm shadow-black"
                 style={{
@@ -268,7 +316,12 @@ const Register = () => {
                   "Crear Cuenta"
                 )}
               </motion.button>
-              <div className="flex justify-center items-center space-x-3 mt-6">
+              <motion.div
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+                className="flex justify-center items-center space-x-2 mt-4"
+              >
                 <input type="checkbox" className="form-checkbox" />
                 <span
                   className="text-white text-sm underline cursor-pointer"
@@ -287,12 +340,12 @@ const Register = () => {
                 >
                   Acepto los Términos y condiciones de privacidad
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </form>
         <div className="flex justify-end">
-          <p className="text-gray-300 text-xs inline-flex items-center pt-12 space-x-1 ml-auto">
+          <p className="text-gray-300 text-xs inline-flex items-center pt-10 space-x-1 ml-auto">
             <span>Copyright ©</span>
             <img src="../../../public/image 39.png" alt="Logo PicadosYA" className="w-62 h-17 pt-1" />
             <span>2024. All rights reserved.</span>
@@ -304,5 +357,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
