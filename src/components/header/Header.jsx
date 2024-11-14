@@ -11,7 +11,7 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import { useAuth } from "../../hooks";
-import { useScroll } from "../../hooks/useScroll";
+
 
 const Header = ({ role }) => {
   const [isOpen, setIsOpen] = useState(false);
