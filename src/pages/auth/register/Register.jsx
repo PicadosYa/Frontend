@@ -153,7 +153,7 @@ const Register = () => {
                 transition={{ delay: 0.9, duration: 0.5 }}
                 type="text"
                 name="type"
-                placeholder="Tipo"
+                placeholder="Tipo de cancha"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
               <motion.div
@@ -165,7 +165,7 @@ const Register = () => {
                 <input
                   type={showPassword.password ? "text" : "password"}
                   name="password"
-                  placeholder="Escribe una contraseña min, 8 caracteres"
+                  placeholder=" Contraseña min. 8 caracteres "
                   className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                   onChange={changed}
                   required
@@ -327,7 +327,7 @@ const Register = () => {
                   className="text-white text-sm underline cursor-pointer"
                   style={{
                     fontFamily: "Ubuntu, sans-serif",
-                    fontSize: "10px",
+                    fontSize: "12px",
                     fontWeight: 400,
                     lineHeight: "normal",
                     textDecorationLine: "underline",
