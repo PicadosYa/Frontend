@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Footer from "../../components/footer/Footer";
 import { Confirmation } from "../../components/register/Confirmation";
+import { EmailConfirmation } from "../../components/register/EmailConfirmation";
 
 const Home = () => {
 	const [showDatepicker, setShowDatepicker] = useState(true);
@@ -135,6 +136,8 @@ const Home = () => {
 
 	return (
 		<>
+			<div>Espacio</div>
+			<EmailConfirmation />
 			<div>Espacio</div>
 			<Confirmation />
 			<div>Espacio</div>

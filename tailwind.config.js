@@ -10,6 +10,9 @@ export default {
                 "facebook": "#4267B2",
                 "twitter": "#1DA1F2"
             },
+            backgroundImage: {
+                'custom-gradient': 'linear-gradient(90deg, #ff0000, #ff7f00, #00ff00, #0000ff)',
+              },
         },
     },
     plugins: [],

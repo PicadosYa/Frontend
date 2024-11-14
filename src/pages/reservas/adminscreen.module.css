@@ -1,0 +1,156 @@
+.background {
+  background-image: url("../AdminControlPanel/svg/cenbkg.svg");
+  background-repeat: repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 743px;
+  width: 80vw;
+  overflow-x: hidden;
+}
+
+.appContainer {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  margin-left: 240px;
+}
+
+.logoContainer {
+  align-self: flex-end;
+  margin-right: 45px;
+  margin-top: 20px;
+}
+
+.logo {
+  width: 165px;
+  height: auto;
+}
+.title {
+  color: #000000;
+  margin-left: 73px;
+  font-weight: 400;
+}
+.titleLogoContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.transparentTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+  justify-content: space-evenly;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+.tableContainer {
+  width: 65vw;
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.headerTable th {
+  text-align: left;
+}
+
+.headerTable th {
+  text-align: left;
+}
+
+.headerTable th:first-child,
+.headerTable th:not(:first-child) {
+  text-align: left;
+}
+
+.headerTable th:first-child {
+  text-align: left;
+  margin-left: 118px;
+}
+
+.headerTable th:not(:first-child) {
+  text-align: left;
+}
+
+.headerTable th:nth-child(1) {
+  width: 60px;
+  margin-left: 40px;
+}
+.headerTable th:nth-child(2) {
+  width: 90px;
+  margin-left: 20px;
+}
+
+.headerTable th:nth-child(3) {
+  width: 130px;
+  margin-left: 30px;
+}
+
+.headerTable th:nth-child(4) {
+  width: 100px;
+}
+
+.headerTable th:nth-child(5) {
+  width: 110px;
+  margin-left: 20px;
+}
+
+.headerTable th:nth-child(6) {
+  width: 200px;
+  margin-left: 50px;
+}
+
+.barsContainer {
+  display: flex;
+  width: 1160px;
+  height: 367px;
+  align-items: center;
+  justify-content: center;
+}
+.dataContainer {
+  display: flex;
+  align-self: auto;
+  flex-direction: column;
+  width: 997px;
+  height: 367px;
+  background-color: transparent;
+  gap: 10px;
+}
+
+@media (max-width: 1440px) {
+  .headerTable th:not(:first-child) {
+    text-align: left;
+  }
+
+  .headerTable th:nth-child(1) {
+    width: 60px;
+    margin-left: 40px;
+  }
+  .headerTable th:nth-child(2) {
+    width: 90px;
+    margin-left: 50px;
+  }
+
+  .headerTable th:nth-child(3) {
+    width: 130px;
+  }
+
+  .headerTable th:nth-child(4) {
+    width: 100px;
+  }
+
+  .headerTable th:nth-child(5) {
+    width: 110px;
+    margin-left: 20px;
+  }
+
+  .headerTable th:nth-child(6) {
+    width: 200px;
+    margin-left: 50px;
+  }
+}

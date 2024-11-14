@@ -10,11 +10,21 @@ export function Confirmation() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [startTime, setStartTime] = useState("10:00 AM");
     const [endTime, setEndTime] = useState("11:00 AM");
+    const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+    const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
 
     const hours = [
         "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
         "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM",
         "06:00 PM", "07:00 PM", "08:00 PM", "09:00 PM"
+    ];
+
+    const countries = [
+        { code: "+1", flag: "🇺🇸", name: "United States" },
+        { code: "+52", flag: "🇲🇽", name: "Mexico" },
+        { code: "+34", flag: "🇪🇸", name: "Spain" },
+        { code: "+44", flag: "🇬🇧", name: "United Kingdom" },
+        { code: "+49", flag: "🇩🇪", name: "Germany" },
     ];
 
     const handleStartTimeSelect = (time) => {
@@ -25,6 +35,11 @@ export function Confirmation() {
     const handleEndTimeSelect = (time) => {
         setEndTime(time);
         setIsEndTimeOpen(false);
+    };
+
+    const handleCountrySelect = (code) => {
+        setSelectedCountryCode(code);
+        setIsCountryDropdownOpen(false);
     };
 
     return (
@@ -64,6 +79,12 @@ export function Confirmation() {
                                         setIsDatePickerOpen(false);
                                     }}
                                     inline
+
+                                    // calendarContainer={({ children }) => (
+                                    //     <div style={{ backgroundColor: 'rgba(21, 35, 93, 0.77)'}}>
+                                    //         {children}
+                                    //     </div>
+                                    // )}
                                 />
                             </div>
                         )}
@@ -79,8 +100,29 @@ export function Confirmation() {
 
                     <div>
                         <label className="text-white">Teléfono</label>
-                        <div className="flex space-x-2">
-                            <input type="text" placeholder="Código" className="w-16 h-8 px-2 rounded-lg border border-gray-300 shadow-sm" />
+                        <div className="flex space-x-2 relative">
+                            {/* Dropdown de país */}
+                            <button
+                                onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+                                className="w-16 h-8 px-2 rounded-lg border border-gray-300 shadow-sm bg-white flex items-center justify-center"
+                            >
+                                {selectedCountryCode}
+                            </button>
+                            {isCountryDropdownOpen && (
+                                <div className="absolute top-10 left-0 w-32 bg-white rounded-lg shadow-lg z-10 overflow-y-auto max-h-40">
+                                    {countries.map((country) => (
+                                        <div
+                                            key={country.code}
+                                            onClick={() => handleCountrySelect(country.code)}
+                                            className="flex items-center space-x-2 p-2 cursor-pointer hover:bg-gray-200"
+                                        >
+                                            <span>{country.flag}</span>
+                                            <span className="text-sm text-gray-700">{country.name}</span>
+                                            <span className="text-sm text-gray-500">{country.code}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                             <input type="tel" placeholder="Número" className="flex-grow h-8 px-2 rounded-lg border border-gray-300 shadow-sm" />
                         </div>
                     </div>
@@ -110,7 +152,7 @@ export function Confirmation() {
                                             {startTime}
                                         </button>
                                         {isStartTimeOpen && (
-                                            <div className="absolute mt-2 bg-white w-full rounded-lg shadow-lg p-2"> 
+                                            <div className="absolute mt-2 bg-white w-full rounded-lg shadow-lg p-2">
                                                 {hours.map((hour) => (
                                                     <div
                                                         key={hour}
