@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../../hooks";
-import Header from "../../header/Header";
+import Header from "../../header/Headerv2";
 import Footer from "../../footer/Footer";
 import { Global } from "../../../helpers/Global";
 
@@ -25,6 +25,7 @@ const PublicLayout = () => {
 
   return (
     <>
+      <Header />
       {role === Global.rolesTypes.admin || role === Global.rolesTypes.field ? (
         <Navigate to={route} />
       ) : (

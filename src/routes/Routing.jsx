@@ -8,19 +8,25 @@ import BookingManagment from "../pages/reservas/BookingManagment";
 
 const Routing = () => {
   return (
-    <Routes>
-      <Route path="/" element={<PublicLayout />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-      </Route>
+    
+      <Routes>
+        <Route path="/" element={<PublicLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
 
-      <Route path="/canchero" element={<UserLayout />}>
-        <Route index element={<Home />} />
-        <Route path="logout" element={<Logout />} />
-        <Route path="perfil" element={<Profile />} />
-        <Route path="reservas" element={<BookingManagment />} />
-      </Route>
+        <Route path="/register" element={<PublicLayout />}>
+          <Route index element={<Register />} />
+        </Route>
+
+        <Route path="/user" element={<PrivateLayout />} />
+        <Route path="/canchero" element={<UserLayout />}>
+          <Route index element={<Home />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="perfil" element={<Profile />} />
+          <Route path="reservas" element={<BookingManagment />} />
+        </Route>
 
       <Route path="/admin" element={<PrivateLayout />}>
         <Route index element={<Home />} />
@@ -28,8 +34,9 @@ const Routing = () => {
         <Route path="perfil" element={<Profile />} />
       </Route>
 
-      <Route path="*" element={<Error404 />} />
-    </Routes>
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    
   );
 };
 
