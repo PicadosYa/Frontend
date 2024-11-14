@@ -6,6 +6,7 @@ import "@smastrom/react-rating/style.css";
 import SearchBanner from "../../components/searchBanner/SearchBanner";
 import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
+import ReservationModal from "../../components/reservation/ReservationModal.jsx";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0); // React Paginate usa 0 como primera página
@@ -64,6 +65,12 @@ const Home = () => {
     };
   }, [isLoading]);
 
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <div className="w-full font-exo min-h-screen bg-cover pt-[150px] pb-6 bg-center ">
       <div
@@ -85,12 +92,14 @@ const Home = () => {
           </p>
           </div>
         )}
+        <ReservationModal show={showModal} onClose={toggleModal}/>
         {items.map((field) => (
           <FieldCard
             key={field.id}
             field={field}
             isFavorite={favorites[field.id] || false}
             onToggleFavorite={() => toggleFavorite(field.id)}
+            onCardClick={() => toggleModal()}
           />
         ))}
         {isLoading &&

@@ -6,8 +6,8 @@ import SVGRayo from "../../../public/rayo-picados-ya";
 
 
 import "@smastrom/react-rating/style.css";
-const FieldCard = ({field}) => {
-const [imageIndex, setImageIndex] = useState(0);
+const FieldCard = ({field, onCardClick}) => {
+  const [imageIndex, setImageIndex] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   console.log(field.id + ": " + isFavorite);
@@ -36,12 +36,16 @@ const [imageIndex, setImageIndex] = useState(0);
     setIntervalId(null);
     setImageIndex(0);
   };
+  const handleClicked = () => {
+    onCardClick();
+  }
   return (
     <div className="w-[363px] bg-gradient-to-b from-main-blue to-dark-blue  rounded-xl shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between">
       <div
         className="w-full h-40 overflow-hidden relative "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClicked}
       >
         <img
           src={photos[imageIndex]}
@@ -104,6 +108,7 @@ FieldCard.propTypes = {
     phone: PropTypes.string.isRequired,
     photos: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default FieldCard

@@ -35,7 +35,7 @@ const Register = () => {
     setIsLoading(true);
     setFormData(form);
     try {
-      const res = await fetch(`${endpoints.backend}auth/register`, {
+      const res = await fetch(`${endpoints.backend}users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
