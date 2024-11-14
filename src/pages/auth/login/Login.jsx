@@ -57,25 +57,43 @@ const Login = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4">
-      <ToastContainer />
+    <main className="relative w-full h-screen flex items-center justify-center p-4">
+      {/* Fondo GIF en loop */}
+      <div
+        className="absolute top-0 left-0 w-full h-full z-[-1]"
+        style={{
+          backgroundImage: 'url("/public/vid03.gif")', // TODO: Inserta la ruta a tu GIF
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "opacity(1.1)", // Ajusta la opacidad del GIF de fondo
+        }}
+      >
+        <div
+          className="absolute top-0 left-0 w-full h-full"
+          style={{
+            background: "rgba(13, 29, 108, 0.75)", //micromalla azul
+            backdropFilter: "blur(3px) contrast(1.2)",
+          }}
+        ></div>
+      </div>
 
       <motion.section
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
+        className="relative z-10 w-full max-w-md bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
         style={{
           background:
             "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
         }}
       >
+        <ToastContainer />
         <div className="flex w-full items-center justify-between mb-6">
           <motion.img
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src="src=../../../public/logo-picados-ya.png"
+            src="../../../public/logo-picados-ya.png"
             alt="Logo de la Empresa, Picados Ya."
             className="w-1/2 h-[62px] mt-[-10px] mb-[-20px]"
           />
@@ -253,3 +271,4 @@ const Login = () => {
 };
 
 export default Login;
+

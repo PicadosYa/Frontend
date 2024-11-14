@@ -71,7 +71,6 @@ const Register = () => {
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
-
       {/*Fondo GIF en loop*/}
       <div
         className="absolute top-0 left-0 w-full h-full z-[-1]"
@@ -79,13 +78,13 @@ const Register = () => {
           backgroundImage: 'url("/public/vid01.gif")', // GIF VIDEITO
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "opacity(1)", // opacidad del GIF 
+          filter: "opacity(1.1)", // opacidad del GIF 
         }}
       >
         <div
           className="absolute top-0 left-0 w-full h-full"
           style={{
-            background: "rgba(13, 29, 108, 0.15)", // micromalla azul
+            background: "rgba(13, 29, 108, 0.75)", // micromalla azul
             backdropFilter: "blur(3px) contrast(1.2)",
           }}
         ></div>
