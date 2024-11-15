@@ -5,7 +5,7 @@ import { PrivateLayout, PublicLayout } from "../components/layout";
 import { Error404, Home, Login, Profile, RegisterOwner } from "../pages";
 import UserLayout from "../components/layout/user/UserLayout";
 import BookingManagment from "../pages/reservas/BookingManagment";
-import { Register } from "../components/register";
+import { Register } from "../pages/auth/register/Register";
 
 const Routing = () => {
   return (

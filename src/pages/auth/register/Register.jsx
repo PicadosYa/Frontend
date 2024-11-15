@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export function Register() {
   return (
@@ -26,7 +27,10 @@ export function Register() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-[487px] h-auto bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
-        style={{ background: "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))" }}
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
+        }}
       >
         <div className="flex w-full items-center justify-between mb-4">
           <motion.img
@@ -136,7 +140,12 @@ export function Register() {
           transition={{ delay: 1.0, duration: 0.5 }}
           className="text-white mt-4 text-base"
         >
-          ¿Ya tienes una cuenta? <span className="cursor-pointer"><strong>Iniciar sesión</strong></span>
+          ¿Ya tienes una cuenta?{" "}
+          <span className="cursor-pointer">
+            <Link to="/login">
+              <strong>Iniciar sesión</strong>
+            </Link>
+          </span>
         </motion.p>
         <motion.p
           initial={{ opacity: 0 }}
@@ -158,6 +167,3 @@ export function Register() {
 }
 
 export default Register;
-
-
-
