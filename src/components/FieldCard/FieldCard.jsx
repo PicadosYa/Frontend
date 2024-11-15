@@ -54,7 +54,10 @@ const FieldCard = ({field, onCardClick}) => {
         />
         <div
           className="absolute top-5 right-0 px-6"
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={(e) => {
+            e.stopPropagation(); 
+            setIsFavorite(!isFavorite)
+          }}
         >
           <SVGRayo
             className={`h-[40px!important] hover:translate-y-[-3px] transition-transform`}

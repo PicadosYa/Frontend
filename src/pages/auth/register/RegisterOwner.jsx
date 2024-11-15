@@ -8,61 +8,82 @@ import { ToastContainer } from "react-toastify";
 import { sendEmail } from "../../../services/sendEmail";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import "./RegisterForm.css";
+import { useAuth } from "../../../hooks";
 
 const RegisterOwner = () => {
   const navigate = useNavigate();
-  const { form, changed } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
+  const { form, changed } = useForm({
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    phone: "000000000",
+    role: "field", 
+    accepted_terms: true,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const {setAuth}=useAuth();
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "000000000",
+    role: "field", 
+    accepted_terms: true,
   });
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
   });
 
-  const { endpoints, emailJS } = Global;
+
 
   const togglePasswordVisibility = (field) => {
     setShowPassword({ ...showPassword, [field]: !showPassword[field] });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setFormData(form);
+        e.preventDefault();
+      setIsLoading(true);
+    console.log(form);
+    
+
+    // Envío de datos al endpoint
     try {
-      const res = await fetch(`${endpoints.backend}auth/register`, {
+      const response = await fetch(`${Global.endpoints.backend}users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(form),
       });
-      if (res.status !== 201) throw new Error(res.statusText);
-      MsgSuccess("Usuario creado exitosamente!");
-      let mailBody = {
-        service_id: emailJS.service_id,
-        template_id: emailJS.template_id,
-        user_id: emailJS.user_id,
-        template_params: {
-          user_name: formData.name,
-          user_email: formData.email,
-        },
-      };
-      sendEmail(emailJS.mailUrlApi, mailBody);
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    } catch (e) {
-      MsgError("Ha ocurrido un error al crear el usuario.");
-      console.error("Error:", e);
-    } finally {
+
+      if (!response.ok) {
+        throw new Error("Error al registrar el usuario");
+      }
+
+      // Si el registro es exitoso, limpiar el formulario o redirigir al inicio
+      let user = await response.json() 
+
+      setAuth({firstname: user.first_name, lastname: user.last_name, email: user.email, phone: user.phone, role: user.role})
+
+      let parsedUser = JSON.stringify({firstname: user.first_name, lastname: user.last_name, email: user.email, phone: user.phone, role: user.role})
+
+      localStorage.setItem("user", parsedUser)
+
       setIsLoading(false);
+
+      MsgSuccess("Usuario creado exitosamente");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
+    } catch (error) {
+      MsgError(error.message);
     }
   };
 
@@ -134,7 +155,7 @@ const RegisterOwner = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
                 type="text"
-                name="name"
+                name="first_name"
                 placeholder="Nombre"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                 onChange={changed}
@@ -145,7 +166,7 @@ const RegisterOwner = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
                 type="text"
-                name="lastname"
+                name="last_name"
                 placeholder="Apellido"
                 className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                 onChange={changed}
@@ -187,6 +208,7 @@ const RegisterOwner = () => {
                 <input
                   type={showPassword.password ? "text" : "password"}
                   name="password"
+                
                   placeholder=" Contraseña min. 8 caracteres "
                   className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
                   onChange={changed}
@@ -226,7 +248,7 @@ const RegisterOwner = () => {
                   name="confirmPassword"
                   placeholder="Confirmar contraseña"
                   className="h-10 px-4 text-lg rounded-[25px] border border-gray-300 shadow-sm shadow-black"
-                  onChange={changed}
+                  
                   required
                 />
                 <button
@@ -372,9 +394,12 @@ const RegisterOwner = () => {
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
+                onChange={changed}
                 className="flex justify-center items-center space-x-2 mt-4"
               >
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" 
+                name="accepted_terms"
+                />
                 <span
                   className="text-white text-sm underline cursor-pointer"
                   style={{

@@ -53,12 +53,23 @@ const BookingManagment = () => {
 
   return (
     <div className={styles.appContainer}>
-      <div className={styles.background}>
+      <div className={styles.background}
+      style={{
+            backgroundImage: "url('/imagen%202.png')",
+            backgroundSize: "cover",
+            position: "relative",
+            color: "#fff"
+          }}
+          >
+          <div className="absolute top-0 left-0  bg-gray-900 opacity-80 min-h-screen min-w-[100%]">
+
+          </div>
         <div className={styles.titleLogoContainer}>
           <h1 className={styles.title}>Gestion de Reservas</h1>
 
           <div className={styles.logoContainer}>
-            <img className={styles.logo} alt="Manager-Logo" />
+            <img src="/logo-picados-ya.png" className={styles.logo} alt="Manager-Logo" />
+            <h4 className="mt-[-15px] ml-[100px]">Manager</h4>
           </div>
         </div>
         <div className={styles.tableContainer}>

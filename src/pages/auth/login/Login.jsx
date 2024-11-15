@@ -8,9 +8,11 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const { form, changed } = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +46,17 @@ const Login = () => {
         })
       );
 
-      setAuth(data.user);
+      setAuth({
+          firstname: data.user.first_name,
+          lastname: data.user.last_name,
+          email: data.user.email,
+          phone: data.user.phone,
+          role: data.user.role,
+        });
       MsgSuccess("Inicio de sesión exitoso!");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       MsgError("Ha ocurrido un error al iniciar sesión.");
       console.error("Error:", error);
