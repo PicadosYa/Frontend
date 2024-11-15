@@ -7,6 +7,8 @@ import SearchBanner from "../../components/searchBanner/SearchBanner";
 import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
 import ReservationModal from "../../components/reservation/ReservationModal.jsx";
+import Footer from "../../components/footer/Footer";
+import Header from "../../components/header/Headerv2";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0); // React Paginate usa 0 como primera página
@@ -72,45 +74,43 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full font-exo min-h-screen bg-cover pt-[150px] pb-6 bg-center ">
-      <div
-        className=" z-[-1] w-full min-h-[100vh] fixed mt-[-157px]"
-        style={{
-          backgroundImage: "url('/imagen%202.png')",
-          backgroundSize: "cover",
-        }}
-      ></div>
+    <>
+      <Header />
+      <div className="w-full font-exo min-h-screen bg-cover pt-[150px] pb-6 bg-center ">
+        <div
+          className=" z-[-1] w-full min-h-[100vh] fixed mt-[-157px]"
+          style={{
+            backgroundImage: "url('/imagen%202.png')",
+            backgroundSize: "cover",
+          }}
+        ></div>
 
-      <SearchBanner />
+        <SearchBanner />
 
-      <section className="w-full pb-14  mt-8 grid grid-cols-3 gap-10 justify-items-center">
-        {error && (
-          <div className="col-span-3">
-
-          <p className="text-red-500 font-bold text-2xl p-2 bg-red-200 rounded-md shadow-md">
-            Ups! Error al cargar los lugares :({" "}
-          </p>
-          </div>
-        )}
-        <ReservationModal show={showModal} onClose={toggleModal}/>
-        {items.map((field) => (
-          <FieldCard
-            key={field.id}
-            field={field}
-            isFavorite={favorites[field.id] || false}
-            onToggleFavorite={() => toggleFavorite(field.id)}
-            onCardClick={() => toggleModal()}
-          />
-        ))}
-        {isLoading &&
-          Array.from({ length: 9 }).map((_, i) => <CardSkeleton key={i} />)}
-
-      </section>
-      {!error && (
-
-        <div ref={infiniteScrollTrigger}></div>
-      )}
-    </div>
+        <section className="w-full pb-14  mt-8 grid grid-cols-3 gap-10 justify-items-center">
+          {error && (
+            <div className="col-span-3">
+              <p className="text-red-500 font-bold text-2xl p-2 bg-red-200 rounded-md shadow-md">
+                Ups! Error al cargar los lugares :({" "}
+              </p>
+            </div>
+          )}
+          <ReservationModal show={showModal} onClose={toggleModal} />
+          {items.map((field) => (
+            <FieldCard
+              key={field.id}
+              field={field}
+              isFavorite={favorites[field.id] || false}
+              onToggleFavorite={() => toggleFavorite(field.id)}
+              onCardClick={() => toggleModal()}
+            />
+          ))}
+          {isLoading &&
+            Array.from({ length: 9 }).map((_, i) => <CardSkeleton key={i} />)}
+        </section>
+        {!error && <div ref={infiniteScrollTrigger}></div>}
+      </div>
+    </>
   );
 };
 
