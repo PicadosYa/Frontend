@@ -6,6 +6,7 @@ import "@smastrom/react-rating/style.css";
 import SearchBanner from "../../components/searchBanner/SearchBanner";
 import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
+import ReservationModal from "../../components/reservation/ReservationModal.jsx";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Headerv2";
 
@@ -66,6 +67,12 @@ const Home = () => {
     };
   }, [isLoading]);
 
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <>
       <Header />
@@ -88,19 +95,20 @@ const Home = () => {
               </p>
             </div>
           )}
+          <ReservationModal show={showModal} onClose={toggleModal} />
           {items.map((field) => (
             <FieldCard
               key={field.id}
               field={field}
               isFavorite={favorites[field.id] || false}
               onToggleFavorite={() => toggleFavorite(field.id)}
+              onCardClick={() => toggleModal()}
             />
           ))}
           {isLoading &&
             Array.from({ length: 9 }).map((_, i) => <CardSkeleton key={i} />)}
         </section>
         {!error && <div ref={infiniteScrollTrigger}></div>}
-        <Footer />
       </div>
     </>
   );
