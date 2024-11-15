@@ -1,6 +1,10 @@
 // import React from 'react';
 
-export function MyProfile() {
+import { useForm } from "../../hooks";
+
+export function MyProfile({setIsUserProfileOpen}) {
+  let user = JSON.parse(localStorage.getItem("user"))
+  const {form, changed} = useForm(user)
   return (
     <div
       className="flex flex-col w-[600px] h-[720px] rounded-[25px] p-10"
@@ -54,7 +58,9 @@ export function MyProfile() {
             <label className="text-white">Nombre</label>
             <input
               type="text"
-              placeholder="Nombre"
+              placeholder={form.firstname}
+              
+              onChange={changed}
               className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
           </div>
@@ -62,7 +68,8 @@ export function MyProfile() {
             <label className="text-white">Apellido</label>
             <input
               type="text"
-              placeholder="Apellido"
+              placeholder={user.lastname}
+           
               className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
           </div>
@@ -75,7 +82,8 @@ export function MyProfile() {
           <label className="text-white">Correo</label>
           <input
             type="email"
-            placeholder="Correo"
+            placeholder={user.email}
+           
             className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
           />
         </div>
@@ -84,7 +92,7 @@ export function MyProfile() {
             <label className="text-white">País</label>
             <input
               type="text"
-              placeholder="País"
+              placeholder="Uruguay"
               className="w-full h-10 px-2 rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
           </div>
@@ -92,7 +100,8 @@ export function MyProfile() {
             <label className="text-white">Teléfono</label>
             <input
               type="tel"
-              placeholder="Teléfono"
+              placeholder={user.phone}
+              
               className="w-full h-10 px-4 rounded-[25px] border border-gray-300 shadow-sm shadow-black"
             />
           </div>
@@ -128,7 +137,10 @@ export function MyProfile() {
 
       {/* Botones de acción */}
       <div className="flex justify-between mb-4 mt-10">
-        <button className="w-[45%] h-10 bg-[rgba(25,32,71,1)] text-white rounded-[25px] border-orange-600 shadow-sm shadow-black">
+        <button className="w-[45%] h-10 bg-[rgba(25,32,71,1)] text-white rounded-[25px] border-orange-600 shadow-sm shadow-black
+        
+        "
+        onClick={()=> setIsUserProfileOpen(false)}>
           Cancelar
         </button>
         <button
@@ -137,6 +149,8 @@ export function MyProfile() {
             background:
               "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
           }}
+
+           onClick={()=> setIsUserProfileOpen(false)}
         >
           Confirmar
         </button>

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
+import { MyProfile } from "./MyProfile";
 
 export function HeaderSession({ auth }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false)
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false)
   return (
     <div className="mx-5 bg-transparent rounded-[25px] p-4 flex justify-end items-center">
       <div
@@ -22,16 +24,16 @@ export function HeaderSession({ auth }) {
 
             <div className="absolute top-[100%] w-44 z-10 bg-dark-blue rounded-md flex flex-col gap-2 p-2">
               <h4 className="text-center font-bold">{auth.firstname}</h4>
-              <Link
-                to="perfil"
-                className="hover:font-bold"
-              >Perfil
-              </Link>
-              <Link
-                to="reservas"
-                className="hover:font-bold"
-              >Reservas
-              </Link>
+              <button className="hover:font-bold text-left"
+                onClick={() => setIsUserProfileOpen(!isUserProfileOpen)}
+              >Perfil</button>
+              {auth.role === "client" ? null : (
+                <Link
+                  to="reservas"
+                  className="hover:font-bold"
+                >Reservas
+                </Link>
+              )}
               
             </div>
           )}
@@ -45,6 +47,12 @@ export function HeaderSession({ auth }) {
           Cerrar Sesion
         </Link>
       </div>
+      {isUserProfileOpen &&(
+
+        <div className="fixed top-0 left-0 z-10 flex justify-center items-center min-w-full bg-dark-blue-opacity ">
+            <MyProfile setIsUserProfileOpen={setIsUserProfileOpen} />
+        </div>
+      )}
     </div>
   );
 }
