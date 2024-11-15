@@ -2,7 +2,25 @@ import { motion } from "framer-motion";
 
 export function Register() {
   return (
-    <div className="w-full h-screen flex items-center justify-center">
+    <div className="w-full h-screen flex items-center justify-center relative">
+      {/* Fondo GIF en loop */}
+      <div
+        className="absolute top-0 left-0 w-full h-full z-[-1]"
+        style={{
+          backgroundImage: 'url("/public/vid01.gif")', // GIF VIDEITO
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "opacity(1.1)", // opacidad del GIF
+        }}
+      >
+        <div
+          className="absolute top-0 left-0 w-full h-full"
+          style={{
+            background: "rgba(13, 29, 108, 0.75)", // micromalla azul
+            backdropFilter: "blur(3px) contrast(1.2)",
+          }}
+        ></div>
+      </div>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
