@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
+import { MyProfile } from "../../pages/user/MyProfile";
 
 export function HeaderSession({ auth }) {
+  const [isModalOpenProfile, setIsModalOpenProfile] = useState(false);
+  const btn = [
+    {
+      name: "Mi Perfil",
+      path: "/perfil",
+      action: () => setIsModalOpenProfile(true),
+    },
+  ];
   return (
     <div className="mx-5 bg-transparent rounded-[25px] p-4 flex justify-end items-center">
       <div
@@ -19,6 +28,10 @@ export function HeaderSession({ auth }) {
         </div>
 
         {/* <img src="../../../public/Hamburguer Menu.png" alt="" /> */}
+        {auth.role == Global.rolesTypes.field ? (
+          <Link to="/canchero/reservas">Mis Reservas</Link>
+        ) : null}
+        <Link onClick={btn[0].action}>{btn[0].name}</Link>
         <Link
           to={
             auth.role == Global.rolesTypes.field
@@ -29,6 +42,31 @@ export function HeaderSession({ auth }) {
           Cerrar Sesion
         </Link>
       </div>
+      {isModalOpenProfile && (
+        <MyProfile onClose={() => setIsModalOpenProfile(false)} />
+      )}
     </div>
   );
 }
+
+// {config && (
+//   <>
+//     {auth.role == Global.rolesTypes.field ? (
+//       <>
+//         <Link className="clone-user" to="/canchero/logout">
+//           Cerrar sesión
+//         </Link>
+//         <Link to={"/canchero/perfil"}>Mi Perfil</Link>
+//         <Link to={"/canchero/reservas"}>Mis Reservas</Link>
+//       </>
+//     ) : (
+//       <>
+//         <Link className="clone-user" to="/admin/logout">
+//           Cerrar sesión
+//         </Link>
+//         {/* <Link to={"/canchero/perfil"}>Mi Perfil</Link>
+//   <Link to={"/canchero/reservas"}>Mis Reservas</Link> */}
+//       </>
+//     )}
+//   </>
+// )}

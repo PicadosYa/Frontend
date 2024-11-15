@@ -7,7 +7,6 @@ import SearchBanner from "../../components/searchBanner/SearchBanner";
 import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
 import ReservationModal from "../../components/reservation/ReservationModal.jsx";
-import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Headerv2";
 
 const Home = () => {
@@ -76,6 +75,7 @@ const Home = () => {
   return (
     <>
       <Header />
+      {/* <FutbolCard /> */}
       <div className="w-full font-exo min-h-screen bg-cover pt-[150px] pb-6 bg-center ">
         <div
           className=" z-[-1] w-full min-h-[100vh] fixed mt-[-157px]"
@@ -91,7 +91,7 @@ const Home = () => {
           {error && (
             <div className="col-span-3">
               <p className="text-red-500 font-bold text-2xl p-2 bg-red-200 rounded-md shadow-md">
-                Ups! Error al cargar los lugares :({" "}
+                Ups! Error al cargar los lugares :{" "}
               </p>
             </div>
           )}
