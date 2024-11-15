@@ -15,7 +15,11 @@ export function ChoiceModal({ onClose }) {
             "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
         }}
       >
-        <img src="../../../public/Logo.png" alt="Logo" className="w-1/2 h-16" />
+        <img
+          src="https://raw.githubusercontent.com/woohdang/fotos-py/main/Logo.png"
+          alt="Logo"
+          className="w-1/2 h-16"
+        />
         <p
           className="text-white text-lg font-semibold mb-4"
           style={{ fontFamily: "Exo, sans-serif", lineHeight: "normal" }}

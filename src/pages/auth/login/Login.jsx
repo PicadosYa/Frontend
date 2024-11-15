@@ -3,11 +3,9 @@ import { useAuth, useForm } from "../../../hooks";
 import { Global } from "../../../helpers/Global";
 import { MsgSuccess, MsgError } from "../../../helpers/MsgNotification";
 import { ToastContainer } from "react-toastify";
-import {
-  EyeIcon,
-  EyeSlashIcon,
-} from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +44,9 @@ const Login = () => {
 
       setAuth(data.user);
       MsgSuccess("Inicio de sesión exitoso!");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     } catch (error) {
       MsgError("Ha ocurrido un error al iniciar sesión.");
       console.error("Error:", error);
@@ -62,7 +63,8 @@ const Login = () => {
       <div
         className="absolute top-0 left-0 w-full h-full z-[-1]"
         style={{
-          backgroundImage: 'url("/public/vid03.gif")', // TODO: Inserta la ruta a tu GIF
+          backgroundImage:
+            'url("https://raw.githubusercontent.com/woohdang/fotos-py/main/vid03.gif")', // TODO: Inserta la ruta a tu GIF
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "opacity(1.1)", // Ajusta la opacidad del GIF de fondo
@@ -93,7 +95,7 @@ const Login = () => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src="../../../public/logo-picados-ya.png"
+            src="https://raw.githubusercontent.com/woohdang/fotos-py/main/Logo.png"
             alt="Logo de la Empresa, Picados Ya."
             className="w-1/2 h-[62px] mt-[-10px] mb-[-20px]"
           />
@@ -252,7 +254,8 @@ const Login = () => {
                 textUnderlinePosition: "from-font",
               }}
             >
-              ¿No tienes una cuenta? <strong>Crear cuenta</strong>
+              ¿No tienes una cuenta?{" "}
+              <Link to="/choice/register">Crear cuenta</Link>
             </span>
           </p>
         </div>
@@ -271,4 +274,3 @@ const Login = () => {
 };
 
 export default Login;
-

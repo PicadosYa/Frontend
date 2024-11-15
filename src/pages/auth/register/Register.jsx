@@ -8,7 +8,8 @@ export function Register() {
       <div
         className="absolute top-0 left-0 w-full h-full z-[-1]"
         style={{
-          backgroundImage: 'url("/public/vid01.gif")', // GIF VIDEITO
+          backgroundImage:
+            'url("https://raw.githubusercontent.com/woohdang/fotos-py/main/vid01.gif")', // GIF VIDEITO
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "opacity(1.1)", // opacidad del GIF
@@ -37,7 +38,7 @@ export function Register() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src="./../../../public/Logo.png"
+            src="https://raw.githubusercontent.com/woohdang/fotos-py/main/Logo.png"
             alt="Logo"
             className="w-1/2 h-[64px]"
           />
