@@ -337,7 +337,7 @@ const RegisterOwner = () => {
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1.0, duration: 0.5 }}
-                className="bg-[rgba(25,32,71,1)] text-white rounded-[10px] rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center"
+                className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center"
               >
                 <img
                   src="./../../../public/Action.png"

@@ -40,6 +40,10 @@ export function HeaderSession({ auth }) {
           </div>
 
         {/* <img src="../../../public/Hamburguer Menu.png" alt="" /> */}
+        {auth.role == Global.rolesTypes.field ? (
+          <Link to="/canchero/reservas">Mis Reservas</Link>
+        ) : null}
+        {/* <Link onClick={btn[0].action}>{btn[0].name}</Link> */}
         <Link
           to="/logout"
           className="px-4 py-2 bg-gradient-to-r from-orange-dark to-orange-light rounded-md"
@@ -56,3 +60,25 @@ export function HeaderSession({ auth }) {
     </div>
   );
 }
+
+// {config && (
+//   <>
+//     {auth.role == Global.rolesTypes.field ? (
+//       <>
+//         <Link className="clone-user" to="/canchero/logout">
+//           Cerrar sesión
+//         </Link>
+//         <Link to={"/canchero/perfil"}>Mi Perfil</Link>
+//         <Link to={"/canchero/reservas"}>Mis Reservas</Link>
+//       </>
+//     ) : (
+//       <>
+//         <Link className="clone-user" to="/admin/logout">
+//           Cerrar sesión
+//         </Link>
+//         {/* <Link to={"/canchero/perfil"}>Mi Perfil</Link>
+//   <Link to={"/canchero/reservas"}>Mis Reservas</Link> */}
+//       </>
+//     )}
+//   </>
+// )}

@@ -1,4 +1,4 @@
-// Reservation Modal.jsx
+
 import React from 'react';
 
 const ReservationModal = ({show, onClose, children}) => {

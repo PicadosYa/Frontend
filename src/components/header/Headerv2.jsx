@@ -4,6 +4,7 @@ import { useScroll } from "./hooks/useScroll";
 import ChoiceModal from "../register/Choice"; // Importa el nuevo modal
 import { useAuth } from "../../hooks/useAuth";
 import { HeaderSession } from "../register/HeaderSession";
+import { MyProfile } from "../../pages/user/MyProfile";
 
 const Header = () => {
   const scrolled = useScroll();

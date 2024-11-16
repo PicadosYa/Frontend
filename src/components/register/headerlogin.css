@@ -1,0 +1,51 @@
+.nav-login {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-right: 50px;
+
+  .button-login {
+    border: none;
+    background-color: black;
+    cursor: pointer;
+  }
+
+  & h3 {
+    font-size: 20px;
+    color: #fff;
+  }
+}
+
+.clone-user {
+  background-color: var(--color-golden);
+  padding: 5px 20px;
+  border-radius: 10px;
+}
+
+.nav-conf {
+  width: 250px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border-radius: 20px;
+  top: 110px;
+  background-color: black;
+  & a {
+    font-size: 20px;
+    color: white;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-login {
+    display: none;
+  }
+}
+.button-login{
+  display: flex;
+  flex-direction: row-reverse;
+}
