@@ -74,8 +74,24 @@ export function Register() {
       // Si el registro es exitoso, limpiar el formulario o redirigir
       setErrorMessage("");
       let user = await response.json() 
-      setAuth(user)
-      localStorage.setItem("user", {firstname: user.first_name, lastname: user.last_name, email: user.email, phone: user.phone, role: user.role})
+       localStorage.setItem(
+        "user",
+        JSON.stringify({
+          firstname: user.first_name,
+          lastname: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        })
+      );
+
+      setAuth({
+          firstname: user.first_name,
+          lastname: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        });
       setLoading(false);
       toast.success("Usuario creado exitosamente");
       setTimeout(() => {
@@ -94,7 +110,8 @@ export function Register() {
       <div
         className="absolute top-0 left-0 w-full h-full z-[-1]"
         style={{
-          backgroundImage: 'url("/public/vid01.gif")',
+          backgroundImage:
+            'url("https://raw.githubusercontent.com/woohdang/fotos-py/main/vid01.gif")', // GIF VIDEITO
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "opacity(1.1)",
@@ -122,7 +139,7 @@ export function Register() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            src="./../../../public/Logo.png"
+            src="https://raw.githubusercontent.com/woohdang/fotos-py/main/Logo.png"
             alt="Logo"
             className="w-1/2 h-[64px]"
           />

@@ -31,7 +31,11 @@ const Header = () => {
       >
         <nav className="bg-gradient-to-r from-main-blue to-[#0D1D6C] flex justify-between items-center rounded-[25px] py-[10px] px-[15px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border border-[#00000059]">
           <Link to="/">
-            <img src="/logo-picados-ya.png" alt="Logo" className="h-[57px]" />
+            <img
+              src="https://raw.githubusercontent.com/woohdang/fotos-py/main/Logo.png"
+              alt="Logo"
+              className="h-[57px]"
+            />
           </Link>
           {auth.email ? (
             <HeaderSession auth={auth} />

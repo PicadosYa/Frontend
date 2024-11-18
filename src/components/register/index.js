@@ -5,4 +5,3 @@ export * from "./EmailConfirmation";
 export * from "./HeaderSession";
 export * from "./MyProfile";
 export * from "./RecoveryCode";
-export * from "./Register";

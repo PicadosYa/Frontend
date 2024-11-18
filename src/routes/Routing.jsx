@@ -6,6 +6,7 @@ import { Error404, Home, Login, RegisterOwner, Reservas } from "../pages";
 import UserLayout from "../components/layout/user/UserLayout";
 import { Register } from "../pages/auth/register/Register";
 import FieldManagment from "../pages/reservas/FieldManagment";
+import RecoveryPassword from "../pages/auth/register/RecoveryPassword";
 
 const Routing = () => {
   return (
@@ -15,6 +16,7 @@ const Routing = () => {
         <Route path="login" element={<Login />} />
         <Route path="choice/registerOwner" element={<RegisterOwner />} />
         <Route path="choice/register" element={<Register />} />
+        <Route path="recovery-password" element={<RecoveryPassword />} />
       </Route>
       <Route path="logout" element={<Logout />} />
 
@@ -27,8 +29,6 @@ const Routing = () => {
       <Route path="/admin" element={<PrivateLayout />}>
         <Route index element={<Home />} />
         <Route path="logout" element={<Logout />} />
-        
-        
       </Route>
 
       <Route path="*" element={<Error404 />} />
