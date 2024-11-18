@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
-import { MyProfile } from "../../pages/user/MyProfile";
+import { MyProfile } from "./MyProfile";
 
 export function HeaderSession({ auth }) {
-  const [isModalOpenProfile, setIsModalOpenProfile] = useState(false);
-  const btn = [
-    {
-      name: "Mi Perfil",
-      path: "/perfil",
-      action: () => setIsModalOpenProfile(true),
-    },
-  ];
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false)
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false)
   return (
     <div className="mx-5 bg-transparent rounded-[25px] p-4 flex justify-end items-center">
       <div
@@ -19,31 +13,49 @@ export function HeaderSession({ auth }) {
         style={{ fontFamily: "Exo, sans-serif", lineHeight: "normal" }}
       >
         <span>{`Hola!, ${auth.firstname}`}</span>
-        <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center">
+        <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center relative">
           <img
             src="./../../../public/Proyecto nuevo 1.png"
             alt="Profile"
-            className="w-full h-full rounded-full"
+            className="w-full h-full rounded-full cursor-pointer"
+            onClick={()=> setIsUserModalOpen(!isUserModalOpen)}
           />
-        </div>
+          {isUserModalOpen && (
+
+            <div className="absolute top-[100%] w-44 z-10 bg-dark-blue rounded-md flex flex-col gap-2 p-2">
+              <h4 className="text-center font-bold">{auth.firstname}</h4>
+              <button className="hover:font-bold text-left"
+                onClick={() => setIsUserProfileOpen(!isUserProfileOpen)}
+              >Perfil</button>
+              {auth.role === "client" ? null : (
+                <Link
+                  to="reservas"
+                  className="hover:font-bold"
+                >Reservas
+                </Link>
+              )}
+              
+            </div>
+          )}
+          </div>
 
         {/* <img src="../../../public/Hamburguer Menu.png" alt="" /> */}
         {auth.role == Global.rolesTypes.field ? (
           <Link to="/canchero/reservas">Mis Reservas</Link>
         ) : null}
-        <Link onClick={btn[0].action}>{btn[0].name}</Link>
+        {/* <Link onClick={btn[0].action}>{btn[0].name}</Link> */}
         <Link
-          to={
-            auth.role == Global.rolesTypes.field
-              ? "/canchero/logout"
-              : "/admin/logout"
-          }
+          to="/logout"
+          className="px-4 py-2 bg-gradient-to-r from-orange-dark to-orange-light rounded-md"
         >
           Cerrar Sesion
         </Link>
       </div>
-      {isModalOpenProfile && (
-        <MyProfile onClose={() => setIsModalOpenProfile(false)} />
+      {isUserProfileOpen &&(
+
+        <div className="fixed top-0 left-0 z-10 flex justify-center items-center min-w-full bg-dark-blue-opacity ">
+            <MyProfile setIsUserProfileOpen={setIsUserProfileOpen} />
+        </div>
       )}
     </div>
   );

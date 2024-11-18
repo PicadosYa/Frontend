@@ -14,7 +14,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex items-center justify-center my-12 text-xl text-white">
+    <div className="flex items-center justify-center mb-12 text-xl text-white">
       <div className="w-11 h-11 border-[2.5px] border-solid border-white rounded-full bg-[#656A84] flex justify-center items-center mr-3 font-semibold">
         <span className="mr-[1px]">
           {nameModified(auth.firstname, auth.lastname)}

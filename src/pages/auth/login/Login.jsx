@@ -5,10 +5,12 @@ import { MsgSuccess, MsgError } from "../../../helpers/MsgNotification";
 import { ToastContainer } from "react-toastify";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const { form, changed } = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,10 +44,16 @@ const Login = () => {
         })
       );
 
-      setAuth(data.user);
+      setAuth({
+          firstname: data.user.first_name,
+          lastname: data.user.last_name,
+          email: data.user.email,
+          phone: data.user.phone,
+          role: data.user.role,
+        });
       MsgSuccess("Inicio de sesión exitoso!");
       setTimeout(() => {
-        window.location.href = "/";
+        navigate("/");
       }, 2000);
     } catch (error) {
       MsgError("Ha ocurrido un error al iniciar sesión.");

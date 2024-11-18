@@ -15,6 +15,8 @@ export const AuthProvider = ({ children }) => {
 
   const authUser = async () => {
     try {
+      console.log("authUser");
+      
       const sessionValid = await VerifySession();
 
       if (!sessionValid) {
@@ -28,11 +30,12 @@ export const AuthProvider = ({ children }) => {
 
       const userObject = JSON.parse(user);
 
-      if (!token || !user) {
+      console.log(userObject);
+      if (!token && !user) {
         setLoading(false);
         return false;
       }
-
+      
       setAuth(userObject);
       setLoading(false);
     } catch (err) {

@@ -1,9 +1,111 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-
+import { Global } from "../../../helpers/Global";
+import { useAuth } from "../../../hooks";
+import { ToastContainer, toast } from "react-toastify";
+import { Navigate, useNavigate } from "react-router-dom";
 export function Register() {
+  const [loading, setLoading] = useState(false);
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "12345678",
+    role: "client", // valor inicial
+    accepted_terms: false,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Función para manejar cambios en los inputs
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  // Función para enviar los datos al servidor
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    // Validación de contraseña y términos
+    if (formData.password.length < 8) {
+      setErrorMessage("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage("Las contraseñas no coinciden.");
+      return;
+    }
+    if (!formData.accepted_terms) {
+      setErrorMessage("Debes aceptar los Términos y condiciones.");
+      return;
+    }
+
+    // Envío de datos al endpoint
+    try {
+      const response = await fetch(`${Global.endpoints.backend}users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone,
+          role: formData.role,
+          accepted_terms: formData.accepted_terms,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al registrar el usuario");
+      }
+
+      // Si el registro es exitoso, limpiar el formulario o redirigir
+      setErrorMessage("");
+      let user = await response.json() 
+       localStorage.setItem(
+        "user",
+        JSON.stringify({
+          firstname: user.first_name,
+          lastname: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        })
+      );
+
+      setAuth({
+          firstname: user.first_name,
+          lastname: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        });
+      setLoading(false);
+      toast.success("Usuario creado exitosamente");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center relative">
+      <ToastContainer />
       {/* Fondo GIF en loop */}
       <div
         className="absolute top-0 left-0 w-full h-full z-[-1]"
@@ -12,13 +114,13 @@ export function Register() {
             'url("https://raw.githubusercontent.com/woohdang/fotos-py/main/vid01.gif")', // GIF VIDEITO
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "opacity(1.1)", // opacidad del GIF
+          filter: "opacity(1.1)",
         }}
       >
         <div
           className="absolute top-0 left-0 w-full h-full"
           style={{
-            background: "rgba(13, 29, 108, 0.75)", // micromalla azul
+            background: "rgba(13, 29, 108, 0.75)",
             backdropFilter: "blur(3px) contrast(1.2)",
           }}
         ></div>
@@ -29,8 +131,7 @@ export function Register() {
         transition={{ duration: 0.5 }}
         className="w-[487px] h-auto bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
         style={{
-          background:
-            "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
+          background: "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
         }}
       >
         <div className="flex w-full items-center justify-between mb-4">
@@ -52,7 +153,7 @@ export function Register() {
         >
           ¡Bienvenido! ¡Sumate que esto se pica!
         </motion.h3>
-        <form className="flex flex-col w-full max-w-md mb-5 space-y-6">
+        <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-md mb-5 space-y-6">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -61,12 +162,18 @@ export function Register() {
           >
             <input
               type="text"
+              name="first_name"
               placeholder="Nombre"
+              value={formData.first_name}
+              onChange={handleChange}
               className="flex-1 h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
             <input
               type="text"
+              name="last_name"
               placeholder="Apellido"
+              value={formData.last_name}
+              onChange={handleChange}
               className="flex-1 h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
           </motion.div>
@@ -75,7 +182,10 @@ export function Register() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
             type="email"
+            name="email"
             placeholder="Correo electrónico"
+            value={formData.email}
+            onChange={handleChange}
             className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
           />
           <motion.input
@@ -83,7 +193,10 @@ export function Register() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
             type="password"
+            name="password"
             placeholder="Contraseña"
+            value={formData.password}
+            onChange={handleChange}
             className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
           />
           <motion.input
@@ -91,7 +204,10 @@ export function Register() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.5 }}
             type="password"
+            name="confirmPassword"
             placeholder="Confirmar contraseña"
+            value={formData.confirmPassword}
+            onChange={handleChange}
             className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
           />
           <motion.button
@@ -107,7 +223,8 @@ export function Register() {
                 "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
             }}
           >
-            Crear cuenta
+            {loading ? "Cargando..." : "Crear cuenta"}
+            
           </motion.button>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -115,52 +232,34 @@ export function Register() {
             transition={{ delay: 0.9, duration: 0.5 }}
             className="flex justify-center items-center space-x-2"
           >
-            <input type="checkbox" className="form-checkbox" />
-            <span
-              className="text-white text-sm underline cursor-pointer"
-              style={{
-                fontFamily: "Ubuntu, sans-serif",
-                fontSize: "10px",
-                fontWeight: 400,
-                lineHeight: "normal",
-                textDecorationLine: "underline",
-                textDecorationStyle: "solid",
-                textDecorationSkipInk: "none",
-                textDecorationThickness: "auto",
-                textUnderlineOffset: "auto",
-                textUnderlinePosition: "from-font",
-              }}
-            >
+            <input
+              type="checkbox"
+              name="accepted_terms"
+              checked={formData.accepted_terms}
+              onChange={handleChange}
+              className="form-checkbox"
+            />
+            <span className="text-white text-sm underline cursor-pointer">
               Acepto los Términos y condiciones de privacidad
             </span>
           </motion.div>
         </form>
+        {errorMessage && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-red-500 text-sm mt-2"
+          >
+            {errorMessage}
+          </motion.p>
+        )}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.0, duration: 0.5 }}
           className="text-white mt-4 text-base"
         >
-          ¿Ya tienes una cuenta?{" "}
-          <span className="cursor-pointer">
-            <Link to="/login">
-              <strong>Iniciar sesión</strong>
-            </Link>
-          </span>
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.5 }}
-          className="text-gray-300 text-xs inline-flex items-center pt-3 space-x-1 ml-auto"
-        >
-          <span>Copyright ©</span>
-          <img
-            src="../../../public/image 39.png"
-            alt="Logo PicadosYA"
-            className="w-62 h-17 pt-1"
-          />
-          <span>2024. All rights reserved.</span>
+          ¿Ya tienes una cuenta? <span className="cursor-pointer"><strong>Iniciar sesión</strong></span>
         </motion.p>
       </motion.div>
     </div>

@@ -33,7 +33,7 @@ const AdminSideBar = () => {
   ];
 
   return (
-    <div className="w-64 bg-[#181818] h-[748px] font-semibold px-4 flex flex-col justify-start relative right-[231px]">
+    <div className="w-64 bg-[#181818] min-h-full pt-10 font-semibold px-4">
       <UserProfile />
       <section className="flex flex-col">
         {navs.map((nav, index) => {

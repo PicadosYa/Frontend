@@ -9,8 +9,10 @@ import { MyProfile } from "../../pages/user/MyProfile";
 const Header = () => {
   const scrolled = useScroll();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { auth, loading } = useAuth();
-
+  const { auth } = useAuth();
+  
+  console.log(auth);
+  
   const btnsAuth = [
     {
       name: "Registrarme",
