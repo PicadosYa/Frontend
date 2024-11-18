@@ -6,10 +6,13 @@ import { ToastContainer } from "react-toastify";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
+import { validateLoginForm } from "../register/validations/FormValidations";
+import PicadosYaLoader from "../../../assets/rayo-picados-ya-loader";
 
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
   const { form, changed } = useForm();
@@ -18,7 +21,13 @@ const Login = () => {
   const loginUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+    const errors = validateLoginForm(form)
+    if(errors?.length > 0) {
+      setErrors(errors);
+      setIsLoading(false);
+      return;
+    }
+    setErrors([])
     try {
       const res = await fetch(`${Global.endpoints.backend}users/login`, {
         method: "POST",
@@ -133,9 +142,8 @@ const Login = () => {
             <input
               id="email"
               name="email"
-              type="email"
+              
               autoComplete="email"
-              required
               placeholder="Correo electrónico"
               className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
               onChange={changed}
@@ -156,7 +164,7 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
-                required
+                
                 placeholder="Contraseña"
                 className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
                 onChange={changed}
@@ -183,6 +191,9 @@ const Login = () => {
               </button>
             </div>
           </motion.div>
+          {errors?.length > 0 && (
+            <p className="text-red-500 text-sm" >{errors[0].message}</p>
+          )}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -194,35 +205,14 @@ const Login = () => {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isLoading}
-              className="w-full h-[47px] bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
+              className="w-full flex justify-center h-[47px] p-1 bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
               style={{
                 background:
                   "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
               }}
             >
               {isLoading ? (
-                <motion.svg
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="w-5 h-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </motion.svg>
+                <PicadosYaLoader className="h-full" />
               ) : (
                 "Iniciar sesión"
               )}
@@ -231,12 +221,14 @@ const Login = () => {
         </form>
         <div className="flex flex-col items-center mt-2 text-white text-base">
           <p className="flex gap-5 text-white text-base">
+            <Link to="/recovery-password">
+
             <span
               className="text-white cursor-pointer underline"
               style={{
                 fontFamily: "Ubuntu, sans-serif",
-                fontSize: "13px",
-                fontWeight: 400,
+                fontSize: "12px",
+                fontWeight: 399,
                 lineHeight: "normal",
                 textDecorationLine: "underline",
                 textDecorationStyle: "solid",
@@ -248,6 +240,7 @@ const Login = () => {
             >
               Olvidé mi contraseña
             </span>
+            </Link>
             <span
               className="text-white cursor-pointer"
               style={{
