@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { Global } from "../../../helpers/Global";
 import { useAuth } from "../../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { validateRegisterForm } from "./validations/FormValidations";
+import PicadosYaLoader from "../../../assets/rayo-picados-ya-loader";
 export function Register() {
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +22,6 @@ export function Register() {
     role: "client", // valor inicial
     accepted_terms: false,
   });
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Función para manejar cambios en los inputs
   const handleChange = (e) => {
@@ -34,47 +36,40 @@ export function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Validación de contraseña y términos
-    if (formData.password.length < 8) {
-      setErrorMessage("La contraseña debe tener al menos 8 caracteres.");
+    const errors = validateRegisterForm(formData)
+    if (errors?.length > 0) {
+      setErrors(errors);
+      setLoading(false);
       return;
     }
-    if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Las contraseñas no coinciden.");
-      return;
-    }
-    if (!formData.accepted_terms) {
-      setErrorMessage("Debes aceptar los Términos y condiciones.");
-      return;
-    }
-
+    setErrors([])
     // Envío de datos al endpoint
     try {
-      const response = await fetch(`${Global.endpoints.backend}users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone,
-          role: formData.role,
-          accepted_terms: formData.accepted_terms,
-        }),
-      });
+      const response = await fetch(
+        `${Global.endpoints.backend}users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            email: formData.email,
+            password: formData.password,
+            phone: formData.phone,
+            role: formData.role,
+            accepted_terms: formData.accepted_terms,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error al registrar el usuario");
       }
 
-      // Si el registro es exitoso, limpiar el formulario o redirigir
-      setErrorMessage("");
-      let user = await response.json() 
-       localStorage.setItem(
+      let user = await response.json();
+      localStorage.setItem(
         "user",
         JSON.stringify({
           firstname: user.first_name,
@@ -86,20 +81,21 @@ export function Register() {
       );
 
       setAuth({
-          firstname: user.first_name,
-          lastname: user.last_name,
-          email: user.email,
-          phone: user.phone,
-          role: user.role,
-        });
+        firstname: user.first_name,
+        lastname: user.last_name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+      });
       setLoading(false);
       toast.success("Usuario creado exitosamente");
       setTimeout(() => {
         navigate("/");
-      }, 2000);
-
+      }, 3000);
     } catch (error) {
-      setErrorMessage(error.message);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,7 +127,8 @@ export function Register() {
         transition={{ duration: 0.5 }}
         className="w-[487px] h-auto bg-blue-700 rounded-[25px] flex flex-col items-center p-6"
         style={{
-          background: "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
+          background:
+            "linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1))",
         }}
       >
         <div className="flex w-full items-center justify-between mb-4">
@@ -153,7 +150,10 @@ export function Register() {
         >
           ¡Bienvenido! ¡Sumate que esto se pica!
         </motion.h3>
-        <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-md mb-5 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col w-full max-w-md mb-5 space-y-6"
+        >
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -217,14 +217,13 @@ export function Register() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
             type="submit"
-            className="h-12 bg-orange-500 text-white text-lg rounded-[25px] mt-4 shadow-sm shadow-black"
+            className="h-12 flex justify-center items-center  bg-orange-500 text-white text-lg rounded-[25px] mt-4 p-1 shadow-sm shadow-black"
             style={{
               background:
                 "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
             }}
           >
-            {loading ? "Cargando..." : "Crear cuenta"}
-            
+            {loading ? <PicadosYaLoader className="h-full" /> : "Crear cuenta"}
           </motion.button>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -244,13 +243,13 @@ export function Register() {
             </span>
           </motion.div>
         </form>
-        {errorMessage && (
+        {errors.length > 0 && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-red-500 text-sm mt-2"
           >
-            {errorMessage}
+            {errors[0].message}
           </motion.p>
         )}
         <motion.p
@@ -259,7 +258,10 @@ export function Register() {
           transition={{ delay: 1.0, duration: 0.5 }}
           className="text-white mt-4 text-base"
         >
-          ¿Ya tienes una cuenta? <span className="cursor-pointer"><strong>Iniciar sesión</strong></span>
+          ¿Ya tienes una cuenta?{" "}
+          <span className="cursor-pointer hover:underline">
+            <strong>Iniciar sesión</strong>
+          </span>
         </motion.p>
       </motion.div>
     </div>
