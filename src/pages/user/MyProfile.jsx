@@ -1,12 +1,81 @@
-import { useAuth } from "../../hooks/useAuth";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { MsgSuccess, MsgError } from "../../helpers/MsgNotification";
+import { jwtDecode } from "jwt-decode";
+
 
 export function MyProfile({ onClose }) {
-  const { auth } = useAuth();
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token); 
+        setFormData((prev) => ({
+          ...prev,
+          id: decodedToken.id || "", 
+          first_name: decodedToken.first_name || "",
+          last_name: decodedToken.last_name || "",
+          email: decodedToken.email || "",
+          phone: decodedToken.phone || "",
+        }));
+      } catch (e) {
+        MsgError("Error al decodificar el token.");
+        console.error("Token decoding error:", e);
+      }
+    }
+  }, [token]);
+  const [formData, setFormData] = useState({
+    id: 0,
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    position_player: "",
+    team_name: "",
+    age: 0,
+    profile_picture_url: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+
+  const handleSubmit = async (e) => {
+    console.log(e)
+    if (!token) {
+      MsgError("No tienes un token válido. Por favor, inicia sesión.");
+      return;
+    }
+    try {
+      const res = await fetch(`localhost:8080/api/users/update-user-profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Error al actualizar el perfil");
+      }
+
+      MsgSuccess("Perfil actualizado correctamente.");
+    } catch (e) {
+      MsgError(e.message || "Ha ocurrido un error al actualizar el perfil.");
+    }
+    console.log("Datos enviados:", formData);
+  };
+
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 ">
+      
       <div
         className="fixed inset-0 bg-black opacity-50 transition-opacity duration-300"
-        onClick={onClose}
+
       ></div>
       <div
         className="z-40 flex flex-col w-[600px] h-[720px] rounded-[25px] p-10 "
@@ -25,7 +94,11 @@ export function MyProfile({ onClose }) {
           {/* Ruta de logo */}
           <h2 className="text-white text-xl font-semibold">Mi Perfil</h2>
         </div>
-
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          console.log("Formulario enviado");
+          handleSubmit(e);
+        }} method="PUT">
         {/* Bloque de imagen de perfil */}
         <div className="flex items-center mb-6 -mt-8">
           <div className="flex flex-col items-center mr-6">
@@ -41,14 +114,17 @@ export function MyProfile({ onClose }) {
               <div className="flex flex-row w-full gap-4">
                 <input
                   type="text"
-                  placeholder={auth.age}
                   className="min-w-[70px] h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
+                  value={formData.age}
+                  onChange={handleChange}
                 />
                 <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center">
                   <img
                     src="./../../../public/Action.png"
                     alt=""
                     className="pr-4"
+                    //value={formData.profile_picture_url}
+                    //onChange={handleChange}
                   />
                   Cargar imagen
                 </button>
@@ -60,7 +136,8 @@ export function MyProfile({ onClose }) {
               <label className="text-white">Nombre</label>
               <input
                 type="text"
-                placeholder={auth.firstname}
+                name="first_name"
+                onChange={handleChange}
                 className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
               />
             </div>
@@ -68,7 +145,8 @@ export function MyProfile({ onClose }) {
               <label className="text-white">Apellido</label>
               <input
                 type="text"
-                placeholder={auth.lastname}
+                value={formData.last_name}
+                onChange={handleChange}
                 className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
               />
             </div>
@@ -81,11 +159,14 @@ export function MyProfile({ onClose }) {
             <label className="text-white">Correo</label>
             <input
               type="email"
-              placeholder={auth.email}
+              value={formData.phone}
+              onChange={handleChange}
               className="w-full h-10 px-4 rounded-lg border border-gray-300 shadow-sm shadow-black"
             />
           </div>
-          <div className="flex flex-row gap-4">
+           
+           <div className="flex flex-row gap-4">
+            {/*
             <div className="flex flex-col" style={{ maxWidth: "85px" }}>
               <label className="text-white">País</label>
               <input
@@ -93,12 +174,13 @@ export function MyProfile({ onClose }) {
                 placeholder="País"
                 className="w-full h-10 px-2 rounded-lg border border-gray-300 shadow-sm shadow-black"
               />
-            </div>
+            </div>*/}
             <div className="flex flex-col flex-grow">
               <label className="text-white">Teléfono</label>
               <input
                 type="tel"
-                placeholder={auth.phone}
+                value={formData.position_player}
+                onChange={handleChange}
                 className="w-full h-10 px-4 rounded-[25px] border border-gray-300 shadow-sm shadow-black"
               />
             </div>
@@ -112,6 +194,8 @@ export function MyProfile({ onClose }) {
             <input
               type="text"
               placeholder="Equipo"
+              value={formData.team_name}
+              onChange={handleChange}
               className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
             />
             <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black flex flex-row justify-center items-center">
@@ -143,20 +227,19 @@ export function MyProfile({ onClose }) {
               background:
                 "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
             }}
+            type="submit"
           >
             Confirmar
           </button>
         </div>
 
-        {/* Eliminar cuenta */}
-        <p className="text-center text-white text-500 text-sm mt-6 cursor-pointer underline flex flex-row justify-center items-center gap-2">
-          <img src="./../../../public/Trash.png" alt="Trash" />
-          Eliminar mi cuenta
-        </p>
-        <button className="absolute top-2 right-2 text-white" onClick={onClose}>
+        
+        {/* <button className="absolute top-2 right-2 text-white" onClick={onClose}>
           &times;
-        </button>
+        </button>*/}
+        </form>
       </div>
+      
     </div>
   );
 }
