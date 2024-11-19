@@ -7,12 +7,16 @@ import UserLayout from "../components/layout/user/UserLayout";
 import { Register } from "../pages/auth/register/Register";
 import FieldManagment from "../pages/reservas/FieldManagment";
 import RecoveryPassword from "../pages/auth/register/RecoveryPassword";
+import UpdateUser from "../pages/user/UpdateUser";
+import FieldDetails from "../pages/fieldDetails/FieldDetails";
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<PublicLayout />}>
-        <Route index element={<Home />} />
+        <Route path="/" element={<Home />}>
+          <Route path="field/:id" element={<FieldDetails />} />
+        </Route>
         <Route path="login" element={<Login />} />
         <Route path="choice/registerOwner" element={<RegisterOwner />} />
         <Route path="choice/register" element={<Register />} />
@@ -20,6 +24,7 @@ const Routing = () => {
       </Route>
       <Route path="logout" element={<Logout />} />
 
+      <Route path="perfil" element={<UpdateUser />} />
       <Route path="/canchero" element={<UserLayout />}>
         <Route index element={<Home />} />
         <Route path="logout" element={<Logout />} />

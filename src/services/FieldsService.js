@@ -74,7 +74,7 @@ export const fieldsKeys = {
   detail: (id) => [...fieldsKeys.details(), id],
 };
 
-const FieldsService = {
+export const FieldsService = {
   async getFields(params = {}) {
     const { data } = await axios.get('/fields', { params });
     console.log(data)
@@ -117,9 +117,10 @@ export const useFields = (params = {}) => {
 };
 
 export const useField = (id, params = {}) => {
+  console.log(id);
   return useQuery({
     queryKey: fieldsKeys.detail(id),
-    queryFn: () => FieldsService.getField(id, params),
+    queryFn: () =>{console.log('Fetching field with id:', id); FieldsService.getField(id, params)},
     enabled: !!id
   });
 };

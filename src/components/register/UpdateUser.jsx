@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Global } from "../../../helpers/Global";
-import { MsgSuccess, MsgError } from "../../../helpers/MsgNotification";
+import { Global } from "../../helpers/Global";
+import { MsgSuccess, MsgError } from "../../helpers/MsgNotification";
 import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode"; //npm install jwt-decode
-import "./RegisterForm.css";
+import {jwtDecode} from "jwt-decode"; //npm install jwt-decode
+//import "./RegisterForm.css";
 
-const UpdateUser = () => {
+const UpdateUserComponent = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const { endpoints } = Global;
@@ -42,7 +42,7 @@ const UpdateUser = () => {
         console.error("Token decoding error:", e);
       }
     }
-  }, [token]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -202,4 +202,4 @@ const UpdateUser = () => {
   );
 };
 
-export default UpdateUser;
+export default UpdateUserComponent;

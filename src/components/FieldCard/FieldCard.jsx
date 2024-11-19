@@ -10,7 +10,7 @@ const FieldCard = ({field, onCardClick}) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  console.log(field.id + ": " + isFavorite);
+
 
   const photos =
     field.photos && field.photos.length > 0

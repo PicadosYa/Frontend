@@ -8,11 +8,14 @@ import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
 import ReservationModal from "../../components/reservation/ReservationModal.jsx";
 import Header from "../../components/header/Headerv2";
+import FieldDetails from "../fieldDetails/FieldDetails.jsx";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0); // React Paginate usa 0 como primera página
   const [items, setItems] = useState([]);
   const [favorites, setFavorites] = useState({});
+  const navigate = useNavigate();
 
   const toggleFavorite = (fieldId) => {
     console.log("HOLA");
@@ -66,11 +69,7 @@ const Home = () => {
     };
   }, [isLoading]);
 
-  const [showModal, setShowModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
 
   return (
     <>
@@ -86,7 +85,7 @@ const Home = () => {
         ></div>
 
         <SearchBanner />
-
+        <Outlet />
         <section className="w-full pb-14  mt-8 grid grid-cols-3 gap-10 justify-items-center">
           {error && (
             <div className="col-span-3">
@@ -95,14 +94,13 @@ const Home = () => {
               </p>
             </div>
           )}
-          <ReservationModal show={showModal} onClose={toggleModal} />
           {items.map((field) => (
             <FieldCard
               key={field.id}
               field={field}
               isFavorite={favorites[field.id] || false}
               onToggleFavorite={() => toggleFavorite(field.id)}
-              onCardClick={() => toggleModal()}
+              onCardClick={() => navigate(`/field/${field.id}`)}
             />
           ))}
           {isLoading &&
