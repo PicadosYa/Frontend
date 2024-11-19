@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
 import { MyProfile } from "./MyProfile";
+import { useEffect } from "react";
 
 export function HeaderSession({ auth }) {
+  const [firstName, setFirstName] = useState("");
+  const storedProfile = localStorage.getItem("userProfile");
+  useEffect(() => {
+    const storedProfile = localStorage.getItem("userProfile");
+    if (storedProfile) {
+      const userProfileNoParsed = JSON.parse(storedProfile);
+      setFirstName(userProfileNoParsed.first_name); 
+    } else if (auth.firstname) {
+      setFirstName(auth.firstname); 
+    }
+  }, []);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false)
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false)
   return (
@@ -12,7 +24,7 @@ export function HeaderSession({ auth }) {
         className="flex space-x-6 items-center text-white"
         style={{ fontFamily: "Exo, sans-serif", lineHeight: "normal" }}
       >
-        <span>{`Hola!, ${auth.firstname}`}</span>
+        <span>{firstName ? `Hola!, ${firstName}` : `Hola!, ${auth.firstname}`}</span>
         <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center relative">
           <img
             src="./../../../public/Proyecto nuevo 1.png"
@@ -23,10 +35,10 @@ export function HeaderSession({ auth }) {
           {isUserModalOpen && (
 
             <div className="absolute top-[100%] w-44 z-10 bg-dark-blue rounded-md flex flex-col gap-2 p-2">
-              <h4 className="text-center font-bold">{auth.firstname}</h4>
+              <h4 className="text-center font-bold">{firstName ? `Hola!, ${firstName}` : `Hola!, ${auth.firstname}`}</h4>
               <button className="hover:font-bold text-left"
                 onClick={() => setIsUserProfileOpen(!isUserProfileOpen)}
-              >Perfil</button>
+              >Actualizar perfil</button>
               {auth.role === "client" ? null : (
                 <Link
                   to="reservas"
