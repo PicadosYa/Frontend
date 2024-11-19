@@ -2,11 +2,15 @@
 import { useState, useEffect } from "react";
 import { MsgSuccess, MsgError } from "../../helpers/MsgNotification";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { Global } from "../../helpers/Global";
+import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
 
 // este si es el component de actualizar user
 export function MyProfile({ setIsUserProfileOpen }) {
   const token = localStorage.getItem("token");
-
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     id: 0,
     first_name: "",
@@ -55,13 +59,16 @@ export function MyProfile({ setIsUserProfileOpen }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!token) {
+      setIsLoading(false);
+      navigate("/login")
       MsgError("No tienes un token válido. Por favor, inicia sesión.");
       return;
     }
 
     try {
-      const res = await fetch(`http://localhost:8080/api/users/update-user-profile`, {
+      const res = await fetch(`${Global.endpoints.backend}users/update-user-profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -71,14 +78,18 @@ export function MyProfile({ setIsUserProfileOpen }) {
 
       if (!res.ok) {
         const errorData = await res.json();
+        setIsLoading(false);
         throw new Error(errorData.message || "Error al actualizar el perfil");
       }
 
       MsgSuccess("Perfil actualizado correctamente.");
 
       localStorage.setItem("userProfile", JSON.stringify(formData));
+
+      setIsLoading(false);
       window.location.reload();
     } catch (e) {
+      setIsLoading(false);
       MsgError(e.message || "Ha ocurrido un error al actualizar el perfil.");
     }
     console.log("Datos enviados:", formData);
@@ -224,14 +235,15 @@ export function MyProfile({ setIsUserProfileOpen }) {
               Cancelar
             </button>
             <button
-              className="w-[45%] h-10 bg-orange-500 text-white rounded-[25px] shadow-sm shadow-black"
+              className="w-[45%] flex justify-center items-center h-10 bg-orange-500 text-white rounded-[25px] shadow-sm shadow-black"
               style={{
                 background:
                   "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(255, 73, 28, 1), rgba(238, 75, 39, 1), rgba(255, 99, 65, 1))",
               }}
               type="submit"
             >
-              Confirmar
+              {isLoading ? <PicadosYaLoader className="h-full"/> : "Confirmar"}
+            
             </button>
           </div>
 
