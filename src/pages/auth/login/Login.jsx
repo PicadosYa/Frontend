@@ -14,7 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth, authUser } = useAuth();
   const { form, changed } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,6 +60,7 @@ const Login = () => {
           phone: data.user.phone,
           role: data.user.role,
         });
+      authUser()
       MsgSuccess("Inicio de sesión exitoso!");
       setTimeout(() => {
         navigate("/");

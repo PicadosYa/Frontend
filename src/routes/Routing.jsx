@@ -13,10 +13,10 @@ import FieldDetails from "../pages/fieldDetails/FieldDetails";
 const Routing = () => {
   return (
     <Routes>
-      <Route path="/" element={<PublicLayout />}>
         <Route path="/" element={<Home />}>
           <Route path="field/:id" element={<FieldDetails />} />
         </Route>
+      <Route path="/" element={<PublicLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="choice/registerOwner" element={<RegisterOwner />} />
         <Route path="choice/register" element={<Register />} />

@@ -3,11 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FieldsService, useField } from "../../services/FieldsService";
 import ReservationModal from "../../components/reservation/ReservationModal";
 import { Rating, Star } from "@smastrom/react-rating";
+import { useAuth } from "../../hooks";
 
 const FieldDetails = () => {
   const [showReservationModal, setShowReservationModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { auth } = useAuth();
   const [data, setData] = useState(null);
 
   console.log(id);
@@ -22,17 +24,18 @@ const FieldDetails = () => {
       console.error("Error fetching data:", error);
     }
   }
-  fetchData();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchData();
+
+  }, []);
 
   return (
     <>
-      {/* <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-dark-blue-opacity"
-      onClick={()=> navigate("/test")}
-      ></div> */}
       <ReservationModal
         show={showReservationModal}
         onClose={setShowReservationModal}
+        field={data}
+        user={auth}
       />
       <div className="fixed  bg-dark-blue-opacity inset-0 flex justify-center items-center z-10">
         <div
@@ -154,10 +157,10 @@ const FieldDetails = () => {
                     boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.42)",
                   }}
                 >
-                  {data?.services?.map((service, index) => (
+                  {data?.services?.map(service => (
                     <button
-                      key={index}
-                      className="h-[21px] px-4 ml-2 bg-orange-500 text-white font-bold rounded-[25px] text-[10px] font-normal text-white leading-normal font-ubuntu"
+                      key={service.id}
+                      className="h-[21px] px-4 ml-2 bg-orange-500 text-white rounded-[25px] text-[10px] font-normal leading-normal font-ubuntu"
                       style={{
                         background:
                           "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(243, 64, 24, 1), rgba(241, 74, 37, 1), rgba(255, 99, 65, 1))",
@@ -186,11 +189,13 @@ const FieldDetails = () => {
                         "linear-gradient(to right, rgba(237, 60, 22, 1), rgba(243, 64, 24, 1), rgba(241, 74, 37, 1), rgba(255, 99, 65, 1))",
                       textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     }}
-                    onClick={() => setShowReservationModal(true)}
+                    onClick={() =>
+                      auth?.id ? setShowReservationModal(true) : navigate("/login")
+                    }
                   >
                     <img
                       src="/rayo-picados-ya.png"
-                      alt=""
+                      alt="Rayo del logo de picados ya"
                       className="w-[19px] h-[37px]"
                     />
                     ¡Quiero reservar!

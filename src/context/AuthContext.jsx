@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import { VerifySession } from "../services/VerifySession";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const authUser = async () => {
     try {
       console.log("authUser");
-      
+
       const sessionValid = await VerifySession();
 
       if (!sessionValid) {
@@ -28,15 +29,23 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
 
-      const userObject = JSON.parse(user);
-
-      console.log(userObject);
       if (!token && !user) {
         setLoading(false);
         return false;
+      } else if (token) {
+
+        const userObject = jwtDecode(token);
+        userObject.firstname = userObject.first_name;
+        userObject.lastname = userObject.last_name;
+        console.log(userObject);
+        setAuth(userObject);
+      } else {
+        const userObject = JSON.parse(user);
+        console.log(userObject);
+        setAuth(userObject);
+
       }
-      
-      setAuth(userObject);
+
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -45,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, loading }}>
+    <AuthContext.Provider value={{ auth, setAuth, loading, authUser }}>
       {children}
     </AuthContext.Provider>
   );

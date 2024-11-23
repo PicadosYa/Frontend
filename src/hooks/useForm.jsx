@@ -14,5 +14,6 @@ export const useForm = (initialObj = {}) => {
   return {
     form,
     changed,
+    setForm
   };
 };
