@@ -22,27 +22,17 @@ class UserService {
     } 
     // Constructor that accepts an object
     else {
-      const {
-        firstName,
-        lastName,
-        email,
-        phone,
-        positionPlayer,
-        teamName,
-        age,
-        profilePictureUrl,
-        id
-      } = userData || {};
+      const formData = userData || {};
 
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.email = email;
-      this.phone = phone;
-      this.positionPlayer = positionPlayer;
-      this.teamName = teamName;
-      this.age = age;
-      this.profilePictureUrl = profilePictureUrl;
-      this.id = id;
+      this.firstName = formData.first_name;
+      this.lastName = formData.last_name;
+      this.email = formData.email;
+      this.phone = formData.phone;
+      this.positionPlayer = formData.position_player;
+      this.teamName = formData.team_name;
+      this.age = formData.age;
+      this.profilePictureUrl = formData.profile_picture_url;
+      this.id = formData.id;
     }
   }
 
@@ -74,7 +64,7 @@ class UserService {
     const formData = userService.createMultipartFormData(profilePicture);
 
     try {
-      const { data } = await axios.put('/users/update-profile-info', formData, {
+      const { data } = await axios.put('/users/update-user-profile', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -5,10 +5,15 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { Global } from "../../helpers/Global";
 import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
+import { useUpdateUserProfile } from "../../services/UsersService";
+import CustomFileInput from "../inputs/CustomFileInput";
+import { useAuth } from "../../hooks";
 
 // este si es el component de actualizar user
 export function MyProfile({ setIsUserProfileOpen }) {
   const token = localStorage.getItem("token");
+  const {authUser} = useAuth();
+  const updateProfile = useUpdateUserProfile();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -21,11 +26,12 @@ export function MyProfile({ setIsUserProfileOpen }) {
     team_name: "",
     age: 0,
     profile_picture_url: "",
+    profilePicture: null,
   });
 
   useEffect(() => {
     const storedProfile = localStorage.getItem("userProfile");
-    
+
     if (storedProfile) {
       setFormData(JSON.parse(storedProfile));
     } else if (token) {
@@ -41,6 +47,7 @@ export function MyProfile({ setIsUserProfileOpen }) {
           position_player: decodedToken.position_player || "",
           team_name: decodedToken.team_name || "",
           age: decodedToken.age || 0,
+          profile_picture_url: decodedToken.profile_picture_url || "",
         }));
       } catch (e) {
         MsgError("Error al decodificar el token.");
@@ -62,36 +69,45 @@ export function MyProfile({ setIsUserProfileOpen }) {
     setIsLoading(true);
     if (!token) {
       setIsLoading(false);
-      navigate("/login")
+      navigate("/login");
       MsgError("No tienes un token válido. Por favor, inicia sesión.");
       return;
     }
+    // const res = await fetch(`${Global.endpoints.backend}users/update-user-profile`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
 
-    try {
-      const res = await fetch(`${Global.endpoints.backend}users/update-user-profile`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+    // if (!res.ok) {
+    //   const errorData = await res.json();
+    //   setIsLoading(false);
+    //   throw new Error(errorData.message || "Error al actualizar el perfil");
+    // }
+    updateProfile.mutate(
+      {
+        userData: formData,
+        profilePicture: formData.profilePicture,
+      },
+      {
+        onSuccess: (token) => {
+          setIsLoading(false);
+          MsgSuccess("Perfil actualizado correctamente.");
+          localStorage.setItem("token", JSON.stringify(token));
+          authUser()
+          window.location.reload();
         },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        setIsLoading(false);
-        throw new Error(errorData.message || "Error al actualizar el perfil");
+        onError: (error) => {
+          setIsLoading(false);
+          MsgError(
+            error.message || "Ha ocurrido un error al actualizar el perfil."
+          );
+        },
       }
+    );
 
-      MsgSuccess("Perfil actualizado correctamente.");
-
-      localStorage.setItem("userProfile", JSON.stringify(formData));
-
-      setIsLoading(false);
-      window.location.reload();
-    } catch (e) {
-      setIsLoading(false);
-      MsgError(e.message || "Ha ocurrido un error al actualizar el perfil.");
-    }
     console.log("Datos enviados:", formData);
   };
 
@@ -119,7 +135,10 @@ export function MyProfile({ setIsUserProfileOpen }) {
             <div className="flex flex-col items-center mr-6">
               <div className="w-40 h-40 bg-gray-300 rounded-full flex justify-center items-center">
                 <img
-                  src={formData.profile_picture_url || "./../../../public/Proyecto nuevo 1.png"}
+                  src={
+                    formData.profile_picture_url ||
+                    "./../../../public/Proyecto nuevo 1.png"
+                  }
                   alt="Profile"
                   className="w-full h-full rounded-full"
                 />
@@ -138,14 +157,30 @@ export function MyProfile({ setIsUserProfileOpen }) {
                       WebkitAppearance: "none",
                     }}
                   />
-                  <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center">
+                  {/* <input className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center" type="file">
                     <img
-                      src="./../../../public/Action.png"
+                      src="/Action.png"
                       alt=""
                       className="pr-4"
                     />
                     Cargar imagen
-                  </button>
+                  </input> */}
+                  <CustomFileInput
+                    accept="image/*"
+                    multiple={false}
+                    onFileChange={(selectedFiles) => {
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          profile_picture_url: reader.result,
+                          profilePicture: selectedFiles[0],
+                        }));
+                      };
+                      reader.readAsDataURL(selectedFiles[0]);
+                    }}
+                    className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] px-4 py-2 min-w-[170px] shadow-sm shadow-black flex flex-row justify-center items-center relative cursor-pointer"
+                  />
                 </div>
               </div>
             </div>
@@ -210,7 +245,11 @@ export function MyProfile({ setIsUserProfileOpen }) {
                 className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
               />
               <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black flex flex-row justify-center items-center">
-                <img src="./../../../public/Action.png" alt="" className="pr-4" />
+                <img
+                  src="./../../../public/Action.png"
+                  alt=""
+                  className="pr-4"
+                />
                 Cargar escudo
               </button>
             </div>
@@ -231,7 +270,12 @@ export function MyProfile({ setIsUserProfileOpen }) {
           </div>
 
           <div className="flex justify-between mb-4 mt-10">
-            <button className="w-[45%] h-10 bg-[rgba(25,32,71,1)] text-white rounded-[25px] border-orange-600 shadow-sm shadow-black" onClick={(e) => { setIsUserProfileOpen(false); }}>
+            <button
+              className="w-[45%] h-10 bg-[rgba(25,32,71,1)] text-white rounded-[25px] border-orange-600 shadow-sm shadow-black"
+              onClick={(e) => {
+                setIsUserProfileOpen(false);
+              }}
+            >
               Cancelar
             </button>
             <button
@@ -242,12 +286,14 @@ export function MyProfile({ setIsUserProfileOpen }) {
               }}
               type="submit"
             >
-              {isLoading ? <PicadosYaLoader className="h-full"/> : "Confirmar"}
-            
+              {isLoading ? <PicadosYaLoader className="h-full" /> : "Confirmar"}
             </button>
           </div>
 
-          <button className="absolute top-2 right-2 text-white" onClick={() => setIsUserProfileOpen(false)}>
+          <button
+            className="absolute top-2 right-2 text-white"
+            onClick={() => setIsUserProfileOpen(false)}
+          >
             &times;
           </button>
         </form>

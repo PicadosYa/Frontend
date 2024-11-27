@@ -27,7 +27,7 @@ export function HeaderSession({ auth }) {
         <span>{firstName ? `Hola!, ${firstName}` : `Hola!, ${auth.firstname}`}</span>
         <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center relative">
           <img
-            src="./../../../public/Proyecto nuevo 1.png"
+            src={auth.profile_picture_url ? auth.profile_picture_url : "/Proyecto nuevo 1.png"}
             alt="Profile"
             className="w-full h-full rounded-full cursor-pointer"
             onClick={()=> setIsUserModalOpen(!isUserModalOpen)}
