@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         const userObject = jwtDecode(token);
         userObject.firstname = userObject.first_name;
         userObject.lastname = userObject.last_name;
+        userObject.role = userObject.role === "" ? JSON.parse(user).role : userObject.role;
         console.log(userObject);
         setAuth(userObject);
       } else {
