@@ -16,11 +16,14 @@ import { parseDate, timeDifferenceInMinutes } from "./utils/utils";
 import { useCreateReservation } from "../../services/ReservationService";
 import ReservationForm from "./ReservationForm";
 import { toast, ToastContainer } from "react-toastify";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import axios from "axios";
 
 const ReservationModal = ({ show, onClose, field }) => {
   const user = useAuth().auth;
   const [selectedDate, setSelectedDate] = useState(new TZDate());
   const [errors, setErrors] = useState([]);
+  const [preferenceId, setPreferenceId] = useState(null);
   const createReservation = useCreateReservation();
   const { form, setForm } = useForm({
     field_id: field?.id,
@@ -29,6 +32,10 @@ const ReservationModal = ({ show, onClose, field }) => {
     end_time: "00:00",
     user_id: user?.id,
     status: "reserved",
+  });
+
+  initMercadoPago("TEST-12466856-e444-43c0-bb7e-98bd98313884", {
+    locale: "es-UY",
   });
 
   useEffect(() => {
@@ -40,11 +47,33 @@ const ReservationModal = ({ show, onClose, field }) => {
     form.user_id = user?.id;
   }, [field, user, form]);
 
+  const createPreference = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/api/create_preference", {
+        title: field?.name || "Cancha",
+        quantity: 1,
+        price: field?.price || 500,
+      });
+
+      const { id } = response.data;
+      return id;
+    } catch (error) {
+      console.error("Error creating preference:", error);
+      toast.error("No se pudo crear la preferencia de pago.");
+    }
+  };
+
+  const handleBuy = async () => {
+    const id = await createPreference();
+    if (id) {
+      setPreferenceId(id);
+    }
+  };
+
   const handleSubmit = () => {
     if (errors?.length > 0) {
       return;
     }
-    console.log(form);
 
     createReservation.mutate(form, {
       onSuccess: () => {
@@ -61,20 +90,17 @@ const ReservationModal = ({ show, onClose, field }) => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="bg-gradient-to-b from-[#1a39d2] to-[#0d1d6c] rounded-[25px] shadow border border-black/20">
           <div className="relative w-auto my-6 mx-auto max-w-3xl">
-            {/*content*/}
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-transparent outline-none focus:outline-none">
-              {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                 <img className="w-52 h-[56.80px]" src="/logo-picados-ya.png" />
                 <button className="text-white" onClick={() => onClose()}>
                   X
                 </button>
               </div>
-              {/*body*/}
               <div className="relative p-6 flex-auto">
                 <div className="container mx-auto p-4 flex flex-col gap-8 ">
                   <div className="bg-white flex flex-col shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-3xl p-6 mb-2">
@@ -84,7 +110,6 @@ const ReservationModal = ({ show, onClose, field }) => {
                         alt=""
                         className="shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full relative"
                       />
-
                       <div className="flex flex-col gap-1 items-center">
                         <h3 className="text-gray-900 font-bold">
                           {user.firstname} {user?.lastname}
@@ -122,8 +147,6 @@ const ReservationModal = ({ show, onClose, field }) => {
                   </div>
                 </div>
               </div>
-
-              {/*footer*/}
               <div className="flex flex-col gap-4 items-center justify-center p-6 border-t border-solid border-blueGray-200 rounded-b">
                 <div>
                   <h4 className="text-xl text-white font-bold">
@@ -138,22 +161,23 @@ const ReservationModal = ({ show, onClose, field }) => {
                         60}
                   </h4>
                 </div>
-                <button type="button" onClick={() => handleSubmit()}>
-                  <div className="w-[331px] h-[65px] relative bg-gradient-to-r from-[#ed3c16] via-[#ff491c] to-[#ff6341] rounded-[25px] shadow border-2 border-white/0">
-                    <img
-                      className="w-[19px] h-[37px] left-[30px] top-[14px] absolute rounded-[60px] shadow"
-                      src="/rayo-picados-ya.png"
-                    />
-                    <div className="w-72 h-[65px] p-[15px] left-[25px] top-0 absolute bg-white/0 rounded-[10px] justify-center items-center gap-[15px] inline-flex">
-                      <div className="w-[234px] h-[35px] text-white text-2xl font-bold font-['Exo']">
-                        Confirmar y pagar
-                      </div>
+                <button
+                  type="button"
+                  onClick={handleBuy}
+                  className="w-[331px] h-[65px] relative bg-gradient-to-r from-[#ed3c16] via-[#ff491c] to-[#ff6341] rounded-[25px] shadow border-2 border-white/0"
+                >
+                  <div className="w-72 h-[65px] p-[15px] left-[25px] top-0 absolute bg-white/0 rounded-[10px] justify-center items-center gap-[15px] inline-flex">
+                    <div className="w-[234px] h-[35px] text-white text-2xl font-bold font-['Exo']">
+                      Pagar con mercado pago
                     </div>
                   </div>
                 </button>
-                <button className="bg-cyan-500 text-white active:bg-cyan-600 font-bold uppercase text-sm px-6 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 h-[65px] w-[331px]">
-                  Pagar con mercado pago
-                </button>
+                {preferenceId && (
+                  <Wallet
+                    initialization={{ preferenceId: preferenceId }}
+                    customization={{ texts: { valueProp: "smart_option" } }}
+                  />
+                )}
               </div>
             </div>
           </div>
