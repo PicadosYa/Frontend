@@ -5,10 +5,12 @@ import { Global } from "../../helpers/Global";
 import { MsgSuccess, MsgError } from "../../helpers/MsgNotification";
 import { ToastContainer } from "react-toastify";
 import {jwtDecode} from "jwt-decode"; //npm install jwt-decode
+import { useUpdateUserProfile } from "../../services/UsersService";
 //import "./RegisterForm.css";
 
 const UpdateUserComponent = () => {
   const navigate = useNavigate();
+  const updateProfile = useUpdateUserProfile()
   const token = localStorage.getItem("token");
   const { endpoints } = Global;
 
@@ -57,19 +59,23 @@ const UpdateUserComponent = () => {
     }
     setIsLoading(true);
     try {
-      const res = await fetch(`${endpoints.backend}users/update-user-profile`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // const res = await fetch(`${endpoints.backend}users/update-user-profile`, {
+      //   method: "PUT",
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Error al actualizar el perfil");
-      }
+      // if (!res.ok) {
+      //   const errorData = await res.json();
+      //   throw new Error(errorData.message || "Error al actualizar el perfil");
+      // }
+      updateProfile.mutate({
+        userDate: formData,
+        profilePicture: formData.profile_picture_url
+      })
 
       MsgSuccess("Perfil actualizado correctamente.");
       setTimeout(() => navigate("/"), 2000);
