@@ -6,9 +6,7 @@ import "@smastrom/react-rating/style.css";
 import SearchBanner from "../../components/searchBanner/SearchBanner";
 import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
-import ReservationModal from "../../components/reservation/ReservationModal.jsx";
 import Header from "../../components/header/Headerv2";
-import FieldDetails from "../fieldDetails/FieldDetails.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -68,8 +66,6 @@ const Home = () => {
       }
     };
   }, [isLoading]);
-
-
 
   return (
     <>

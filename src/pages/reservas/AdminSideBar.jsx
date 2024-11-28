@@ -19,7 +19,7 @@ const AdminSideBar = () => {
     { name: "Reservas", icon: "", to: "/canchero/reservas", class: "" },
     { name: "Mis ventas", icon: "", to: "", class: "" },
     { name: "Mis canchas", icon: "", to: "", class: "" },
-    { name: "Mis equipos", icon: "", to: "", class: "" },
+    // { name: "Mis equipos", icon: "", to: "", class: "" },
   ];
 
   const navsControl = [
@@ -33,7 +33,7 @@ const AdminSideBar = () => {
   ];
 
   return (
-    <div className="w-64 bg-[#181818] min-h-full pt-10 font-semibold px-4">
+    <div className="w-64 bg-[#181818] h-full pt-10 font-semibold px-4">
       <UserProfile />
       <section className="flex flex-col">
         {navs.map((nav, index) => {

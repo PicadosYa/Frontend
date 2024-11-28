@@ -1,7 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
-import Footer from "../../footer/Footer";
 import PuffLoaderComponent from "../../loader/PuffLoader";
 import { Global } from "../../../helpers/Global";
 
@@ -18,7 +17,6 @@ const UserLayout = () => {
         ) : (
           <Navigate to="/login" />
         )}
-        <Footer />
       </>
     );
   }
