@@ -1,0 +1,41 @@
+.tableContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .tableHeader,
+  .tableRow {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .tableHeader {
+    font-weight: bold;
+    background: linear-gradient(to bottom, rgba(26, 57, 210, 1), rgba(13, 29, 108, 1));
+  }
+  
+  .tableRow:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .tableHeader,.tableRow {
+    color: #ffffff; /* Texto blanco */
+    font-family: 'Arial', sans-serif;
+  }
+  .edit{
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    padding-left: 10px;
+    background-color: transparent;
+    cursor: pointer;
+
+  }

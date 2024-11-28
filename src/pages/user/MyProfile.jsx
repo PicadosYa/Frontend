@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MsgSuccess, MsgError } from "../../helpers/MsgNotification";
 import { jwtDecode } from "jwt-decode";
+import ReservationPopup from './reservationPopup/organisms/ReservationPopup';
 
 
 export function MyProfile({ onClose }) {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [showReservationPopup, setShowReservationPopup] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -210,9 +212,10 @@ export function MyProfile({ onClose }) {
               placeholder="Posición"
               className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
             />
-            <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black">
-              Histórico Reservas
-            </button>
+           <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black"
+                    onClick={() => setShowReservationPopup(true)}>
+                    Histórico Reservas
+          </button>
           </div>
         </div>
 
@@ -233,11 +236,15 @@ export function MyProfile({ onClose }) {
           </button>
         </div>
 
-        
+          {/* Render del Popup */}
+          {showReservationPopup && (
+          <ReservationPopup onClose={() => setShowReservationPopup(false)} />
+        )}
         {/* <button className="absolute top-2 right-2 text-white" onClick={onClose}>
           &times;
         </button>*/}
         </form>
+      
       </div>
       
     </div>
