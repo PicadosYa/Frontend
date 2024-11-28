@@ -24,7 +24,7 @@ export function HeaderSession({ auth }) {
         className="flex space-x-6 items-center text-white"
         style={{ fontFamily: "Exo, sans-serif", lineHeight: "normal" }}
       >
-        <span>{firstName ? `Hola!, ${firstName}` : `Hola!, ${auth.firstname}`}</span>
+        <span>{firstName ? `Hola, ${firstName}` : `Hola, ${auth.firstname}`}!</span>
         <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center relative">
           <img
             src={auth.profile_picture_url ? auth.profile_picture_url : "/Proyecto nuevo 1.png"}

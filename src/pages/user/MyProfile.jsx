@@ -190,36 +190,38 @@ export function MyProfile({ onClose }) {
         </div>
 
         {/* Bloque de equipo y posición */}
-        <div className="flex space-x-6 mb-6">
-          <div className="flex flex-col w-1/2">
-            <label className="text-white">Equipo</label>
-            <input
-              type="text"
-              placeholder="Equipo"
-              value={formData.team_name}
-              onChange={handleChange}
-              className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
-            />
-            <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black flex flex-row justify-center items-center">
-              <img src="./../../../public/Action.png" alt="" className="pr-4" />
-              Cargar escudo
+          <div className="flex space-x-6 mb-6">
+            <div className="flex flex-col w-1/2">
+              <label className="text-white">Equipo</label>
+              <input
+                type="text"
+                name="team_name"
+                value={formData.team_name}
+                onChange={handleChange}
+                className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
+              />
+              <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black flex flex-row justify-center items-center">
+                <img src="./../../../public/Action.png" alt="" className="pr-4" />
+                Cargar escudo
+              </button>
+            </div>
+            <div className="flex flex-col w-1/2">
+              <label className="text-white">Posición</label>
+              <input
+                type="text"
+                name="position_player"
+                value={formData.position_player}
+                onChange={handleChange}
+                className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
+              />
+             <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black"
+                onClick={() => setShowReservationPopup(true)}>
+                Histórico Reservas
             </button>
+            </div>
           </div>
-          <div className="flex flex-col w-1/2">
-            <label className="text-white">Posición</label>
-            <input
-              type="text"
-              placeholder="Posición"
-              className="h-10 px-4 rounded-lg border border-gray-300 mb-6 shadow-sm shadow-black"
-            />
-           <button className="bg-[rgba(25,32,71,1)] text-white rounded-[25px] min-w-[148px] px-4 py-2 shadow-sm shadow-black"
-                    onClick={() => setShowReservationPopup(true)}>
-                    Histórico Reservas
-          </button>
-          </div>
-        </div>
 
-        {/* Botones de acción */}
+          {/* Botones de acción */}
         <div className="flex justify-between mb-4 mt-10">
           <button className="w-[45%] h-10 bg-[rgba(25,32,71,1)] text-white rounded-[25px] border-orange-600 shadow-sm shadow-black">
             Cancelar
@@ -235,18 +237,16 @@ export function MyProfile({ onClose }) {
             Confirmar
           </button>
         </div>
-
-          {/* Render del Popup */}
-          {showReservationPopup && (
-          <ReservationPopup onClose={() => setShowReservationPopup(false)} />
-        )}
         {/* <button className="absolute top-2 right-2 text-white" onClick={onClose}>
           &times;
         </button>*/}
         </form>
-      
+        
       </div>
-      
+         {/* Render del Popup */}
+         {showReservationPopup && (
+          <ReservationPopup onClose={() => setShowReservationPopup(false)} />
+        )}
     </div>
   );
 }

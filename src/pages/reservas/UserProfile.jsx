@@ -21,7 +21,7 @@ const UserProfile = () => {
         </span>
       </div>
       <div className="font-semibold">
-        <span>{`Hola!, ${auth.firstname}`}</span>
+        <span>{`Hola, ${auth.firstname}`}</span>
       </div>
     </div>
   );
