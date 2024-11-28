@@ -1,8 +1,9 @@
 import { useState, useEffect, createContext } from "react";
-import PropTypes from "prop-types";
 import { VerifySession } from "../services/VerifySession";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import PropTypes from 'prop-types';
+
 
 const AuthContext = createContext();
 
@@ -61,9 +62,8 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export default AuthContext;
-
