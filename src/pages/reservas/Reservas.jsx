@@ -1,5 +1,6 @@
 import React from "react";
 import AdminSideBar from "./AdminSideBar";
+import { Link } from "react-router-dom";
 
 const statusColors = {
   Confirmado: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/50",
@@ -103,9 +104,9 @@ export const Reservas = () => {
           <h1 className="relative bottom-24 text-4xl text-white">
             Gestion de Reserva
           </h1>
-          <div className="relative bottom-[85px]">
+          <Link to={"/"} className="relative bottom-[85px]">
             <img src="/Group_741.png" />
-          </div>
+          </Link>
         </div>
         <div className="w-full max-w-6xl backdrop-blur-md bg-white/10 rounded-2xl overflow-hidden border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]">
           <div className="overflow-x-auto">
