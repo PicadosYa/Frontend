@@ -10,7 +10,36 @@ const FieldCard = ({field, onCardClick}) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const toggleFavorite = async (fieldId) => {
+    console.log("Toggling favorite for field_id:", fieldId);
 
+    try {
+      const updatedFavorites = { field_id: fieldId };
+      console.log("Request body:", updatedFavorites);
+      // Send POST request to server
+      const res = await fetch("http://localhost:8080/api/users/add-favourites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(updatedFavorites), // Send the correct body here
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error(`Error: ${res.status} - ${res.statusText}`, errorData);
+        return;
+      }
+      
+  
+      const data = await res.json();
+      console.log("Response data:", data);
+  
+    } catch (error) {
+      console.error("Error al agregar/eliminar favorito:", error);
+    }
+  };
 
   const photos =
     field.photos && field.photos.length > 0
@@ -56,7 +85,8 @@ const FieldCard = ({field, onCardClick}) => {
           className="absolute top-5 right-0 px-6"
           onClick={(e) => {
             e.stopPropagation(); 
-            setIsFavorite(!isFavorite)
+            setIsFavorite(!isFavorite);
+            toggleFavorite(field.id)
           }}
         >
           <SVGRayo

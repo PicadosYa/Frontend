@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
 import { MyProfile } from "./MyProfile";
 import { useEffect } from "react";
+import FavoritesModal from "./FavsModal";
 
 export function HeaderSession({ auth }) {
   const [firstName, setFirstName] = useState("");
+  const [isOpenFavModal, setIsOpenFavModal] = useState(false);
   const storedProfile = localStorage.getItem("userProfile");
   useEffect(() => {
     const storedProfile = localStorage.getItem("userProfile");
@@ -65,8 +67,14 @@ export function HeaderSession({ auth }) {
               >
                 Actualizar perfil
               </button>
+              <button
+                className="hover:font-bold text-left"
+                onClick={() => setIsOpenFavModal(!isOpenFavModal)}
+              >
+                Mis Favoritos
+              </button>
               {auth.role === "client" ? null : (
-                <Link to="reservas" className="hover:font-bold">
+                <Link to="/canchero/reservas" className="hover:font-bold">
                   Reservas
                 </Link>
               )}
@@ -91,6 +99,10 @@ export function HeaderSession({ auth }) {
           <MyProfile setIsUserProfileOpen={setIsUserProfileOpen} />
         </div>
       )}
+      {isOpenFavModal && (
+        <FavoritesModal onClose={setIsOpenFavModal}/>
+      )
+      }
     </div>
   );
 }
