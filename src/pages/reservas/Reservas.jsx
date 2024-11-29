@@ -91,7 +91,7 @@ export const Reservas = () => {
 
   return (
     <div
-      className="h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px] border border-[rgba(255,255,255,0.125)]"
+      className="h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px]"
       style={{
         backgroundImage: "url('/imagen%202.png')",
         backgroundSize: "cover",
