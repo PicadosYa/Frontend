@@ -1,5 +1,6 @@
 import React from "react";
 import AdminSideBar from "./AdminSideBar";
+import { Link } from "react-router-dom";
 
 const statusColors = {
   Confirmado: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/50",
@@ -91,7 +92,7 @@ export const Reservas = () => {
 
   return (
     <div
-      className="h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px] border border-[rgba(255,255,255,0.125)]"
+      className="h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px]"
       style={{
         backgroundImage: "url('/imagen%202.png')",
         backgroundSize: "cover",
@@ -103,9 +104,9 @@ export const Reservas = () => {
           <h1 className="relative bottom-24 text-4xl text-white">
             Gestion de Reserva
           </h1>
-          <div className="relative bottom-[85px]">
+          <Link to={"/"} className="relative bottom-[85px]">
             <img src="/Group_741.png" />
-          </div>
+          </Link>
         </div>
         <div className="w-full max-w-6xl backdrop-blur-md bg-white/10 rounded-2xl overflow-hidden border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]">
           <div className="overflow-x-auto">

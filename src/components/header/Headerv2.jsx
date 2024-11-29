@@ -10,9 +10,9 @@ const Header = () => {
   const scrolled = useScroll();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { auth } = useAuth();
-  
+
   console.log(auth);
-  
+
   const btnsAuth = [
     {
       name: "Registrarme",

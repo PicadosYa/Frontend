@@ -4,8 +4,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-        exo: ['Exo', 'sans-serif'], // Define la fuente 'Exo' con 'sans-serif' como respaldo
-      },
+                exo: ['Exo', 'sans-serif'], // Define la fuente 'Exo' con 'sans-serif' como respaldo
+            },
             colors: {
                 "orange-light": "#FF6341",
                 "orange-dark": "#ED3C16",
@@ -20,8 +20,17 @@ export default {
             },
             backgroundImage: {
                 'custom-gradient': 'linear-gradient(90deg, #ff0000, #ff7f00, #00ff00, #0000ff)',
-              },
+            },
+            keyframes: {
+                scroll: {
+                    "0%": { transform: "translateX(-100%)" },
+                    "100%": { transform: "translateX(0)" },
+                },
+            },
+            animation: {
+                "scroll-slow": "scroll 56s linear infinite",
+            },
         },
     },
     plugins: [],
-}
+};
