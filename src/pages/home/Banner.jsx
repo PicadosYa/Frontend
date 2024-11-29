@@ -8,7 +8,8 @@ export const Banner = () => {
   const [logos, setLogos] = useState([]);
 
   const logoNames = [
-    "semeantojouna.png",
+    // Aseguramos que el logo de Coca-Cola solo esté una vez
+    "semeantojouna.png", // Asumiendo que este es el logo de Coca-Cola
     "puma.png",
     "nike.png",
     "algunDiaVoyATrabajarAca.png", // Mercado Libre
@@ -16,12 +17,12 @@ export const Banner = () => {
     "adidas.png",
     "sonReebokNoSonNike.png",
     "gatorade.png",
-    "cocacola.png",
+    // "cocacola.png", // Eliminamos este si ya está representado por "semeantojouna.png"
   ];
 
   useEffect(() => {
     const loadLogos = async () => {
-      // Repetir los logos para llenar el espacio
+      // Repetimos los logos para llenar el espacio
       const repeatedLogos = [...logoNames, ...logoNames, ...logoNames];
       const loadedLogos = repeatedLogos.map((name, index) => ({
         id: index,
