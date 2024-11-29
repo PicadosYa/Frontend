@@ -73,10 +73,12 @@ export function HeaderSession({ auth }) {
               >
                 Mis Favoritos
               </button>
-              <Link to="mis-reservas" className="hover:font-bold">
-                Mis Reservas
-              </Link>
-              {auth.role === "client" ? null : (
+
+              {auth.role === "client" ? (
+                <Link to="mis-reservas" className="hover:font-bold">
+                  Mis Reservas
+                </Link>
+              ) : (
                 <Link to="/canchero/reservas" className="hover:font-bold">
                   Reservas
                 </Link>
@@ -102,10 +104,7 @@ export function HeaderSession({ auth }) {
           <MyProfile setIsUserProfileOpen={setIsUserProfileOpen} />
         </div>
       )}
-      {isOpenFavModal && (
-        <FavoritesModal onClose={setIsOpenFavModal}/>
-      )
-      }
+      {isOpenFavModal && <FavoritesModal onClose={setIsOpenFavModal} />}
     </div>
   );
 }
