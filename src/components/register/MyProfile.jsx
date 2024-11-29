@@ -92,9 +92,10 @@ export function MyProfile({ setIsUserProfileOpen }) {
         profilePicture: formData.profilePicture,
       },
       {
-        onSuccess: (token) => {
+        onSuccess: (data) => {
           setIsLoading(false);
           MsgSuccess("Perfil actualizado correctamente.");
+          const token = data.token;
           localStorage.setItem("token", JSON.stringify(token));
           authUser()
           window.location.reload();
