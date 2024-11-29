@@ -8,12 +8,14 @@ import { Register } from "../pages/auth/register/Register";
 import RecoveryPassword from "../pages/auth/register/RecoveryPassword";
 import UpdateUser from "../pages/user/UpdateUser";
 import FieldDetails from "../pages/fieldDetails/FieldDetails";
+import ReservationPopup from "../pages/user/reservationPopup/organisms/ReservationPopup";
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />}>
         <Route path="field/:id" element={<FieldDetails />} />
+        <Route path="mis-reservas" element={<ReservationPopup />} />
       </Route>
       <Route path="/" element={<PublicLayout />}>
         <Route path="login" element={<Login />} />

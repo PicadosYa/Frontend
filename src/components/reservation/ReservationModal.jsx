@@ -78,22 +78,22 @@ const ReservationModal = ({ show, onClose, field }) => {
     );
   };
 
-  const handleSubmit = () => {
-    if (errors?.length > 0) {
-      toast.error("Por favor, corrija los errores en el formulario.");
-      return;
-    }
+  // const handleSubmit = () => {
+  //   if (errors?.length > 0) {
+  //     toast.error("Por favor, corrija los errores en el formulario.");
+  //     return;
+  //   }
 
-    createReservation.mutate(form, {
-      onSuccess: () => {
-        toast.success("Reserva creada exitosamente");
-        window.location.reload();
-      },
-      onError: (error) => {
-        toast.error(`Error al crear la reserva: ${error.message}`);
-      },
-    });
-  };
+  //   createReservation.mutate(form, {
+  //     onSuccess: () => {
+  //       toast.success("Reserva creada exitosamente");
+  //       window.location.reload();
+  //     },
+  //     onError: (error) => {
+  //       toast.error(`Error al crear la reserva: ${error.message}`);
+  //     },
+  //   });
+  // };
 
   if (!show) return null;
 

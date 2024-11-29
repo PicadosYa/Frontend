@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useCreateReservation } from '../../services/ReservationService';
 import { validateReservation } from './validation';
@@ -8,6 +8,7 @@ const MercadoPagoReservationHandler = ({
   field 
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const createReservation = useCreateReservation();
 
 
@@ -61,7 +62,7 @@ const MercadoPagoReservationHandler = ({
           localStorage.removeItem('reservaPendiente');
           
           toast.success("Reserva creada exitosamente");
-          window.location.reload();
+          navigate('/mis-reservas');
         },
         onError: (error) => {
           toast.error(`Error al crear la reserva: ${error.message}`);

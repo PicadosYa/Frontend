@@ -65,6 +65,9 @@ export function HeaderSession({ auth }) {
               >
                 Actualizar perfil
               </button>
+              <Link to="mis-reservas" className="hover:font-bold">
+                Mis Reservas
+              </Link>
               {auth.role === "client" ? null : (
                 <Link to="reservas" className="hover:font-bold">
                   Reservas

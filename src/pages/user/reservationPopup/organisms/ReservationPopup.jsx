@@ -1,17 +1,43 @@
+import { useNavigate } from 'react-router-dom';
 import PopupHeader from '../molecules/PopupHeader';
 import ReservationTable from '../molecules/ReservationTable';
 import styles from './ReservationPopup.module.css';
 import PropTypes from 'prop-types';
+import { ReservationService, useGetReservationsPerUser } from '../../../../services/ReservationService';
+import { useEffect, useState } from 'react';
 
-const ReservationPopup = ({ open, reservations, onClose, onRefresh, onEdit, onDelete }) => {
-  if (!open) return null;
+const ReservationPopup = () => {
+  const navigate = useNavigate();
+  const [reservations, setReservations] = useState([]);
+  const {data} = useGetReservationsPerUser();
+  useEffect(() => {
+    console.log(data);
+    
+    setReservations(data);
+  }, [data])
+
+  const onRefresh = () => {
+    console.log('Refreshing reservations');
+  };
+
+  const onClose = () => {
+    navigate('/');
+  };
+
+  const onEdit = (reservation) => {
+    console.log('Editing reservation:', reservation);
+  };
+
+  const onDelete = (reservation) => {
+    console.log('Deleting reservation:', reservation);
+  };
 
   return (
     <div className={styles.popupOverlay}>
       <div className={styles.popupContent}>
         <PopupHeader
           title="Histórico de reservas"
-          count={reservations.length}
+          count={reservations?.length}
           onRefresh={onRefresh}
           onClose={onClose}
         />
