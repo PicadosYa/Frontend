@@ -1,5 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import UserProfile from "./UserProfile";
+import { BackTo } from "../../helpers/BackTo";
+import { MdOutlineCalendarMonth, MdLogout } from "react-icons/md";
+import { IoSpeedometerOutline } from "react-icons/io5";
+import { AiOutlineShop, AiOutlineTeam } from "react-icons/ai";
+import { CiCirclePlus } from "react-icons/ci";
+import { FaArrowLeft } from "react-icons/fa";
 
 /**************************************************************/
 /***************  CLIENT ADMIN SIDEBAR COMPONENT **************/
@@ -11,22 +17,27 @@ const AdminSideBar = () => {
   const navs = [
     {
       name: "Ingresar reserva",
-      icon: "",
+      icon: CiCirclePlus,
       to: "",
       class:
         "bg-gradient-to-r from-[#ED3C16] via-[#EF4923] to-[#F75632] text-white",
     },
-    { name: "Reservas", icon: "", to: "/canchero/reservas", class: "" },
-    { name: "Mis ventas", icon: "", to: "", class: "" },
-    { name: "Mis canchas", icon: "", to: "", class: "" },
-    // { name: "Mis equipos", icon: "", to: "", class: "" },
+    {
+      name: "Reservas",
+      icon: MdOutlineCalendarMonth,
+      to: "/canchero/reservas",
+      class: "",
+    },
+    { name: "Mis ventas", icon: IoSpeedometerOutline, to: "", class: "" },
+    { name: "Mis canchas", icon: AiOutlineShop, to: "", class: "" },
+    // { name: "Mis equipos", icon: AiOutlineTeam, to: "", class: "" },
   ];
 
   const navsControl = [
-    { name: "Mi perfil", icon: "", to: "/canchero/perfil", class: "" },
+    { name: "Mi perfil", icon: "", to: "", class: "" },
     {
       name: "Cerrar Sesion",
-      icon: "",
+      icon: MdLogout,
       to: "/canchero/logout",
       class: "bg-[#515151] text-white",
     },
@@ -35,7 +46,11 @@ const AdminSideBar = () => {
   return (
     <div className="w-64 bg-[#181818] h-full pt-10 font-semibold px-4">
       <UserProfile />
-      <section className="flex flex-col">
+      <section className="flex flex-col items-center">
+        <button onClick={BackTo} className="flex items-center text-white mb-2">
+          <FaArrowLeft className="mr-4" />
+          Volver
+        </button>
         {navs.map((nav, index) => {
           return (
             <Link
@@ -47,6 +62,7 @@ const AdminSideBar = () => {
                 location.pathname == nav.to ? "text-white" : "text-[#515151]"
               }`}
             >
+              {nav.icon && <nav.icon className="text-xl" />}
               {nav.name}
             </Link>
           );
@@ -64,6 +80,7 @@ const AdminSideBar = () => {
                 location.pathname == nav.to ? "text-white" : "text-[#515151]"
               }`}
             >
+              {nav.icon && <nav.icon className="text-xl" />}
               {nav.name}
             </Link>
           );

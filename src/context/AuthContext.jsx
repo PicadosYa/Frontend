@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      const token = localStorage.getItem("token");
+      const token = JSON.parse(localStorage.getItem("token"));
       const user = localStorage.getItem("user");
 
       if (!token && !user) {

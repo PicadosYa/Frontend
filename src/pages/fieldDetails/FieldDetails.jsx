@@ -4,6 +4,8 @@ import { FieldsService, useField } from "../../services/FieldsService";
 import ReservationModal from "../../components/reservation/ReservationModal";
 import { Rating, Star } from "@smastrom/react-rating";
 import { useAuth } from "../../hooks";
+import { ToastContainer } from "react-toastify";
+import MercadoPagoReservationHandler from "../../components/reservation/ReservationHandler";
 
 const FieldDetails = () => {
   const [showReservationModal, setShowReservationModal] = useState(false);
@@ -31,6 +33,8 @@ const FieldDetails = () => {
 
   return (
     <>
+      <ToastContainer />
+      <MercadoPagoReservationHandler />
       <ReservationModal
         show={showReservationModal}
         onClose={setShowReservationModal}

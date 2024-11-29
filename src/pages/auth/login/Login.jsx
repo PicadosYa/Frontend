@@ -41,7 +41,7 @@ const Login = () => {
 
       const data = await res.json();
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", JSON.stringify(data.token));
       localStorage.setItem(
         "user",
         JSON.stringify({

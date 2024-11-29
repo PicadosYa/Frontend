@@ -49,6 +49,7 @@ class UserService {
     if (this.teamName) formData.append('team_name', this.teamName);
     if (this.age) formData.append('age', this.age);
     if (this.id) formData.append('id', this.id);
+    if (this.profilePictureUrl) formData.append('profile_picture_url', this.profilePictureUrl);
 
     // Append profile picture if provided
     if (profilePicture) {
@@ -67,7 +68,7 @@ class UserService {
       const { data } = await axios.put('/users/update-user-profile', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
         },
       });
       return data;

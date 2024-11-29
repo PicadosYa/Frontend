@@ -13,17 +13,21 @@ import SVGRayo from "../../../public/rayo-picados-ya";
 import { useAuth, useForm } from "../../hooks";
 import { validateReservation } from "./validation";
 import { parseDate, timeDifferenceInMinutes } from "./utils/utils";
-import { useCreateReservation } from "../../services/ReservationService";
+import {
+  ReservationService,
+  useCreateReservation,
+} from "../../services/ReservationService";
 import ReservationForm from "./ReservationForm";
 import { toast, ToastContainer } from "react-toastify";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
-import axios from "axios";
+import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
 
 const ReservationModal = ({ show, onClose, field }) => {
   const user = useAuth().auth;
   const [selectedDate, setSelectedDate] = useState(new TZDate());
   const [errors, setErrors] = useState([]);
   const [preferenceId, setPreferenceId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const createReservation = useCreateReservation();
   const { form, setForm } = useForm({
     field_id: field?.id,
@@ -40,6 +44,7 @@ const ReservationModal = ({ show, onClose, field }) => {
 
   useEffect(() => {
     setErrors(validateReservation(form, field?.reservations).error?.errors);
+    setPreferenceId(null);
   }, [form, field]);
 
   useEffect(() => {
@@ -47,31 +52,35 @@ const ReservationModal = ({ show, onClose, field }) => {
     form.user_id = user?.id;
   }, [field, user, form]);
 
-  const createPreference = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/api/create_preference", {
-        title: field?.name || "Cancha",
-        quantity: 1,
-        price: field?.price || 500,
-      });
+  useEffect(() => {
+    if (!preferenceId) return;
+    localStorage.setItem(
+      "reservaPendiente",
+      JSON.stringify({ ...form, preferenceId })
+    );
+  }, [preferenceId]);
 
-      const { id } = response.data;
-      return id;
-    } catch (error) {
-      console.error("Error creating preference:", error);
-      toast.error("No se pudo crear la preferencia de pago.");
-    }
-  };
+  const createPreference = () => {
+    if (errors?.length > 0) {
+      toast.error("Por favor, corrija los errores en el formulario.");
 
-  const handleBuy = async () => {
-    const id = await createPreference();
-    if (id) {
-      setPreferenceId(id);
+      return;
     }
+    setIsLoading(true);
+    const totalPrice =
+      errors?.length > 0
+        ? field?.price
+        : (field?.price *
+            timeDifferenceInMinutes(form.start_time, form.end_time)) /
+          60;
+    ReservationService.createPreference(field, user, totalPrice).then((id) =>
+      setPreferenceId(id)
+    );
   };
 
   const handleSubmit = () => {
     if (errors?.length > 0) {
+      toast.error("Por favor, corrija los errores en el formulario.");
       return;
     }
 
@@ -106,9 +115,9 @@ const ReservationModal = ({ show, onClose, field }) => {
                   <div className="bg-white flex flex-col shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-3xl p-6 mb-2">
                     <div className="mt-[-80px] flex justify-center items-center flex-col gap-4">
                       <img
-                        src="/Proyecto nuevo 1.png"
+                        src={user.profile_picture_url ? user.profile_picture_url : "/Proyecto nuevo 1.png"}
                         alt=""
-                        className="shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full relative"
+                        className="shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full relative h-[120px] w-[120px]"
                       />
                       <div className="flex flex-col gap-1 items-center">
                         <h3 className="text-gray-900 font-bold">
@@ -152,8 +161,8 @@ const ReservationModal = ({ show, onClose, field }) => {
                   <h4 className="text-xl text-white font-bold">
                     Total a pagar: UYU $
                     {errors?.length > 0
-                      ? field.price
-                      : (field.price *
+                      ? field?.price
+                      : (field?.price *
                           timeDifferenceInMinutes(
                             form.start_time,
                             form.end_time
@@ -163,19 +172,25 @@ const ReservationModal = ({ show, onClose, field }) => {
                 </div>
                 <button
                   type="button"
-                  onClick={handleBuy}
                   className="w-[331px] h-[65px] relative bg-gradient-to-r from-[#ed3c16] via-[#ff491c] to-[#ff6341] rounded-[25px] shadow border-2 border-white/0"
+                  onClick={createPreference}
                 >
                   <div className="w-72 h-[65px] p-[15px] left-[25px] top-0 absolute bg-white/0 rounded-[10px] justify-center items-center gap-[15px] inline-flex">
-                    <div className="w-[234px] h-[35px] text-white text-2xl font-bold font-['Exo']">
-                      Pagar con mercado pago
-                    </div>
+                    {isLoading ? (
+                      <PicadosYaLoader className="h-[35px]" />
+                    ) : (
+                      <div className="w-[234px] h-[35px] text-white text-xl font-bold font-['Exo']">
+                        Pagar con mercado pago
+                      </div>
+                    )}
                   </div>
                 </button>
                 {preferenceId && (
                   <Wallet
-                    initialization={{ preferenceId: preferenceId }}
                     customization={{ texts: { valueProp: "smart_option" } }}
+                    preferenceId={preferenceId}
+                    initialization={{ preferenceId: preferenceId }}
+                    onReady={() => setIsLoading(false)}
                   />
                 )}
               </div>
