@@ -3,7 +3,7 @@ export const Global = {
     // backend: "http://34.207.93.131:8080/",
     // backendbaseurl: "http://localhost:8080/",
     // prefix: "api/"
-    backend: "http://localhost:8080/api/",
+    backend: "http://54.84.102.220:8080/api/",
   },
   actionType: {
     SET_CLIENTS: "SET_CLIENTS",
