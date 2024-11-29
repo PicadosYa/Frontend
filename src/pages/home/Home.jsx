@@ -8,6 +8,7 @@ import CardSkeleton from "../../components/FieldCard/CardSkeleton";
 import FieldCard from "../../components/FieldCard/FieldCard";
 import Header from "../../components/header/Headerv2";
 import { Outlet, useNavigate } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0); // React Paginate usa 0 como primera página
@@ -104,6 +105,7 @@ const Home = () => {
         </section>
         {!error && <div ref={infiniteScrollTrigger}></div>}
       </div>
+      <Footer />
     </>
   );
 };
