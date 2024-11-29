@@ -20,7 +20,9 @@ export const Banner = () => {
 
   useEffect(() => {
     const loadLogos = async () => {
-      const loadedLogos = logoNames.map((name, index) => ({
+      // Repetir los logos para llenar el espacio
+      const repeatedLogos = [...logoNames, ...logoNames, ...logoNames];
+      const loadedLogos = repeatedLogos.map((name, index) => ({
         id: index,
         name: name,
         image: `/${name}`,
@@ -33,8 +35,8 @@ export const Banner = () => {
 
   return (
     <div className="relative w-full overflow-hidden backdrop-blur-md bg-white/10 py-4">
-      <div className="relative flex w-max gap-8 px-4">
-        <div className="animate-scroll-slow flex items-center gap-8">
+      <div className="relative flex w-max gap-4 px-4">
+        <div className="animate-scroll-slow flex items-center gap-4">
           {logos.map((logo) => (
             <div
               key={logo.id}
@@ -44,9 +46,10 @@ export const Banner = () => {
                 src={logo.image}
                 alt={logo.name}
                 className={`${
-                  logo.name === "globant.png" || logo.name === "algunDiaVoyATrabajarAca.png"
-                    ? "h-14"
-                    : "h-12"
+                  logo.name === "globant.png" ||
+                  logo.name === "algunDiaVoyATrabajarAca.png"
+                    ? "h-20"
+                    : "h-16"
                 } w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0`}
               />
             </div>
@@ -54,20 +57,21 @@ export const Banner = () => {
         </div>
         <div
           aria-hidden="true"
-          className="animate-scroll-slow flex items-center gap-8"
+          className="animate-scroll-slow flex items-center gap-4"
         >
           {logos.map((logo) => (
             <div
-              key={logo.id}
+              key={logo.id + logos.length} // Ajustar la clave para evitar duplicados
               className="relative flex h-full items-center justify-center rounded-lg bg-transparent transition-all duration-300 hover:bg-white/5"
             >
               <img
                 src={logo.image}
                 alt={logo.name}
                 className={`${
-                  logo.name === "globant.png" || logo.name === "algunDiaVoyATrabajarAca.png"
-                    ? "h-14"
-                    : "h-12"
+                  logo.name === "globant.png" ||
+                  logo.name === "algunDiaVoyATrabajarAca.png"
+                    ? "h-20"
+                    : "h-16"
                 } w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0`}
               />
             </div>
