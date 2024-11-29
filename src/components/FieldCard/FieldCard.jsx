@@ -12,16 +12,22 @@ const FieldCard = ({field, onCardClick}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const toggleFavorite = async (fieldId) => {
     console.log("Toggling favorite for field_id:", fieldId);
+    const token = `Bearer ${localStorage.getItem("token").replace(/['"]+/g, '')}`;
 
     try {
       const updatedFavorites = { field_id: fieldId };
       console.log("Request body:", updatedFavorites);
-      // Send POST request to server
+  
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+  
       const res = await fetch("http://localhost:8080/api/users/add-favourites", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Authorization": token,
         },
         body: JSON.stringify(updatedFavorites), // Send the correct body here
       });
@@ -29,18 +35,16 @@ const FieldCard = ({field, onCardClick}) => {
       if (!res.ok) {
         const errorData = await res.json();
         console.error(`Error: ${res.status} - ${res.statusText}`, errorData);
+        console.log(JSON.stringify(updatedFavorites))
         return;
       }
-      
   
       const data = await res.json();
       console.log("Response data:", data);
-  
     } catch (error) {
       console.error("Error al agregar/eliminar favorito:", error);
     }
   };
-
   const photos =
     field.photos && field.photos.length > 0
       ? field.photos

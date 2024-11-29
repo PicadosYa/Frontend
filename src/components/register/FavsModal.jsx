@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { FieldsService} from "../../services/FieldsService";
 
 const FavoritesModal = ({ onClose }) => {
   const [favorites, setFavorites] = useState([]);
-  const favoritesFull = favorites || []; 
+  const token = `Bearer ${localStorage.getItem("token").replace(/['"]+/g, '')}`;
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
+        console.log("Token enviado en la solicitud:", token);
+
         const res = await fetch("http://localhost:8080/api/users/favourites-per-user", {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            'Content-Type': 'application/json',
+            'Authorization': token,
           },
         });
-
+        const data = await res.json();
+        console.log("Respuesta del backend:", data);
         if (!res.ok) {
           console.error(`Error: ${res.status} - ${res.statusText}`);
           return;
         }
-
-        const data = await res.json();
+        
         setFavorites(data);
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -61,7 +63,7 @@ const FavoritesModal = ({ onClose }) => {
 
         {/* Lista de favoritos */}
         <div className="w-full h-[calc(100%-100px)] overflow-y-auto">
-          {favorites == null ? (
+          {favorites == null || favorites == 0? (
             <p className="text-center text-white text-xl font-bold">
             No tienes favoritos seleccionados.
           </p>
@@ -70,7 +72,7 @@ const FavoritesModal = ({ onClose }) => {
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {favorites.map((favorite, index) => (
                 <li
-                  key={favorite.id}
+                  key={index}
                   className="bg-gradient-to-b from-blue-600 to-blue-800 text-white rounded-lg shadow-lg overflow-hidden"
                 >
                   <img
