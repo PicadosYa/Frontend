@@ -16,6 +16,7 @@ export const Banner = () => {
     "adidas.png",
     "sonReebokNoSonNike.png",
     "gatorade.png",
+    "cocacola.png",
   ];
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export const Banner = () => {
         >
           {logos.map((logo) => (
             <div
-              key={logo.id + logos.length} // Ajustar la clave para evitar duplicados
+              key={logo.id + logos.length}
               className="relative flex h-full items-center justify-center rounded-lg bg-transparent transition-all duration-300 hover:bg-white/5"
             >
               <img
