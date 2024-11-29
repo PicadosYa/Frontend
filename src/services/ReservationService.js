@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "../config/axios";
 /**  const createPreference = async () => {
     try {
@@ -61,6 +61,16 @@ export const ReservationService = {
     });
     return data;
   },
+
+  async getReservationsPerUser() {
+    const { data } = await axios.get("/reservations/reservations-per-user", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      }
+    });
+    return data;
+  }
 };
 
 export const useCreateReservation = () => {
@@ -72,5 +82,17 @@ export const useCreateReservation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(reservationKeys.list());
     },
+  });
+};
+
+
+
+export const useGetReservationsPerUser = () => {
+  return useQuery({
+    queryKey: reservationKeys.list(),
+    queryFn: () => ReservationService.getReservationsPerUser(),
+    onSuccess: (data) => {
+      console.log(data);
+    }
   });
 };

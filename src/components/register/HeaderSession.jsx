@@ -73,6 +73,9 @@ export function HeaderSession({ auth }) {
               >
                 Mis Favoritos
               </button>
+              <Link to="mis-reservas" className="hover:font-bold">
+                Mis Reservas
+              </Link>
               {auth.role === "client" ? null : (
                 <Link to="/canchero/reservas" className="hover:font-bold">
                   Reservas
