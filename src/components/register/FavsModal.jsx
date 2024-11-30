@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from "react";
+import { Global } from "../../helpers/Global";
 
 const FavoritesModal = ({ onClose }) => {
   const [favorites, setFavorites] = useState([]);
-  const token = `Bearer ${localStorage.getItem("token").replace(/['"]+/g, '')}`;
+  const token = `Bearer ${localStorage.getItem("token").replace(/['"]+/g, "")}`;
 
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
         console.log("Token enviado en la solicitud:", token);
 
-        const res = await fetch("http://localhost:8080/api/users/favourites-per-user", {
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token,
-          },
-        });
+        const res = await fetch(
+          `${Global.endpoints.backend}users/favourites-per-user`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        );
         const data = await res.json();
         console.log("Respuesta del backend:", data);
         if (!res.ok) {
           console.error(`Error: ${res.status} - ${res.statusText}`);
           return;
         }
-        
+
         setFavorites(data);
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -63,11 +67,10 @@ const FavoritesModal = ({ onClose }) => {
 
         {/* Lista de favoritos */}
         <div className="w-full h-[calc(100%-100px)] overflow-y-auto">
-          {favorites == null || favorites == 0? (
+          {favorites == null || favorites == 0 ? (
             <p className="text-center text-white text-xl font-bold">
-            No tienes favoritos seleccionados.
-          </p>
-            
+              No tienes favoritos seleccionados.
+            </p>
           ) : (
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {favorites.map((favorite, index) => (

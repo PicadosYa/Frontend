@@ -1,44 +1,48 @@
-
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Rating, Star } from "@smastrom/react-rating";
 import SVGRayo from "../../../public/rayo-picados-ya";
 
-
 import "@smastrom/react-rating/style.css";
-const FieldCard = ({field, onCardClick}) => {
+import { Global } from "../../helpers/Global";
+const FieldCard = ({ field, onCardClick }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const toggleFavorite = async (fieldId) => {
     console.log("Toggling favorite for field_id:", fieldId);
-    const token = `Bearer ${localStorage.getItem("token").replace(/['"]+/g, '')}`;
+    const token = `Bearer ${localStorage
+      .getItem("token")
+      .replace(/['"]+/g, "")}`;
 
     try {
       const updatedFavorites = { field_id: fieldId };
       console.log("Request body:", updatedFavorites);
-  
+
       if (!token) {
         console.error("No token found in localStorage");
         return;
       }
-  
-      const res = await fetch("http://localhost:8080/api/users/add-favourites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-        body: JSON.stringify(updatedFavorites), // Send the correct body here
-      });
-  
+
+      const res = await fetch(
+        `${Global.endpoints.backend}users/add-favourites`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(updatedFavorites), // Send the correct body here
+        }
+      );
+
       if (!res.ok) {
         const errorData = await res.json();
         console.error(`Error: ${res.status} - ${res.statusText}`, errorData);
-        console.log(JSON.stringify(updatedFavorites))
+        console.log(JSON.stringify(updatedFavorites));
         return;
       }
-  
+
       const data = await res.json();
       console.log("Response data:", data);
     } catch (error) {
@@ -71,7 +75,7 @@ const FieldCard = ({field, onCardClick}) => {
   };
   const handleClicked = () => {
     onCardClick();
-  }
+  };
   return (
     <div className="w-[363px] bg-gradient-to-b from-main-blue to-dark-blue  rounded-xl shadow-lg  cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 flex flex-col justify-between">
       <div
@@ -88,9 +92,9 @@ const FieldCard = ({field, onCardClick}) => {
         <div
           className="absolute top-5 right-0 px-6"
           onClick={(e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             setIsFavorite(!isFavorite);
-            toggleFavorite(field.id)
+            toggleFavorite(field.id);
           }}
         >
           <SVGRayo
@@ -132,8 +136,9 @@ const FieldCard = ({field, onCardClick}) => {
           </p>
         </div>
       </div>
-    </div>)
-}
+    </div>
+  );
+};
 
 FieldCard.propTypes = {
   field: PropTypes.shape({
@@ -148,4 +153,4 @@ FieldCard.propTypes = {
   onCardClick: PropTypes.func.isRequired,
 };
 
-export default FieldCard
+export default FieldCard;
