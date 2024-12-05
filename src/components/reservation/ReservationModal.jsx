@@ -21,6 +21,7 @@ import ReservationForm from "./ReservationForm";
 import { toast, ToastContainer } from "react-toastify";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
+import { ProfileIcon } from "../register/HeaderSession";
 
 const ReservationModal = ({ show, onClose, field }) => {
   const user = useAuth().auth;
@@ -114,11 +115,18 @@ const ReservationModal = ({ show, onClose, field }) => {
                 <div className="container mx-auto p-4 flex flex-col gap-8 ">
                   <div className="bg-white flex flex-col shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-3xl p-6 mb-2">
                     <div className="mt-[-80px] flex justify-center items-center flex-col gap-4">
-                      <img
+                      {/* <img
                         src={user.profile_picture_url ? user.profile_picture_url : "/Proyecto nuevo 1.png"}
                         alt=""
                         className="shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full relative h-[120px] w-[120px]"
+                      /> */}
+                      <div className="h-[120px] w-[120px]">
+
+                      <ProfileIcon 
+                        auth={user}
+                        noAction={true}
                       />
+                      </div>
                       <div className="flex flex-col gap-1 items-center">
                         <h3 className="text-gray-900 font-bold">
                           {user.firstname} {user?.lastname}

@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Logout } from "../services/Logout";
 import { PrivateLayout, PublicLayout } from "../components/layout";
@@ -9,6 +8,7 @@ import RecoveryPassword from "../pages/auth/register/RecoveryPassword";
 import UpdateUser from "../pages/user/UpdateUser";
 import FieldDetails from "../pages/fieldDetails/FieldDetails";
 import ReservationPopup from "../pages/user/reservationPopup/organisms/ReservationPopup";
+import SoccerFieldForm from "../pages/SoccerField/SoccerFieldForm";
 
 const Routing = () => {
   return (
@@ -16,6 +16,7 @@ const Routing = () => {
       <Route path="/" element={<Home />}>
         <Route path="field/:id" element={<FieldDetails />} />
         <Route path="mis-reservas" element={<ReservationPopup />} />
+        <Route path="upload-field" element={<SoccerFieldForm />} />
       </Route>
       <Route path="/" element={<PublicLayout />}>
         <Route path="login" element={<Login />} />

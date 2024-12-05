@@ -1,15 +1,15 @@
-import axios from '../config/axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from "../config/axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const userKeys = {
-  all: ['users'],
-  updateProfile: () => [...userKeys.all, 'update-profile']
+  all: ["users"],
+  updateProfile: () => [...userKeys.all, "update-profile"],
 };
 
 class UserService {
   constructor(userData) {
     // Constructor that accepts individual parameters
-    if (arguments.length > 1 || typeof userData !== 'object') {
+    if (arguments.length > 1 || typeof userData !== "object") {
       this.firstName = arguments[0];
       this.lastName = arguments[1];
       this.email = arguments[2];
@@ -19,7 +19,7 @@ class UserService {
       this.age = arguments[6];
       this.profilePictureUrl = arguments[7];
       this.id = arguments[8];
-    } 
+    }
     // Constructor that accepts an object
     else {
       const formData = userData || {};
@@ -41,19 +41,21 @@ class UserService {
     const formData = new FormData();
 
     // Append text fields
-    if (this.firstName) formData.append('first_name', this.firstName);
-    if (this.lastName) formData.append('last_name', this.lastName);
-    if (this.email) formData.append('email', this.email);
-    if (this.phone) formData.append('phone', this.phone);
-    if (this.positionPlayer) formData.append('position_player', this.positionPlayer);
-    if (this.teamName) formData.append('team_name', this.teamName);
-    if (this.age) formData.append('age', this.age);
-    if (this.id) formData.append('id', this.id);
-    if (this.profilePictureUrl) formData.append('profile_picture_url', this.profilePictureUrl);
+    if (this.firstName) formData.append("first_name", this.firstName);
+    if (this.lastName) formData.append("last_name", this.lastName);
+    if (this.email) formData.append("email", this.email);
+    if (this.phone) formData.append("phone", this.phone);
+    if (this.positionPlayer)
+      formData.append("position_player", this.positionPlayer);
+    if (this.teamName) formData.append("team_name", this.teamName);
+    if (this.age) formData.append("age", this.age);
+    if (this.id) formData.append("id", this.id);
+    if (this.profilePictureUrl)
+      formData.append("profile_picture_url", this.profilePictureUrl);
 
     // Append profile picture if provided
     if (profilePicture) {
-      formData.append('profilePicture', profilePicture);
+      formData.append("profilePicture", profilePicture);
     }
 
     return formData;
@@ -65,15 +67,31 @@ class UserService {
     const formData = userService.createMultipartFormData(profilePicture);
 
     try {
-      const { data } = await axios.put('/users/update-user-profile', formData, {
+      const { data } = await axios.put("/users/update-user-profile", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       return data;
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  }
+
+  static async refreshToken() {
+    try {
+      const { data } = await axios.get("/users/refresh-token", {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+      });
+      localStorage.setItem("token", JSON.stringify(data.token));
+      
+      return true;
+    } catch (error) {
+      console.error("Error obtaining refresh token:", error);
       throw error;
     }
   }
@@ -84,7 +102,7 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userData, profilePicture }) => 
+    mutationFn: ({ userData, profilePicture }) =>
       UserService.updateProfile(userData, profilePicture),
     onSuccess: () => {
       queryClient.invalidateQueries(userKeys.updateProfile());

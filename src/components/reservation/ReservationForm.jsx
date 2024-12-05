@@ -19,73 +19,7 @@ const ReservationForm = ({ reservations, form, setForm }) => {
 
   return (
     <form className="flex justify-between gap-4 min-w-[500px]">
-      {/* <div className="col-span-1">
-                      <label
-                        htmlFor="firstName"
-                        className="block text-sm font-medium text-white"
-                      >
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      />
-                    </div>
-                    <div className="col-span-1">
-                      <label
-                        htmlFor="lastName"
-                        className="block text-sm font-medium text-white"
-                      >
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      />
-                    </div>
-                    <div className="col-span-1">
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-white"
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      />
-                    </div>
-                    <div className="col-span-1 flex">
-                      <div className="w-1/4 mr-2">
-                        <label
-                          htmlFor="countryCode"
-                          className="block text-sm font-medium text-white"
-                        >
-                          Code
-                        </label>
-                        <input
-                          type="text"
-                          id="countryCode"
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                      </div>
-                      <div className="w-3/4 flex flex-col">
-                        <label
-                          htmlFor="phone"
-                          className="block text-sm font-medium text-white"
-                        >
-                          Phone
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          className="mt-1 block w-full h-full  border border-gray-300 rounded-3xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                      </div>
-                    </div> */}
+      
 
       <div className="w-full flex flex-col">
         <label htmlFor="date" className="text-white text-sm">

@@ -10,7 +10,7 @@ const Header = () => {
   const btnsAuth = [
     {
       name: "Registrarme",
-      path: "/register",
+      path: "choice/register",
     },
     { name: "Iniciar Sesión", path: "/login" },
   ];
@@ -39,7 +39,10 @@ const Header = () => {
                   onClick={btnsAuth[0].path}
                   className="shadow-[0px_4px_2px_rgba(0,0,0,0.51)] px-[40px] py-[10px] bg-gradient-to-r from-orange-dark to-orange-light rounded-[10px] hover:bg-gradient-to-r hover:from-orange-light hover:to-orange-dark"
                 >
+                  <Link to={btnsAuth[0].path}>
+                  
                   <p className="text-white font-semibold">{btnsAuth[0].name}</p>
+                  </Link>
                 </button>
               </li>
               <li className="shadow-[0px_4px_2px_rgba(0,0,0,0.51)] px-[40px] py-[10px] bg-gradient-to-r from-orange-dark to-orange-light rounded-[10px] hover:bg-gradient-to-r hover:from-orange-light hover:to-orange-dark">

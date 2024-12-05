@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Global } from "../../helpers/Global";
 import { MyProfile } from "./MyProfile";
 import { FaCalendarCheck, FaStar, FaUserEdit } from "react-icons/fa";
 import { MdAddBox, MdDiamond } from "react-icons/md";
@@ -45,16 +44,18 @@ export function HeaderSession({ auth }) {
             </div>
           </div>
           <div className="p-4 flex flex-col gap-4 text-gray-500 font-semibold">
-
-            <Link
-                to="mis-reservas"
-                className="hover:text-gray-700 flex gap-2 items-center justify-center"
-              >
-                <AiFillDashboard className="text-xl " />
-                Dashboard
-              </Link>
-             <span className="h-[1px] bg-gray-300 w-full my-4"></span>
-
+            {auth.role === "field" ? (
+              <>
+                <Link
+                  to="canchero/reservas"
+                  className="hover:text-gray-700 flex gap-2 items-center justify-center"
+                >
+                  <AiFillDashboard className="text-xl " />
+                  Dashboard
+                </Link>
+                <span className="h-[1px] bg-gray-300 w-full my-4"></span>
+              </>
+            ) : null}
 
             <button
               className="hover:text-gray-700 flex gap-2 items-center"
@@ -71,41 +72,33 @@ export function HeaderSession({ auth }) {
               Mis Favoritos
             </button>
 
-            {auth.role === "client" ? (
-              <Link
-                to="mis-reservas"
-                className="hover:text-gray-700 flex gap-2 items-center"
-              >
-                <FaCalendarCheck className="text-xl " />
-                Mis Reservas
-              </Link>
-            ) : (
-              <Link
-                to="/canchero/reservas"
-                className="hover:text-gray-700 flex gap-2 items-center"
-              >
-                Reservas
-              </Link>
-            )}
-            <span className="h-[1px] bg-gray-300 w-full my-4"></span>
-
             <Link
-                to="mis-reservas"
-                className="hover:text-gray-700 flex gap-2 items-center"
-              >
-                <MdAddBox className="text-xl " />
-                Subir Cancha
-              </Link>
+              to="mis-reservas"
+              className="hover:text-gray-700 flex gap-2 items-center"
+            >
+              <FaCalendarCheck className="text-xl " />
+              Mis Reservas
+            </Link>
 
             <span className="h-[1px] bg-gray-300 w-full my-4"></span>
 
             <Link
-                to="mis-reservas"
-                className="text-main-blue flex gap-2 items-center hover:text-orange-dark animate-bounce transition-colors"
-              >
-                <MdDiamond  className="text-xl " />
-                Precios
-              </Link>
+              to="upload-field"
+              className="hover:text-gray-700 flex gap-2 items-center"
+            >
+              <MdAddBox className="text-xl " />
+              Subir Cancha
+            </Link>
+
+            <span className="h-[1px] bg-gray-300 w-full my-4"></span>
+
+            <Link
+              to="pricing"
+              className="text-main-blue flex gap-2 items-center hover:text-orange-dark animate-bounce transition-colors"
+            >
+              <MdDiamond className="text-xl " />
+              Precios
+            </Link>
 
             <Link
               to="/logout"
@@ -132,12 +125,6 @@ export function HeaderSession({ auth }) {
             isUserModalOpen={isUserModalOpen}
           />
         </div>
-
-        {/* <img src="../../../public/Hamburguer Menu.png" alt="" /> */}
-        {auth.role == Global.rolesTypes.field ? (
-          <Link to="/canchero/reservas">Mis Reservas</Link>
-        ) : null}
-        {/* <Link onClick={btn[0].action}>{btn[0].name}</Link> */}
       </div>
       {isUserProfileOpen && (
         <div className="fixed top-0 left-0 z-10 flex justify-center items-center min-w-full bg-dark-blue-opacity ">
@@ -149,7 +136,7 @@ export function HeaderSession({ auth }) {
   );
 }
 
-function ProfileIcon({ auth, setIsUserModalOpen, isUserModalOpen }) {
+export function ProfileIcon({ auth, setIsUserModalOpen, isUserModalOpen, noAction = false }) {
   const nameModified = (firstname, lastname) => {
     const letters =
       firstname.charAt(0).toUpperCase() + lastname.charAt(0).toUpperCase();
@@ -160,13 +147,14 @@ function ProfileIcon({ auth, setIsUserModalOpen, isUserModalOpen }) {
     <img
       src={auth.profile_picture_url}
       alt="Profile"
-      className="w-full h-full rounded-full cursor-pointer border-[2.5px] border-solid border-white"
-      onClick={() => setIsUserModalOpen(!isUserModalOpen)}
+      className="w-full h-full rounded-full cursor-pointer border-[2.5px] border-solid border-white object-cover"
+      onClick={() => noAction ? null : setIsUserModalOpen(!isUserModalOpen) }
+      
     />
   ) : (
     <div
       className="w-full h-full border-[2.5px] border-solid border-white rounded-full bg-[#656A84] flex justify-center items-center font-semibold cursor-pointer"
-      onClick={() => setIsUserModalOpen(!isUserModalOpen)}
+      onClick={() => noAction ? null :  setIsUserModalOpen(!isUserModalOpen)}
     >
       <span className="">{nameModified(auth.firstname, auth.lastname)}</span>
     </div>

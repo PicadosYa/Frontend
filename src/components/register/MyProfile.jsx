@@ -8,6 +8,7 @@ import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
 import { useUpdateUserProfile } from "../../services/UsersService";
 import CustomFileInput from "../inputs/CustomFileInput";
 import { useAuth } from "../../hooks";
+import { ProfileIcon } from "./HeaderSession";
 
 // este si es el component de actualizar user
 export function MyProfile({ setIsUserProfileOpen }) {
@@ -73,19 +74,7 @@ export function MyProfile({ setIsUserProfileOpen }) {
       MsgError("No tienes un token válido. Por favor, inicia sesión.");
       return;
     }
-    // const res = await fetch(`${Global.endpoints.backend}users/update-user-profile`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // });
 
-    // if (!res.ok) {
-    //   const errorData = await res.json();
-    //   setIsLoading(false);
-    //   throw new Error(errorData.message || "Error al actualizar el perfil");
-    // }
     updateProfile.mutate(
       {
         userData: formData,
@@ -135,14 +124,17 @@ export function MyProfile({ setIsUserProfileOpen }) {
           <div className="flex items-center mb-6 -mt-8">
             <div className="flex flex-col items-center mr-6">
               <div className="w-40 h-40 bg-gray-300 rounded-full flex justify-center items-center">
-                <img
+                {/* <img
                   src={
-                    formData.profile_picture_url ||
-                    "./../../../public/Proyecto nuevo 1.png"
+                   
                   }
                   alt="Profile"
                   className="w-full h-full rounded-full"
-                />
+                /> */}
+                 <ProfileIcon auth={{firstname: formData.first_name
+                    , lastname: formData.last_name
+                    , profile_picture_url: formData.profile_picture_url
+                    }} noAction={true}/>
               </div>
               <div className="flex flex-col w-full">
                 <label className="text-white">Edad</label>
