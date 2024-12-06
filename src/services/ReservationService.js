@@ -33,6 +33,13 @@ export const reservationKeys = {
 };
 
 export const ReservationService = {
+  /**
+   * Create a new preference for a given field and user, with a given total price.
+   * @param {Object} field - Field object with `id`, `name`, and `price` properties.
+   * @param {Object} user - User object with `id`, `email`, and `name` properties.
+   * @param {number} totalPrice - Total price of the reservation.
+   * @returns {Promise<number>} Preference ID.
+   */
   async createPreference(field, user, totalPrice) {
     const res = await axios.post("/create_preference", {
       id: field?.id.toString(),
