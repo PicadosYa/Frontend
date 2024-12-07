@@ -18,18 +18,20 @@ const Routing = () => {
         <Route path="mis-reservas" element={<ReservationPopup />} />
         <Route path="upload-field" element={<SoccerFieldForm />} />
       </Route>
+
+      <Route path="login" element={<Login />} />
+      <Route path="choice/register" element={<Register />} />
+      <Route path="recovery-password" element={<RecoveryPassword />} />
+      <Route path="logout" element={<Logout />} />
+
       <Route path="/" element={<PublicLayout />}>
-        <Route path="login" element={<Login />} />
         <Route path="choice/registerOwner" element={<RegisterOwner />} />
-        <Route path="choice/register" element={<Register />} />
-        <Route path="recovery-password" element={<RecoveryPassword />} />
       </Route>
       <Route path="logout" element={<Logout />} />
 
       <Route path="perfil" element={<UpdateUser />} />
       <Route path="/canchero" element={<UserLayout />}>
         <Route index element={<Home />} />
-        <Route path="logout" element={<Logout />} />
         <Route path="reservas" element={<Reservas />} />
       </Route>
 

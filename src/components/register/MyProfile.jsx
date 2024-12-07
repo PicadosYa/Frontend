@@ -9,6 +9,7 @@ import { useUpdateUserProfile } from "../../services/UsersService";
 import CustomFileInput from "../inputs/CustomFileInput";
 import { useAuth } from "../../hooks";
 import { ProfileIcon } from "./HeaderSession";
+import { toast, ToastContainer } from "react-toastify";
 
 // este si es el component de actualizar user
 export function MyProfile({ setIsUserProfileOpen }) {
@@ -87,13 +88,17 @@ export function MyProfile({ setIsUserProfileOpen }) {
           const token = data.token;
           localStorage.setItem("token", JSON.stringify(token));
           authUser()
-          window.location.reload();
+          //window.location.reload();
         },
         onError: (error) => {
           setIsLoading(false);
-          MsgError(
-            error.message || "Ha ocurrido un error al actualizar el perfil."
-          );
+          if (error.status === 401) {
+            navigate("/login");
+          } else if (error.status === 404) {
+            navigate("/register");
+          } else {
+            toast.error("No se ha podido actualizar el perfil. Intentalo de nuevo mas tarde")
+          }
         },
       }
     );
@@ -103,6 +108,7 @@ export function MyProfile({ setIsUserProfileOpen }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
+      <ToastContainer />
       <div className="fixed inset-0 bg-black opacity-50 transition-opacity duration-300"></div>
       <div
         className="z-40 flex flex-col w-[600px] h-[720px] rounded-[25px] p-10"
@@ -114,7 +120,7 @@ export function MyProfile({ setIsUserProfileOpen }) {
         {/* Encabezado */}
         <div className="flex items-center justify-end">
           <img
-            src="./../../../public/logo-picYasvg-svg 4.png"
+            src="/logo-picYasvg-svg 4.png"
             alt="Logo"
             className="w-12 h-12"
           />

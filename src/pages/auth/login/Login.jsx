@@ -9,7 +9,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { validateLoginForm } from "../register/validations/FormValidations";
 import PicadosYaLoader from "../../../assets/rayo-picados-ya-loader";
 
-
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -21,13 +20,13 @@ const Login = () => {
   const loginUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const errors = validateLoginForm(form)
-    if(errors?.length > 0) {
+    const errors = validateLoginForm(form);
+    if (errors?.length > 0) {
       setErrors(errors);
       setIsLoading(false);
       return;
     }
-    setErrors([])
+    setErrors([]);
     try {
       const res = await fetch(`${Global.endpoints.backend}users/login`, {
         method: "POST",
@@ -37,7 +36,16 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
-      if (res.status !== 200) throw new Error(res.statusText);
+      if (res.status === 404) {
+        MsgError("No se ha encontrado el usuario.");
+        setTimeout(() => {
+          navigate("/choice/register");
+        }, 2000);
+        return;
+      } else if (res.status === 401) {
+        MsgError("Contraseña incorrecta.");
+        return;
+      } else if(!res.ok) throw new Error(res.statusText);
 
       const data = await res.json();
 
@@ -54,19 +62,20 @@ const Login = () => {
       );
 
       setAuth({
-          firstname: data.user.first_name,
-          lastname: data.user.last_name,
-          email: data.user.email,
-          phone: data.user.phone,
-          role: data.user.role,
-        });
-      authUser()
+        firstname: data.user.first_name,
+        lastname: data.user.last_name,
+        email: data.user.email,
+        phone: data.user.phone,
+        role: data.user.role,
+      });
+      authUser();
       MsgSuccess("Inicio de sesión exitoso!");
       setTimeout(() => {
         navigate("/");
       }, 2000);
     } catch (error) {
       MsgError("Ha ocurrido un error al iniciar sesión.");
+
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
@@ -143,7 +152,6 @@ const Login = () => {
             <input
               id="email"
               name="email"
-              
               autoComplete="email"
               placeholder="Correo electrónico"
               className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
@@ -165,7 +173,6 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
-                
                 placeholder="Contraseña"
                 className="w-full h-[47px] px-5 text-lg rounded-[25px] shadow-sm shadow-black"
                 onChange={changed}
@@ -193,7 +200,7 @@ const Login = () => {
             </div>
           </motion.div>
           {errors?.length > 0 && (
-            <p className="text-red-500 text-sm" >{errors[0].message}</p>
+            <p className="text-red-500 text-sm">{errors[0].message}</p>
           )}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -223,24 +230,23 @@ const Login = () => {
         <div className="flex flex-col items-center mt-2 text-white text-base">
           <p className="flex gap-5 text-white text-base">
             <Link to="/recovery-password">
-
-            <span
-              className="text-white cursor-pointer underline"
-              style={{
-                fontFamily: "Ubuntu, sans-serif",
-                fontSize: "12px",
-                fontWeight: 399,
-                lineHeight: "normal",
-                textDecorationLine: "underline",
-                textDecorationStyle: "solid",
-                textDecorationSkipInk: "none",
-                textDecorationThickness: "auto",
-                textUnderlineOffset: "auto",
-                textUnderlinePosition: "from-font",
-              }}
-            >
-              Olvidé mi contraseña
-            </span>
+              <span
+                className="text-white cursor-pointer underline"
+                style={{
+                  fontFamily: "Ubuntu, sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 399,
+                  lineHeight: "normal",
+                  textDecorationLine: "underline",
+                  textDecorationStyle: "solid",
+                  textDecorationSkipInk: "none",
+                  textDecorationThickness: "auto",
+                  textUnderlineOffset: "auto",
+                  textUnderlinePosition: "from-font",
+                }}
+              >
+                Olvidé mi contraseña
+              </span>
             </Link>
             <span
               className="text-white cursor-pointer"

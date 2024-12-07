@@ -6,9 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "./validations/FormValidations";
 import PicadosYaLoader from "../../../assets/rayo-picados-ya-loader";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 export function Register() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -36,13 +39,13 @@ export function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const errors = validateRegisterForm(formData)
+    const errors = validateRegisterForm(formData);
     if (errors?.length > 0) {
       setErrors(errors);
       setLoading(false);
       return;
     }
-    setErrors([])
+    setErrors([]);
     // Envío de datos al endpoint
     try {
       const response = await fetch(
@@ -68,29 +71,12 @@ export function Register() {
         throw new Error("Error al registrar el usuario");
       }
 
-      let user = await response.json();
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          firstname: user.first_name,
-          lastname: user.last_name,
-          email: user.email,
-          phone: user.phone,
-          role: user.role,
-        })
-      );
+      await response.json();
 
-      setAuth({
-        firstname: user.first_name,
-        lastname: user.last_name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-      });
       setLoading(false);
       toast.success("Usuario creado exitosamente");
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 3000);
     } catch (error) {
       toast.error(error.message);
@@ -98,6 +84,10 @@ export function Register() {
       setLoading(false);
     }
   };
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+
 
   return (
     <div className="w-full h-screen flex items-center justify-center relative">
@@ -188,28 +178,66 @@ export function Register() {
             onChange={handleChange}
             className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
           />
-          <motion.input
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={formData.password}
-            onChange={handleChange}
-            className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
-          />
-          <motion.input
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirmar contraseña"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
-          />
+          <div className="relative">
+            <motion.input
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Contraseña"
+              value={formData.password}
+              onChange={handleChange}
+              className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              aria-label={
+                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+              }
+            >
+              {showPassword ? (
+                <EyeSlashIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+          <div className="relative">
+            <motion.input
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirmar contraseña"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="h-10 px-4 text-lg rounded-lg border border-gray-300 shadow-sm shadow-black"
+            />
+            <button
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              aria-label={
+                showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+              }
+            >
+              {showConfirmPassword ? (
+                <EyeSlashIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <EyeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              )}
+            </button>
+          </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
