@@ -19,7 +19,7 @@ const FieldPanel = () => {
       >
         <div className="absolute top-0 left-0 z-[-1] bg-gray-900 opacity-80 min-h-full min-w-[100%]">l</div>
 
-        <div className="max-w-screen-2xl flex flex-col w-full">
+        <div className="max-w-screen-xl flex flex-col w-full">
 
           <div className="flex justify-end space-x-4 mr-4 mt-4">
             <ReservasConfirmadas />
