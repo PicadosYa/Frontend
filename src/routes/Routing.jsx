@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Logout } from "../services/Logout";
-import { PrivateLayout, PublicLayout } from "../components/layout";
-import { Error404, Home, Login, RegisterOwner, Reservas } from "../pages";
+import { PrivateLayout } from "../components/layout";
+import { Error404, Home, Login, Reservas } from "../pages";
 import UserLayout from "../components/layout/user/UserLayout";
 import { Register } from "../pages/auth/register/Register";
 import RecoveryPassword from "../pages/auth/register/RecoveryPassword";
@@ -10,6 +10,7 @@ import FieldDetails from "../pages/fieldDetails/FieldDetails";
 import ReservationPopup from "../pages/user/reservationPopup/organisms/ReservationPopup";
 import SoccerFieldForm from "../pages/SoccerField/SoccerFieldForm";
 import FieldPanel from "../pages/reservas/FieldPanel";
+import Dashboard from "@/pages/reservas/Dashboard";
 
 const Routing = () => {
   return (
@@ -24,17 +25,16 @@ const Routing = () => {
       <Route path="choice/register" element={<Register />} />
       <Route path="recovery-password" element={<RecoveryPassword />} />
       <Route path="logout" element={<Logout />} />
-
-      <Route path="/" element={<PublicLayout />}>
-        <Route path="choice/registerOwner" element={<RegisterOwner />} />
-      </Route>
-      <Route path="logout" element={<Logout />} />
-
       <Route path="perfil" element={<UpdateUser />} />
+
       <Route path="/canchero" element={<UserLayout />}>
-        <Route index element={<Home />} />
-        <Route path="reservas" element={<Reservas />} />
-        <Route path="dashboard" element={<FieldPanel />} />
+        <Route path="" element={<Dashboard />} >
+          <Route index element={<FieldPanel />} />
+          <Route path="reservas" element={<Reservas />} />
+          <Route path="ventas" element={<FieldPanel />} />
+          <Route path="canchas" element={<FieldPanel />} />
+        </Route>
+
       </Route>
 
       <Route path="/admin" element={<PrivateLayout />}>

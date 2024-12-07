@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import UserProfile from "./UserProfile";
 import { BackTo } from "../../helpers/BackTo";
-import { MdOutlineCalendarMonth, MdLogout } from "react-icons/md";
+import { MdOutlineCalendarMonth, MdLogout, MdDashboard } from "react-icons/md";
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { AiOutlineShop, AiOutlineTeam } from "react-icons/ai";
 import { CiCirclePlus } from "react-icons/ci";
@@ -10,6 +10,12 @@ import { FaArrowLeft } from "react-icons/fa";
 /**************************************************************/
 /***************  CLIENT ADMIN SIDEBAR COMPONENT **************/
 /**************************************************************/
+const options = {
+  General: "/canchero",
+  Reservas: "/canchero/reservas",
+  "Mis ventas": "/canchero/ventas",
+  "Mis canchas": "/canchero/canchas",
+};
 
 const AdminSideBar = () => {
   const location = useLocation();
@@ -22,14 +28,20 @@ const AdminSideBar = () => {
       class:
         "bg-gradient-to-r from-[#ED3C16] via-[#EF4923] to-[#F75632] text-white",
     },
+     {
+      name: "General",
+      icon: MdDashboard,
+      to: options.General,
+      class: "",
+    },
     {
       name: "Reservas",
       icon: MdOutlineCalendarMonth,
-      to: "/canchero/reservas",
+      to: options.Reservas,
       class: "",
     },
-    { name: "Mis ventas", icon: IoSpeedometerOutline, to: "", class: "" },
-    { name: "Mis canchas", icon: AiOutlineShop, to: "", class: "" },
+    { name: "Mis ventas", icon: IoSpeedometerOutline, to: options["Mis ventas"], class: "" },
+    { name: "Mis canchas", icon: AiOutlineShop, to: options["Mis canchas"], class: "" },
     // { name: "Mis equipos", icon: AiOutlineTeam, to: "", class: "" },
   ];
 
@@ -38,7 +50,7 @@ const AdminSideBar = () => {
     {
       name: "Cerrar Sesion",
       icon: MdLogout,
-      to: "/canchero/logout",
+      to: "/logout",
       class: "bg-[#515151] text-white",
     },
   ];

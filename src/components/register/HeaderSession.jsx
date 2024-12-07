@@ -47,7 +47,7 @@ export function HeaderSession({ auth }) {
             {auth.role === "field" ? (
               <>
                 <Link
-                  to="canchero/reservas"
+                  to="canchero"
                   className="hover:text-gray-700 flex gap-2 items-center justify-center"
                 >
                   <AiFillDashboard className="text-xl " />

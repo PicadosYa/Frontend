@@ -82,3 +82,5 @@ export const DashboardActions = () => {
     </div>
   );
 };
+
+export default DashboardActions;

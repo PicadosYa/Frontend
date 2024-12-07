@@ -1,5 +1,3 @@
-import React from "react";
-import AdminSideBar from "./AdminSideBar";
 import { Link } from "react-router-dom";
 
 const statusColors = {
@@ -92,13 +90,12 @@ export const Reservas = () => {
 
   return (
     <div
-      className="h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px]"
+      className="h-screen w-full flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-[11px] backdrop-saturate-[200%] bg-[rgba(17,25,40,0.85)] rounded-[12px]"
       style={{
         backgroundImage: "url('/imagen%202.png')",
         backgroundSize: "cover",
       }}
     >
-      <AdminSideBar />
       <div className="flex flex-col mx-auto">
         <div className="flex items-center justify-between">
           <h1 className="relative bottom-24 text-4xl text-white">
