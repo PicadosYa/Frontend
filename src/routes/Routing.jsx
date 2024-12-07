@@ -9,6 +9,7 @@ import UpdateUser from "../pages/user/UpdateUser";
 import FieldDetails from "../pages/fieldDetails/FieldDetails";
 import ReservationPopup from "../pages/user/reservationPopup/organisms/ReservationPopup";
 import SoccerFieldForm from "../pages/SoccerField/SoccerFieldForm";
+import FieldPanel from "../pages/reservas/FieldPanel";
 
 const Routing = () => {
   return (
@@ -33,6 +34,7 @@ const Routing = () => {
       <Route path="/canchero" element={<UserLayout />}>
         <Route index element={<Home />} />
         <Route path="reservas" element={<Reservas />} />
+        <Route path="dashboard" element={<FieldPanel />} />
       </Route>
 
       <Route path="/admin" element={<PrivateLayout />}>
