@@ -6,21 +6,75 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Global } from "../../helpers/Global";
+
 
 export const DashboardActions = () => {
   const [selectedExport, setSelectedExport] = useState(null);
 
-  const handleExportCSV = () => {
+  const handleExportCSV = async () => {
     if (!selectedExport) return;
+    const rawToken = localStorage.getItem("token"); // Recupera el token
+    const token = rawToken.replace(/"/g, "");
+    try {
+      const response = await fetch(`${Global.endpoints.backend}reservations/reservations-per-owner?format=csv`, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`
+              }
+      });
 
-    // Implementar la logica del exportado CSV
+      if (!response.ok) {
+          throw new Error('Error exporting reservations');
+      }
+
+      const contentType = response.headers.get("Content-Type");
+      const blob = await response.blob();
+
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+
+      URL.revokeObjectURL(link.href);
+      link.remove();
+  } catch (error) {
+      console.error('Failed to export reservations:', error);
+  }
     console.log(`Exportando CSV de ${selectedExport}...`);
   };
 
-  const handlePrintPDF = () => {
-    // Implementar la impresion del PDF
-    console.log("Imprimiendo PDF...");
-  };
+  const handlePrintPDF = async () => {
+    const rawToken = localStorage.getItem("token"); // Recupera el token
+    const token = rawToken.replace(/"/g, "");
+    try {
+      const response = await fetch(`${Global.endpoints.backend}reservations/reservations-per-owner?format=pdf`, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`
+              }
+      });
+
+      if (!response.ok) {
+          throw new Error('Error exporting reservations');
+      }
+
+      const contentType = response.headers.get("Content-Type");
+      const blob = await response.blob();
+
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+
+      URL.revokeObjectURL(link.href);
+      link.remove();
+  } catch (error) {
+      console.error('Failed to export reservations:', error);
+  }
+};
+
+
 
   const getExportLabel = (type) => {
     switch (type) {
