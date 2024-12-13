@@ -6,6 +6,8 @@ import { IoSpeedometerOutline } from "react-icons/io5";
 import { AiOutlineShop, AiOutlineTeam } from "react-icons/ai";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaArrowLeft } from "react-icons/fa";
+import { ProfileIcon } from "@/components/register";
+import { useAuth } from "@/hooks";
 
 /**************************************************************/
 /***************  CLIENT ADMIN SIDEBAR COMPONENT **************/
@@ -19,6 +21,7 @@ const options = {
 
 const AdminSideBar = () => {
   const location = useLocation();
+  const {auth} = useAuth();
 
   const navs = [
     {

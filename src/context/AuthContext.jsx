@@ -40,7 +40,12 @@ export const AuthProvider = ({ children }) => {
         userObject.firstname = userObject.first_name;
         userObject.lastname = userObject.last_name;
         userObject.role = userObject.role === "" ? JSON.parse(user).role : userObject.role;
-        console.log(userObject);
+        if (userObject.exp < Date.now() / 1000) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          return;
+        }
+       // console.log(userObject);
         setAuth(userObject);
       } else {
         const userObject = JSON.parse(user);

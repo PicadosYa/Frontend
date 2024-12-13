@@ -22,6 +22,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import PicadosYaLoader from "../../assets/rayo-picados-ya-loader";
 import { ProfileIcon } from "../register/HeaderSession";
+import PayPalPaymentButton from "./PaypalButtons";
 
 const ReservationModal = ({ show, onClose, field }) => {
   const user = useAuth().auth;
@@ -29,6 +30,7 @@ const ReservationModal = ({ show, onClose, field }) => {
   const [errors, setErrors] = useState([]);
   const [preferenceId, setPreferenceId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [paypalButton, setPaypalButton] = useState(false);
   const createReservation = useCreateReservation();
   const { form, setForm } = useForm({
     field_id: field?.id,
@@ -79,22 +81,15 @@ const ReservationModal = ({ show, onClose, field }) => {
     );
   };
 
-  // const handleSubmit = () => {
-  //   if (errors?.length > 0) {
-  //     toast.error("Por favor, corrija los errores en el formulario.");
-  //     return;
-  //   }
+  const createPaypalButtons = ()=>{
+    if (errors?.length > 0) {
+      toast.error("Por favor, corrija los errores en el formulario.");
 
-  //   createReservation.mutate(form, {
-  //     onSuccess: () => {
-  //       toast.success("Reserva creada exitosamente");
-  //       window.location.reload();
-  //     },
-  //     onError: (error) => {
-  //       toast.error(`Error al crear la reserva: ${error.message}`);
-  //     },
-  //   });
-  // };
+      return;
+    }
+    setIsLoading(true);
+    setPaypalButton(true)
+  }
 
   if (!show) return null;
 
@@ -181,14 +176,14 @@ const ReservationModal = ({ show, onClose, field }) => {
                 <button
                   type="button"
                   className="w-[331px] h-[65px] relative bg-gradient-to-r from-[#ed3c16] via-[#ff491c] to-[#ff6341] rounded-[25px] shadow border-2 border-white/0"
-                  onClick={createPreference}
+                  onClick={createPaypalButtons}
                 >
                   <div className="w-72 h-[65px] p-[15px] left-[25px] top-0 absolute bg-white/0 rounded-[10px] justify-center items-center gap-[15px] inline-flex">
                     {isLoading ? (
                       <PicadosYaLoader className="h-[35px]" />
                     ) : (
                       <div className="w-[234px] h-[35px] text-white text-xl font-bold font-['Exo']">
-                        Pagar con mercado pago
+                        Confirmar reserva
                       </div>
                     )}
                   </div>
@@ -200,6 +195,16 @@ const ReservationModal = ({ show, onClose, field }) => {
                     initialization={{ preferenceId: preferenceId }}
                     onReady={() => setIsLoading(false)}
                   />
+                )}
+                {paypalButton && (
+                  <div className="fixed top-0 left-auto w-2/5 h-[95vh] max-h-[95vh] flex justify-center items-center overflow-scroll bg-white p-4 rounded-[25px] shadow border-2 ">
+                    <div className=" relative w-full h-full ">
+
+                  <PayPalPaymentButton amount={((field?.price * timeDifferenceInMinutes(form.start_time, form.end_time)) / 60) / 40} reservation={form} />
+                  <div className="absolute top-[-20px] right-[-10px] cursor-pointer text-neutral-900 font-bold hover:text-red-600"
+                  onClick={() => setPaypalButton(false)}>X</div>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
